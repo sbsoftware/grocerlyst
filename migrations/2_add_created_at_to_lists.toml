@@ -1,0 +1,8 @@
+[[actions]]
+type = "add_column"
+table = "lists"
+
+  [actions.column]
+  name = "created_at"
+  type = "TIMESTAMP"
+  nullable = false

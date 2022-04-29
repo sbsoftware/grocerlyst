@@ -1,0 +1,31 @@
+[[actions]]
+type = "create_table"
+name = "list_items"
+primary_key = ["id"]
+
+  [[actions.columns]]
+  name = "id"
+  type = "INTEGER"
+  generated = "ALWAYS AS IDENTITY"
+
+  [[actions.columns]]
+  name = "name"
+  type = "VARCHAR(255)"
+
+  [[actions.columns]]
+  name = "list_id"
+  type = "INTEGER"
+
+  [[actions.columns]]
+  name = "created_at"
+  type = "TIMESTAMP"
+  nullable = false
+
+[[actions]]
+type = "add_foreign_key"
+table = "list_items"
+
+  [actions.foreign_key]
+  columns = ["list_id"]
+  referenced_table = "lists"
+  referenced_columns = ["id"]
