@@ -1,6 +1,3 @@
-class SwitchedClass < CSS::CSSClass
-end
-
 class SwitchController < StimulusController
   values :resourceuri, :toggle
 
