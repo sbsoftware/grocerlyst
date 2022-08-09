@@ -1,6 +1,6 @@
 class ApplicationStyle < CSS::Stylesheet
   rules do
-    rule SwitchController.toggle_value(false) do
+    rule ListItem.active(false) do
       color Silver
     end
   end

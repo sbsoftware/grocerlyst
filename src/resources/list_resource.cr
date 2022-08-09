@@ -1,7 +1,7 @@
 class ListResource < ApplicationResource
   def layout_config(layout)
     super
-    layout.window_title = list.name
+    layout.window_title = list.name.value
     layout.page_title = list.default_view
   end
 

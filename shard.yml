@@ -6,3 +6,5 @@ dependencies:
     path: /home/ephraim/playground/crumble
   crumble-material:
     path: /home/ephraim/repos/crumble-material
+  crumble-turbo:
+    path: /home/ephraim/repos/crumble-turbo

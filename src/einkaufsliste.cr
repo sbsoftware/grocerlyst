@@ -1,3 +1,5 @@
+require "crumble"
+require "crumble-turbo"
 require "crumble-material"
 require "./js/*"
 require "./crumble_server"

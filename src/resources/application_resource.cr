@@ -5,7 +5,8 @@ class ApplicationResource < Resource
 
   def layout_config(layout)
     layout.stylesheets << ApplicationStyle
-    # layout.scripts << ServiceWorkerRegister.to_s
+    layout.stylesheets << Crumble::TurboStyle
+    layout.scripts << TurboJS
     layout.drawer_items = all_lists_views
   end
 

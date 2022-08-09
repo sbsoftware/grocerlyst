@@ -1,4 +1,4 @@
-class List < Crumble::ORM
+class List < Crumble::ORM::Base
   id_column id : Int32?
   column name : String?
   column created_at : Time?
@@ -14,7 +14,7 @@ class List < Crumble::ORM
     main_docking_point
   end
 
-  template :items_view do
+  model_template :items_view do
     ul do
       list_items.each do |list_item|
         list_item.default_view
