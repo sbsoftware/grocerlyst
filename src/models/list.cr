@@ -13,8 +13,8 @@ class List < Crumble::ORM::Base
     params :name
 
     form do
-      input(InputType::Text, {"name", "name"})
-      input(InputType::Submit, {"name", "Add Child"})
+      input(InputType::Text, ListItemSearchController.addInput_target, {"name", "name"})
+      input(InputType::Submit, ListItemSearchController.addSubmit_target, {"name", "Add Child"})
     end
   end
 
@@ -25,11 +25,29 @@ class List < Crumble::ORM::Base
     main_docking_point
   end
 
+  template :header_view do
+    div Classes::HeaderContainer do
+      a href(ListResource.uri_path(id)) do
+        name
+      end
+      div do
+        input(InputType::Text, ListItemSearchController.searchInput_target, ListItemSearchController.sync_action(InputEvent), {"name", "search"})
+      end
+    end
+  end
+
   model_template :items_view do
-    add_item_action.template
-    ul do
+    div Classes::AddItemForm do
+      add_item_action.template
+    end
+    ul ListItemSearchController.itemList_target do
+      li ListItemSearchController.add_action(ClickEvent), ListItemSearchController.addDisplayContainer_target, Classes::AddItemDisplayHidden do
+        strong ListItemSearchController.addDisplay_target
+      end
       list_items.each do |list_item|
-        list_item.default_view
+        div Classes::ItemSearchable do
+          list_item.default_view
+        end
       end
     end
   end
