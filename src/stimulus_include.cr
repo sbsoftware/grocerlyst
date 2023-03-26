@@ -1,4 +1,6 @@
 require "crumble"
 require "crumble-turbo"
 require "crumble-material"
+require "./styles/classes"
+require "./stimulus_controllers/*"
 require "crumble/stimulus/stimulus"

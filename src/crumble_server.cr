@@ -1,7 +1,8 @@
+require "./styles/*"
 require "./models/*"
+require "./stimulus_controllers/*"
 require "./views/*"
 require "./resources/*"
-require "./styles/*"
 
 StimulusInclude = {{ run("./stimulus_include.cr").stringify }}
 
