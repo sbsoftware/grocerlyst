@@ -1,8 +1,8 @@
 version: 2.0
 shards:
   crumble:
-    path: /home/ephraim/playground/crumble
-    version: 0.8.0
+    path: /home/ephraim/repos/crumble
+    version: 0.9.3
 
   crumble-material:
     path: /home/ephraim/repos/crumble-material

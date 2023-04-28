@@ -3,7 +3,7 @@ version: 0.0.0
 
 dependencies:
   crumble:
-    path: /home/ephraim/playground/crumble
+    path: /home/ephraim/repos/crumble
   crumble-material:
     path: /home/ephraim/repos/crumble-material
   crumble-turbo:
