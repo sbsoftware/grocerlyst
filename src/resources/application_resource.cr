@@ -7,10 +7,14 @@ class ApplicationResource < Resource
     layout.stylesheets << ApplicationStyle
     layout.stylesheets << Crumble::TurboStyle
     layout.scripts << TurboJS
-    layout.drawer_items = all_lists_views
+    layout.drawer_items = all_lists_views + legal_menu_items
   end
 
   def all_lists_views
     List.all.map(&.default_view).map { |lv| lv.as(String | Template) }
+  end
+
+  def legal_menu_items
+    [LegalNoticeMenuItem].map { |mi| mi.new.to_s.as(String | Template) }
   end
 end
