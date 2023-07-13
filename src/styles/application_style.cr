@@ -22,5 +22,28 @@ class ApplicationStyle < CSS::Stylesheet
     rule Classes::ItemListSearchActive > Classes::ItemSearchMatch do
       display Block
     end
+
+    rule Classes::ImprovementChangeType do
+      backgroundColor({0x00, 0x64, 0x00})
+      color White
+    end
+
+    rule Classes::BugfixChangeType do
+      backgroundColor Red
+      color White
+    end
+
+    rule Classes::FeatureChangeType do
+      backgroundColor({0x00, 0x00, 0x8B})
+      color White
+    end
+
+    rule Classes::ChangeDescription do
+      display Block
+      color Silver
+      fontSize 0.8.em
+      paddingTop 0.8.em
+      paddingBottom 0.8.em
+    end
   end
 end
