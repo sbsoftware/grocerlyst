@@ -15,6 +15,6 @@ class ApplicationResource < Resource
   end
 
   def legal_menu_items
-    [LegalNoticeMenuItem].map { |mi| mi.new.to_s.as(String | Template) }
+    [LegalNoticeMenuItem.new, DataPrivacyNoticeMenuItem.new].map { |mi| mi.to_s.as(String | Template) }
   end
 end
