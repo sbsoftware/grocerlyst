@@ -1,9 +1,10 @@
 class ListResource < ApplicationResource
-  def layout_config(layout)
-    super
-    layout.window_title = list.name.value
-    layout.page_title = list.header_view
-    layout.body_controllers << ListItemSearchController
+  def layout_class
+    nil
+  end
+
+  def layout
+    ListLayout.new(list)
   end
 
   def index
