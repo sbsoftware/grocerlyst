@@ -40,7 +40,7 @@ class List < Crumble::ORM::Base
     div Classes::AddItemForm do
       add_item_action.template
     end
-    ul ListItemSearchController.itemList_target do
+    ul ListItemSearchController.itemList_target, ListItemHiderController.list_target do
       li ListItemSearchController.add_action(ClickEvent), ListItemSearchController.addDisplayContainer_target, Classes::AddItemDisplayHidden do
         strong ListItemSearchController.addDisplay_target
       end

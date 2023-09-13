@@ -5,7 +5,7 @@ class ListLayout < ApplicationLayout
   end
 
   def body_controllers
-    [ListItemSearchController]
+    [ListItemSearchController, ListItemHiderController]
   end
 
   def window_title

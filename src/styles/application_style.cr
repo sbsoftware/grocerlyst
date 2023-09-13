@@ -1,6 +1,31 @@
+class TTFFile < AssetFile
+  def mime_type
+    "font/ttf"
+  end
+end
+
+MaterialIconFont = TTFFile.register "assets/MaterialSymbolsOutlined.ttf", "#{__DIR__}/../../assets/MaterialSymbolsOutlined.ttf"
+
 class ApplicationStyle < CSS::Stylesheet
   rules do
-    rule Classes::HeaderContainer do
+    font_face do
+      fontFamily "Material Symbols Outlined"
+      fontStyle Normal
+      src url(MaterialIconFont.uri_path)
+    end
+
+    rule Classes::MaterialIcon do
+      fontFamily "Material Symbols Outlined"
+      fontWeight Normal
+      fontStyle Normal
+      fontSize 24.px
+      display InlineBlock
+      # lineHeight 1
+      # textTransform None
+      # letterSpacing Normal
+      # wordWrap Normal
+      # whiteSpace NoWrap
+      # direction LTR
     end
 
     rule Classes::AddItemForm do
@@ -21,6 +46,10 @@ class ApplicationStyle < CSS::Stylesheet
 
     rule Classes::ItemListSearchActive > Classes::ItemSearchMatch do
       display Block
+    end
+
+    rule Classes::HideCheckedItems >> ListItem.active(false) do
+      display None
     end
 
     rule Classes::ImprovementChangeType do
