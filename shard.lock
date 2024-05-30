@@ -1,22 +1,30 @@
 version: 2.0
 shards:
   crumble:
-    path: /home/ephraim/repos/crumble
-    version: 0.9.3
+    git: https://github.com/sbsoftware/crumble.git
+    version: 0.15.1
 
   crumble-material:
     path: /home/ephraim/repos/crumble-material
     version: 0.1.0
 
+  crumble-stimulus:
+    git: https://github.com/sbsoftware/crumble-stimulus.git
+    version: 0.1.1
+
   crumble-turbo:
     path: /home/ephraim/repos/crumble-turbo
-    version: 0.1.0
+    version: 0.3.0
 
-  db:
-    git: https://github.com/crystal-lang/crystal-db.git
-    version: 0.11.0
+  js:
+    git: https://github.com/sbsoftware/js.cr.git
+    version: 1.2.1
 
-  pg:
-    git: https://github.com/will/crystal-pg.git
-    version: 0.26.0
+  stimulus:
+    git: https://github.com/sbsoftware/stimulus.cr.git
+    version: 0.4.0
+
+  to_html:
+    git: https://github.com/sbsoftware/to_html.cr.git
+    version: 1.0.5
 
