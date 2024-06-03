@@ -2,23 +2,35 @@ version: 2.0
 shards:
   crumble:
     git: https://github.com/sbsoftware/crumble.git
-    version: 0.15.1
+    version: 0.15.2
 
   crumble-material:
-    path: /home/ephraim/repos/crumble-material
-    version: 0.1.0
+    git: https://github.com/sbsoftware/crumble-material.git
+    version: 0.1.0+git.commit.5c22c02203ce24583ba8aa688ba8c8127c45bbca
 
   crumble-stimulus:
     git: https://github.com/sbsoftware/crumble-stimulus.git
     version: 0.1.1
 
   crumble-turbo:
-    path: /home/ephraim/repos/crumble-turbo
-    version: 0.3.0
+    git: https://github.com/sbsoftware/crumble-turbo.git
+    version: 0.4.2
+
+  db:
+    git: https://github.com/crystal-lang/crystal-db.git
+    version: 0.13.1
 
   js:
     git: https://github.com/sbsoftware/js.cr.git
     version: 1.2.1
+
+  orma:
+    git: https://github.com/sbsoftware/orma.git
+    version: 0.2.1
+
+  sqlite3:
+    git: https://github.com/crystal-lang/crystal-sqlite3.git
+    version: 0.21.0
 
   stimulus:
     git: https://github.com/sbsoftware/stimulus.cr.git

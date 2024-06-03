@@ -3,6 +3,10 @@ version: 0.0.0
 
 dependencies:
   crumble-material:
-    path: /home/ephraim/repos/crumble-material
+    github: sbsoftware/crumble-material
   crumble-turbo:
-    path: /home/ephraim/repos/crumble-turbo
+    github: sbsoftware/crumble-turbo
+  sqlite3:
+    github: crystal-lang/crystal-sqlite3
+  orma:
+    github: sbsoftware/orma
