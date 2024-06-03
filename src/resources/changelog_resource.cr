@@ -1,10 +1,11 @@
 class ChangelogResource < ApplicationResource
-  def layout_config(layout)
-    super
-    layout.window_title = "Changelog"
+  layout ApplicationLayout do
+    def window_title
+      "Changelog"
+    end
   end
 
   def index
-    render ChangelogView.new
+    render ChangelogView
   end
 end

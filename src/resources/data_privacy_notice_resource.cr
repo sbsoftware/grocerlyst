@@ -1,10 +1,11 @@
 class DataPrivacyNoticeResource < ApplicationResource
-  def layout_config(layout)
-    super
-    layout.window_title = "Datenschutz"
+  layout ApplicationLayout do
+    def self.window_title
+      "Datenschutz"
+    end
   end
 
   def index
-    render DataPrivacyNoticeView.new
+    render DataPrivacyNoticeView
   end
 end

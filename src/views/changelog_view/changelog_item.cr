@@ -1,6 +1,6 @@
 require "./change_type"
 
-class ChangelogItem < Template
+class ChangelogItem
   getter change_title : String
   getter description : String?
   getter change_type : ChangeType
@@ -8,7 +8,7 @@ class ChangelogItem < Template
   def initialize(@change_title, @change_type, @description = nil)
   end
 
-  template do
+  ToHtml.instance_template do
     li do
       span(Classes::ChangeType, change_type.css_class) { change_type }
       span(Classes::ChangeTitle) { change_title }

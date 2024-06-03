@@ -1,14 +1,13 @@
-class ListItemHiderController < StimulusController
+class ListItemHiderController < Stimulus::Controller
   targets :list, :switch
 
-  method :switch do
-    label = this.switchTarget.innerHTML
-    this.listTarget.classList.toggle(Classes::HideCheckedItems)
+  action :switch do
+    this.listTarget.classList.toggle(Classes::HideCheckedItems.to_js_ref)
 
-    if label === ""
-      this.switchTarget.innerHTML = "Visibility Off"
+    if this.switchTarget.innerHTML == "visibility"
+      this.switchTarget.innerHTML = "visibility_off"
     else
-      this.switchTarget.innerHTML = "Visibility"
+      this.switchTarget.innerHTML = "visibility"
     end
   end
 end

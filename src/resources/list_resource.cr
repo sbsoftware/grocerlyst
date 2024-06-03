@@ -1,13 +1,13 @@
 class ListResource < ApplicationResource
-  def layout_class
-    nil
+  layout ListLayout
+
+  def resource_layout
+    layout = previous_def
+    layout.list = list
+    layout
   end
 
-  def layout
-    ListLayout.new(list)
-  end
-
-  def index
+  def show
     render list.items_view
   end
 

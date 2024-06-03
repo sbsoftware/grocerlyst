@@ -1,7 +1,7 @@
 require "./changelog_view/changelog_item"
 
-class ChangelogView < Template
-  template do
+class ChangelogView
+  ToHtml.class_template do
     h3 { "17.05.2021" }
     ul do
       ChangelogItem.build do

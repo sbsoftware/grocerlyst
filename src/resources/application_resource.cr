@@ -1,5 +1,3 @@
-class ApplicationResource < Resource
-  def layout_class
-    ApplicationLayout
-  end
+class ApplicationResource < Crumble::Resource
+  layout ApplicationLayout
 end

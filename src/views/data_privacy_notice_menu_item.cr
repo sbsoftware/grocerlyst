@@ -1,6 +1,6 @@
-class DataPrivacyNoticeMenuItem < Template
-  template do
-    a href(DataPrivacyNoticeResource.uri_path) do
+class DataPrivacyNoticeMenuItem
+  ToHtml.class_template do
+    a href: DataPrivacyNoticeResource.uri_path do
       "Datenschutz"
     end
   end

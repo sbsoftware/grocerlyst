@@ -3,12 +3,8 @@ class ApplicationLayout < Crumble::Material::Layout
     [ApplicationStyle, Crumble::TurboStyle]
   end
 
-  def scripts
-    [TurboJS]
-  end
-
-  def stimulus_includes
-    StimulusInclude
+  def external_scripts
+    ["https://unpkg.com/@hotwired/turbo@8.0.4/dist/turbo.es2017-umd.js"]
   end
 
   def drawer_items
@@ -16,7 +12,7 @@ class ApplicationLayout < Crumble::Material::Layout
   end
 
   def contextual_actions
-    [ItemHider.new]
+    [ItemHider]
   end
 
   def all_lists_views
@@ -24,6 +20,6 @@ class ApplicationLayout < Crumble::Material::Layout
   end
 
   def legal_menu_items
-    [LegalNoticeMenuItem.new, DataPrivacyNoticeMenuItem.new, ChangelogMenuItem.new]
+    [LegalNoticeMenuItem, DataPrivacyNoticeMenuItem, ChangelogMenuItem]
   end
 end

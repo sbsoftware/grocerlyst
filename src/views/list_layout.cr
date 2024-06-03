@@ -1,8 +1,5 @@
 class ListLayout < ApplicationLayout
-  getter list : List?
-
-  def initialize(@list)
-  end
+  property list : List?
 
   def body_controllers
     [ListItemSearchController, ListItemHiderController]

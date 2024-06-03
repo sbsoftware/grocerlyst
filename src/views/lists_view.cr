@@ -1,10 +1,10 @@
-class ListsView < Template
+class ListsView
   @lists : Array(List)
 
   def initialize(@lists)
   end
 
-  template do
+  ToHtml.instance_template do
     @lists.each do |list|
       strong { list.id }
       i { list.name }

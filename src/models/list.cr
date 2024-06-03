@@ -1,6 +1,7 @@
 require "./list_item"
+require "../views/lists/*"
 
-class List < Crumble::ORM::Base
+class List < Orma::Record
   id_column id : Int32?
   column name : String?
   column created_at : Time?
@@ -13,35 +14,25 @@ class List < Crumble::ORM::Base
     params :name
 
     form do
-      input(InputType::Text, ListItemSearchController.addInput_target, {"name", "name"})
-      input(InputType::Submit, ListItemSearchController.addSubmit_target, {"name", "Add Child"})
+      input(ListItemSearchController.addInput_target, name: "name", type: "text")
+      input(ListItemSearchController.addSubmit_target, name: "Add Child", type: "submit")
     end
   end
 
-  template :default_view do
-    a href(ListResource.uri_path(id)) do
-      name
-    end
-    main_docking_point
+  def default_view
+    Lists::MenuItem.new(self)
   end
 
-  template :header_view do
-    div Classes::HeaderContainer do
-      a href(ListResource.uri_path(id)) do
-        name
-      end
-      div do
-        input(InputType::Text, ListItemSearchController.searchInput_target, ListItemSearchController.sync_action(InputEvent), {"name", "search"})
-      end
-    end
+  def header_view
+    Lists::HeaderView.new(self)
   end
 
   model_template :items_view do
     div Classes::AddItemForm do
-      add_item_action.template
+      add_item_action.template.to_html
     end
     ul ListItemSearchController.itemList_target, ListItemHiderController.list_target do
-      li ListItemSearchController.add_action(ClickEvent), ListItemSearchController.addDisplayContainer_target, Classes::AddItemDisplayHidden do
+      li ListItemSearchController.add_action("click"), ListItemSearchController.addDisplayContainer_target, Classes::AddItemDisplayHidden do
         strong ListItemSearchController.addDisplay_target
       end
       list_items.each do |list_item|

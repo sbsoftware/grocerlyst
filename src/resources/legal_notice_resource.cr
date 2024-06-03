@@ -1,10 +1,11 @@
 class LegalNoticeResource < ApplicationResource
-  def layout_config(layout)
-    super
-    layout.window_title = "Impressum"
+  layout ApplicationLayout do
+    def self.window_title
+      "Impressum"
+    end
   end
 
   def index
-    render LegalNoticeView.new
+    render LegalNoticeView
   end
 end

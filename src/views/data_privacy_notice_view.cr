@@ -1,5 +1,5 @@
-class DataPrivacyNoticeView < Template
-  template do
+class DataPrivacyNoticeView
+  ToHtml.class_template do
     h1 { "Datenschutz" }
 
     h2 { "1. Datenschutz auf einen Blick" }
@@ -212,7 +212,7 @@ class DataPrivacyNoticeView < Template
     p do
       "Quelle:"
       br
-      a href("https://www.e-recht24.de/muster-datenschutzerklaerung.html") do
+      a href: "https://www.e-recht24.de/muster-datenschutzerklaerung.html" do
         "https://www.e-recht24.de/muster-datenschutzerklaerung.html"
       end
     end

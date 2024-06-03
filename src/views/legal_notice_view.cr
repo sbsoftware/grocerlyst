@@ -1,5 +1,5 @@
-class LegalNoticeView < Template
-  template do
+class LegalNoticeView
+  ToHtml.class_template do
     h1 { "Impressum" }
 
     h2 { "Angaben gemäß § 5 TMG" }
@@ -23,7 +23,7 @@ class LegalNoticeView < Template
     h2 { "EU-Streitschlichtung" }
     p do
       span { "Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit: " }
-      a(href("https://ec.europa.eu/consumers/odr")) { "https://ec.europa.eu/consumers/odr" }
+      a(href: "https://ec.europa.eu/consumers/odr") { "https://ec.europa.eu/consumers/odr" }
       span { "." }
       br
       span { "Unsere E-Mail-Adresse finden Sie oben im Impressum." }
@@ -60,7 +60,7 @@ class LegalNoticeView < Template
 
     p do
       "Quelle: "
-      a(href("https://www.e-recht24.de")) { "eRecht24" }
+      a(href: "https://www.e-recht24.de") { "eRecht24" }
     end
   end
 end
