@@ -1,4 +1,6 @@
 require "crumble"
+require "sqlite3"
+require "orma"
 require "crumble-turbo"
 require "crumble-material"
 require "./crumble_server"
