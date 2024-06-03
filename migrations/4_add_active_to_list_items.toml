@@ -1,8 +1,0 @@
-[[actions]]
-type = "add_column"
-table = "list_items"
-
-  [actions.column]
-  name = "active"
-  type = "BOOLEAN"
-  nullable = false
