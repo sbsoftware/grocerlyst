@@ -31,14 +31,12 @@ class List < Orma::Record
     div Classes::AddItemForm do
       add_item_action.template.to_html
     end
-    ul ListItemSearchController.itemList_target, ListItemHiderController.list_target do
+    ul ListItemSearchController.itemList_target, ListItemHiderController.list_target, ListItemDragController, ListItemDragController.dragstart_action("dragstart"), ListItemDragController.dragover_action("dragover"), ListItemDragController.dragenter_action("dragenter"), ListItemDragController.drop_action("drop"), ListItemDragController.dragend_action("dragend") do
       li ListItemSearchController.add_action("click"), ListItemSearchController.addDisplayContainer_target, Classes::AddItemDisplayHidden do
         strong ListItemSearchController.addDisplay_target
       end
       list_items.each do |list_item|
-        div Classes::ItemSearchable do
-          list_item.default_view
-        end
+        list_item.default_view
       end
     end
   end
