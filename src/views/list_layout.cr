@@ -12,4 +12,8 @@ class ListLayout < ApplicationLayout
   def headline
     list.try(&.header_view)
   end
+
+  def contextual_actions
+    [ItemHider]
+  end
 end

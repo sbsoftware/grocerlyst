@@ -27,10 +27,6 @@ class ApplicationLayout < Crumble::Material::Layout
     all_lists_views + legal_menu_items
   end
 
-  def contextual_actions
-    [ItemHider]
-  end
-
   def all_lists_views
     List.all.map(&.default_view)
   end
