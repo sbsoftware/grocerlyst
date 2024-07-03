@@ -8,6 +8,24 @@ class ApplicationStyle < CSS::Stylesheet
       display None
     end
 
+    rule Classes::ListItems do
+      listStyle None
+      margin 0
+      padding 0
+    end
+
+    rule Classes::ListItem do
+      width 100.percent
+      fontSize 1.25.em
+      prop("line-height", 30.px)
+      prop("box-sizing", "border-box")
+    end
+
+    rule Classes::ListItem >> li do
+      padding 8.px
+      border(1.px, Solid, {0xBB, 0xBB, 0xBB})
+    end
+
     rule ListItem.active(false) do
       color Silver
     end

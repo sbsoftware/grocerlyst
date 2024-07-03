@@ -15,12 +15,10 @@ class ListItem < Orma::Record
 
   boolean_flip_action :switch, :active, :default_view
 
-  model_template :default_view, [Classes::ItemSearchable, {draggable: "true"}] do
+  model_template :default_view, [Classes::ListItem, Classes::ItemSearchable, {draggable: "true"}] do
     switch_action.template.to_html do
       li active do
-        strong do
-          name
-        end
+        name
       end
     end
   end
