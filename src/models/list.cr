@@ -35,7 +35,7 @@ class List < Orma::Record
       li ListItemSearchController.add_action("click"), ListItemSearchController.addDisplayContainer_target, Classes::AddItemDisplayHidden do
         strong ListItemSearchController.addDisplay_target
       end
-      list_items.each do |list_item|
+      list_items.to_a.each do |list_item|
         list_item.default_view
       end
     end

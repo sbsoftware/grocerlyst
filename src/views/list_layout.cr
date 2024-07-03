@@ -9,7 +9,7 @@ class ListLayout < ApplicationLayout
     list.try(&.name).try(&.value)
   end
 
-  def page_title
+  def headline
     list.try(&.header_view)
   end
 end

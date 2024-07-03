@@ -1,5 +1,4 @@
 module Classes
-  class MaterialIcon < CSS::CSSClass; end
   class HeaderContainer < CSS::CSSClass; end
   class AddItemForm < CSS::CSSClass; end
   class AddItemDisplayHidden < CSS::CSSClass; end

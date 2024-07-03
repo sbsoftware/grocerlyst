@@ -5,9 +5,8 @@ class Lists::HeaderView
 
   ToHtml.instance_template do
     div Classes::HeaderContainer do
-      a href: ListResource.uri_path(list.id) do
-        list.name
-      end
+      list.name
+
       div do
         input(ListItemSearchController.searchInput_target, ListItemSearchController.sync_action("input"), name: "search", type: "text")
       end

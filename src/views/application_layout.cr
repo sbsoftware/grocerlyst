@@ -1,4 +1,20 @@
 class ApplicationLayout < Crumble::Material::Layout
+  class RootLink
+    ToHtml.class_template do
+      a href: HomeResource.uri_path do
+        "Einkaufsliste"
+      end
+    end
+  end
+
+  def drawer_headline
+    RootLink
+  end
+
+  def headline
+    "Einkaufsliste"
+  end
+
   def stylesheets
     [ApplicationStyle, Crumble::TurboStyle]
   end

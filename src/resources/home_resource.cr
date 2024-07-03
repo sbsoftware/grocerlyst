@@ -6,7 +6,7 @@ class HomeResource < ApplicationResource
 
   def index
     lists = List.all
-    render ListsView.new(lists)
+    render ListsView.new(lists.to_a)
   end
 
   def self.root_path

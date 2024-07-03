@@ -6,7 +6,7 @@ class ListItemDragController < Stimulus::Controller
 
   action :dragover do |event|
     event.preventDefault._call
-    _literal_js("return true;")
+    return true
   end
 
   action :dragenter do |event|
@@ -14,19 +14,15 @@ class ListItemDragController < Stimulus::Controller
   end
 
   action :drop do |event|
-    _literal_js("var data = event.dataTransfer.getData(\"text/plain\");");
+    data = event.dataTransfer.getData("text/plain");
     _literal_js("const draggedItem = this.element.querySelector(`[data-crumble-list-item-id='${data}']`);")
-    _literal_js("const target = event.target.closest('[draggable=\"true\"]');")
-    _literal_js("const positionComparison = target.compareDocumentPosition(draggedItem);")
+    target = event.target.closest("[draggable=\"true\"]")
+    positionComparison = target.compareDocumentPosition(draggedItem)
 
     if positionComparison & 4
       target.insertAdjacentElement("beforebegin", draggedItem)
-    else
-      # FIXME: This `if` is ignored when it stands alone
-      console.log._call
-      if positionComparison & 2
-        target.insertAdjacentElement("afterend", draggedItem)
-      end
+    elsif positionComparison & 2
+      target.insertAdjacentElement("afterend", draggedItem)
     end
 
     event.preventDefault._call
