@@ -64,5 +64,13 @@ class ApplicationStyle < CSS::Stylesheet
       paddingTop 0.8.em
       paddingBottom 0.8.em
     end
+
+    rule Classes::LinkButton do
+      prop("font", "inherit")
+      prop("background", "none")
+      prop("border", "none")
+      padding 0
+      prop("cursor", "pointer")
+    end
   end
 end

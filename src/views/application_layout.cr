@@ -24,7 +24,7 @@ class ApplicationLayout < Crumble::Material::Layout
   end
 
   def drawer_items
-    all_lists_views + legal_menu_items
+    all_lists_views + [NewListMenuItem] + legal_menu_items
   end
 
   def all_lists_views

@@ -14,4 +14,6 @@ module Classes
   class ChangeType < CSS::CSSClass; end
   class ChangeTitle < CSS::CSSClass; end
   class ChangeDescription < CSS::CSSClass; end
+
+  css_class LinkButton
 end
