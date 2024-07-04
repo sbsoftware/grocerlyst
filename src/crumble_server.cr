@@ -1,8 +1,10 @@
 require "./styles/*"
 require "./models/*"
 require "./stimulus_controllers/*"
+require "./policies/*"
 require "./views/*"
 require "./resources/*"
+require "./request_context"
 
 if ENV.fetch("ORMA_CONTINUOUS_MIGRATION", "").in?(["1", "true"])
   {% for orm_class in Orma::Record.all_subclasses %}

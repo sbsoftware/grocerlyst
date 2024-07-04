@@ -10,12 +10,18 @@ class ListResource < ApplicationResource
   def create
     new_list = List.new
     new_list.name = Time.local.to_s("%F")
+    new_list.session_id = @ctx.session.id.to_s
     new_list.save
 
     redirect ListResource.uri_path(new_list.id)
   end
 
   def show
+    unless list && @ctx.list_policy.show?(list)
+      redirect HomeResource.uri_path
+      return
+    end
+
     render list.items_view
   end
 

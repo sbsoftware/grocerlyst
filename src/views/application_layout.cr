@@ -28,7 +28,7 @@ class ApplicationLayout < Crumble::Material::Layout
   end
 
   def all_lists_views
-    List.all.map(&.default_view)
+    ctx.list_policy.accessible_lists.map(&.default_view)
   end
 
   def legal_menu_items
