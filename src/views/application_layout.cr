@@ -16,7 +16,7 @@ class ApplicationLayout < Crumble::Material::Layout
   end
 
   def stylesheets
-    [ApplicationStyle, Crumble::TurboStyle]
+    [ApplicationStyle, Crumble::TurboStyle, ReorderItemsAction::Form::Style]
   end
 
   def external_scripts

@@ -1,5 +1,6 @@
 require "./list_item"
 require "../views/lists/*"
+require "../actions/reorder_items_action"
 
 class List < Orma::Record
   id_column id : Int32?
@@ -20,6 +21,8 @@ class List < Orma::Record
     end
   end
 
+  reorder_items_action :reorder_list_items, list_items, items_view
+
   def default_view
     Lists::MenuItem.new(self)
   end
@@ -33,6 +36,7 @@ class List < Orma::Record
       add_item_action.template.to_html
     end
     ul Classes::ListItems, ListItemSearchController.itemList_target, ListItemHiderController.list_target, ListItemDragController, ListItemDragController.dragstart_action("dragstart"), ListItemDragController.dragover_action("dragover"), ListItemDragController.dragenter_action("dragenter"), ListItemDragController.drop_action("drop"), ListItemDragController.dragend_action("dragend") do
+      reorder_list_items_action.form.to_html
       li ListItemSearchController.add_action("click"), ListItemSearchController.addDisplayContainer_target, Classes::AddItemDisplayHidden do
         strong ListItemSearchController.addDisplay_target
       end

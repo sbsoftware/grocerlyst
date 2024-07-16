@@ -1,4 +1,6 @@
 class ListItemDragController < Stimulus::Controller
+  targets :subject_id, :target_id, :submit
+
   action :dragstart do |event|
     event.dataTransfer.setData("text/plain", event.target.getAttribute("data-crumble-list-item-id"))
     event.dataTransfer.effectAllowed = "move"
@@ -17,7 +19,11 @@ class ListItemDragController < Stimulus::Controller
     data = event.dataTransfer.getData("text/plain");
     _literal_js("const draggedItem = this.element.querySelector(`[data-crumble-list-item-id='${data}']`);")
     target = event.target.closest("[draggable=\"true\"]")
+    target_id = target.getAttribute("data-crumble-list-item-id")
     positionComparison = target.compareDocumentPosition(draggedItem)
+
+    this.subjectIdTarget.value = data
+    this.targetIdTarget.value = target_id
 
     if positionComparison & 4
       target.insertAdjacentElement("beforebegin", draggedItem)
@@ -26,6 +32,8 @@ class ListItemDragController < Stimulus::Controller
     end
 
     event.preventDefault._call
+
+    this.submitTarget.click._call
   end
 
   action :dragend do |event|

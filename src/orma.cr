@@ -18,3 +18,23 @@ class Orma::Query
     end
   end
 end
+
+# HACK: Add #find for associations
+class Orma::Query
+  def find(id)
+    if where_clause = @where_clause
+      @where_clause = "#{where_clause} AND id=#{id}"
+    else
+      @where_clause = "id=#{id}"
+    end
+
+    T.query_one("#{find_all_query} LIMIT 1")
+  end
+end
+
+# Allow indexing in arrays
+class Orma::Record
+  def ==(other)
+    id.value == other.id.value
+  end
+end
