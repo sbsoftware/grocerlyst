@@ -8,7 +8,7 @@ class List < Orma::Record
   column created_at : Time?
 
   def list_items
-    ListItem.where({"list_id" => id})
+    ListItem.where({"list_id" => id}).order_by_sort_order!
   end
 
   create_child_action :add_item, ListItem, list_id, items_view do

@@ -11,6 +11,7 @@ class ListItem < Orma::Record
   column name : String?
   column list_id : Int32?
   column active : Bool = true
+  column sort_order : Int32 = 0
   column created_at : Time?
 
   boolean_flip_action :switch, :active, :default_view
