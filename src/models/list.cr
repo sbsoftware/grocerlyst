@@ -1,4 +1,5 @@
 require "./list_item"
+require "./list_access_permission"
 require "../views/lists/*"
 require "../actions/reorder_items_action"
 
@@ -8,6 +9,8 @@ class List < Orma::Record
   column session_id : String?
   column access_token : String?
   column created_at : Time?
+
+  has_many_of ListAccessPermission
 
   def list_items
     ListItem.where({"list_id" => id}).order_by_sort_order!
