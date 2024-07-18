@@ -7,6 +7,6 @@ class ListAccessPermission < Orma::Record
   column created_at : Time?
 
   def list
-    List.where({"id" => list_id})
+    List.where({"id" => list_id}).to_a.first
   end
 end
