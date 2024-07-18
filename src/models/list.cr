@@ -6,6 +6,7 @@ class List < Orma::Record
   id_column id : Int32?
   column name : String?
   column session_id : String?
+  column access_token : String?
   column created_at : Time?
 
   def list_items

@@ -11,6 +11,7 @@ class ListResource < ApplicationResource
     new_list = List.new
     new_list.name = Time.local.to_s("%F")
     new_list.session_id = @ctx.session.id.to_s
+    new_list.access_token = Random.new.hex
     new_list.save
 
     redirect ListResource.uri_path(new_list.id)
