@@ -14,6 +14,12 @@ class ListLayout < ApplicationLayout
   end
 
   def contextual_actions
-    [ItemHider]
+    arr = [ItemHider] of (ItemHider.class | ShareList)
+
+    if (_list = list) && ctx.list_policy.share?(_list)
+      arr << ShareList.new(ctx, _list)
+    end
+
+    arr
   end
 end

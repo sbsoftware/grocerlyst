@@ -11,6 +11,10 @@ class ListPolicy
     end
   end
 
+  def share?(list)
+    owns?(list)
+  end
+
   def accessible_lists
     List.where({"session_id" => ctx.session.id.to_s})
   end
