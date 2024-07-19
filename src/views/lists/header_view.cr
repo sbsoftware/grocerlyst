@@ -3,8 +3,17 @@ class Lists::HeaderView
 
   def initialize(@list); end
 
+  css_class Container
+
+  style do
+    rule Container do
+      display Flex
+      prop("gap", 15.px)
+    end
+  end
+
   ToHtml.instance_template do
-    div Classes::HeaderContainer do
+    div Container do
       list.name
 
       div do
