@@ -41,8 +41,10 @@ class List < Orma::Record
     end
     ul Classes::ListItems, ListItemSearchController.itemList_target, ListItemHiderController.list_target, ListItemDragController, ListItemDragController.dragstart_action("dragstart"), ListItemDragController.dragover_action("dragover"), ListItemDragController.dragenter_action("dragenter"), ListItemDragController.drop_action("drop"), ListItemDragController.dragend_action("dragend") do
       reorder_list_items_action.form.to_html
-      li ListItemSearchController.add_action("click"), ListItemSearchController.addDisplayContainer_target, Classes::AddItemDisplayHidden do
-        strong ListItemSearchController.addDisplay_target
+      div Classes::ListItem, ListItemSearchController.addDisplayContainer_target, Classes::AddItemDisplayHidden, ListItem.active(false) do
+        li ListItemSearchController.add_action("click") do
+          span ListItemSearchController.addDisplay_target
+        end
       end
       list_items.to_a.each do |list_item|
         list_item.default_view
