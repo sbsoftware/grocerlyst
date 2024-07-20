@@ -1,7 +1,9 @@
 class ShareController < Stimulus::Controller
   values url: String
 
-  action :share do
+  action :share do |event|
+    event.preventDefault._call
+
     if navigator.share
       navigator.share({text: this.urlValue})
     else
