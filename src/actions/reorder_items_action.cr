@@ -93,7 +93,7 @@ class Orma::Record
 
       def initialize(@model); end
 
-      def self.model_class : Orma::Record.class
+      def self.model_class : ::Orma::Record.class
         {{@type.resolve}}
       end
 
