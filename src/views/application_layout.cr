@@ -1,3 +1,5 @@
+require "../js/service_worker_registration"
+
 class ApplicationLayout < Crumble::Material::Layout
   class RootLink
     ToHtml.class_template do
@@ -21,6 +23,10 @@ class ApplicationLayout < Crumble::Material::Layout
 
   def external_scripts
     ["https://unpkg.com/@hotwired/turbo@8.0.4/dist/turbo.es2017-umd.js"]
+  end
+
+  def inline_scripts
+    [ServiceWorkerRegistration.to_js]
   end
 
   def drawer_items
