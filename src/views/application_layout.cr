@@ -1,3 +1,4 @@
+require "../js/web_manifest"
 require "../js/service_worker_registration"
 
 class ApplicationLayout < Crumble::Material::Layout
@@ -18,7 +19,7 @@ class ApplicationLayout < Crumble::Material::Layout
   end
 
   def stylesheets
-    [ApplicationStyle, Crumble::TurboStyle, ReorderItemsAction::Form::Style, Lists::HeaderView::Style]
+    [ApplicationStyle, Crumble::TurboStyle, ReorderItemsAction::Form::Style, Lists::HeaderView::Style, WebManifest]
   end
 
   def external_scripts
