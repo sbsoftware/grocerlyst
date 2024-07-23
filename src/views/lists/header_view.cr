@@ -14,8 +14,6 @@ class Lists::HeaderView
 
   ToHtml.instance_template do
     div Container do
-      list.name
-
       div do
         input(ListItemSearchController.searchInput_target, ListItemSearchController.sync_action("input"), name: "search", type: "text")
       end
