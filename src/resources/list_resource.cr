@@ -23,6 +23,8 @@ class ListResource < ApplicationResource
       return
     end
 
+    @ctx.session.update!(last_used_list_id: list.id.value)
+
     render list.items_view
   end
 

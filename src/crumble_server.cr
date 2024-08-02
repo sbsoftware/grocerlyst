@@ -1,3 +1,4 @@
+require "./session"
 require "./styles/*"
 require "./models/*"
 # temporary lib extensions
