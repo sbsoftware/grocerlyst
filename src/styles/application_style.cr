@@ -22,6 +22,8 @@ class ApplicationStyle < CSS::Stylesheet
     end
 
     rule Classes::ListItem >> li do
+      display Flex
+      justifyContent SpaceBetween
       padding 8.px
       border(1.px, Solid, {0xBB, 0xBB, 0xBB})
     end
