@@ -2,7 +2,7 @@ class ListLayout < ApplicationLayout
   property list : List?
 
   def body_controllers
-    [ListItemSearchController, ListItemHiderController]
+    [ListItemSearchController, ListItemHiderController, ListItemHiderController.list_target]
   end
 
   def window_title
