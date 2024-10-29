@@ -1,4 +1,4 @@
-abstract class DeleteRecordAction < Crumble::ORM::Action
+abstract class DeleteRecordAction < Orma::ModelAction
   module ClassMethods
     abstract def model_class
   end
@@ -9,10 +9,10 @@ abstract class DeleteRecordAction < Crumble::ORM::Action
 
   include ClassMethods
 
-  class Form
-    getter action : DeleteRecordAction
+  class Template
+    getter uri_path : String
 
-    def initialize(@action); end
+    def initialize(@uri_path); end
 
     css_class DeleteRecordForm
 
@@ -23,31 +23,16 @@ abstract class DeleteRecordAction < Crumble::ORM::Action
     end
 
     ToHtml.instance_template do
-      form DeleteRecordForm, action: action.uri_path, method: "POST" do
+      form DeleteRecordForm, action: uri_path, method: "POST" do
         input DeleteActionController.submit_target, type: "submit"
       end
     end
   end
 
-  def form
-    Form.new(self)
-  end
-
-
-  def self.handle(ctx) : Bool
-    match = path_matcher.match(ctx.request.path)
-    return false unless match
-
-    model = model_class.find(match[1])
-    action = self.new(model)
-
-    return true unless action.before_action_halted?(ctx)
-
+  def controller
     model.db.exec("DELETE FROM #{model.table_name} WHERE id=#{model.id}")
 
-    ctx.response.status = :ok
-    ctx.response.headers.add("Content-Type", TURBO_STREAM_MIME_TYPE)
-    action.model_template.turbo_stream.to_html(ctx.response)
+    model_template.turbo_stream.to_html(ctx.response)
 
     true
   end
@@ -56,9 +41,11 @@ end
 class Orma::Record
   macro delete_record_action(name, model_tpl, &blk)
     class {{name.id.capitalize}}Action < DeleteRecordAction
-      getter model : {{@type}}
+      @model : {{@type}}?
 
-      def initialize(@model); end
+      def model
+        @model ||= self.class.model_class.find(model_id)
+      end
 
       def self.model_class : ::Orma::Record.class
         {{@type.resolve}}
@@ -73,16 +60,18 @@ class Orma::Record
       end
 
       {% if blk.body.is_a?(Call) && blk.body.name.stringify == "before" && blk.body.block %}
-        def before_action({{blk.body.block.args.splat}})
+        def before_action
           {{blk.body.block.body}}
         end
       {% end %}
     end
 
-    def {{name.id.underscore}}_action
-      {{name.id.capitalize}}Action.new(self)
+    def {{name.id.underscore}}_action_template
+      raise RuntimeError.new("DeleteRecordAction only works for persisted records!") unless id = self.id
+
+      {{name.capitalize.id}}Action::Template.new({{name.capitalize.id}}Action.uri_path(id.value))
     end
 
-    Crumble::ORM::ActionRegistry.add({{@type.name}}::{{name.capitalize.id}}Action)
+    Crumble::Turbo::ActionRegistry.add({{@type.name}}::{{name.capitalize.id}}Action)
   end
 end

@@ -7,7 +7,7 @@ class ListPolicy
     return true if owns?(list)
 
     list.list_access_permissions.to_a.any? do |list_access_permission|
-      list_access_permission.session_id.value == ctx.session.id.to_s
+      list_access_permission.session_id == ctx.session.id.to_s
     end
   end
 
@@ -28,6 +28,6 @@ class ListPolicy
   end
 
   private def owns?(list)
-    list.session_id.value == ctx.session.id.to_s
+    list.session_id == ctx.session.id.to_s
   end
 end

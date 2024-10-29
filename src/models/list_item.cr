@@ -25,8 +25,8 @@ class ListItem < Orma::Record
   end
 
   model_template :default_view, [Classes::ListItem, Classes::ItemSearchable, DeleteActionController, {draggable: "true"}] do
-    switch_action.template.to_html do
-      remove_action.form.to_html
+    switch_action_template.to_html do
+      remove_action_template.to_html
       li active do
         name
 

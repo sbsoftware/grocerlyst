@@ -1,4 +1,4 @@
-abstract class ReorderItemsAction < Crumble::ORM::Action
+abstract class ReorderItemsAction < Orma::ModelAction
   abstract def association
 
   module ClassMethods
@@ -11,10 +11,10 @@ abstract class ReorderItemsAction < Crumble::ORM::Action
 
   include ClassMethods
 
-  class Form
-    getter action : ReorderItemsAction
+  class Template
+    getter uri_path : String
 
-    def initialize(@action); end
+    def initialize(@uri_path); end
 
     css_class ReorderItemsForm
 
@@ -25,7 +25,7 @@ abstract class ReorderItemsAction < Crumble::ORM::Action
     end
 
     ToHtml.instance_template do
-      form ReorderItemsForm, action: action.uri_path, method: "POST" do
+      form ReorderItemsForm, action: uri_path, method: "POST" do
         input ListItemDragController.subject_id_target, type: "text", name: "subject_id"
         input ListItemDragController.target_id_target, type: "text", name: "target_id"
         input ListItemDragController.submit_target, type: "submit"
@@ -33,17 +33,7 @@ abstract class ReorderItemsAction < Crumble::ORM::Action
     end
   end
 
-  def form
-    Form.new(self)
-  end
-
-  def self.handle(ctx) : Bool
-    match = path_matcher.match(ctx.request.path)
-    return false unless match
-
-    model = model_class.find(match[1])
-    action = self.new(model)
-
+  def controller
     unless body = ctx.request.body
       ctx.response.status = :bad_request
       return true
@@ -60,10 +50,10 @@ abstract class ReorderItemsAction < Crumble::ORM::Action
       end
     end
 
-    subject = action.association.find(subject_id)
-    target = action.association.find(target_id)
+    subject = association.find(subject_id)
+    target = association.find(target_id)
 
-    items = action.association.to_a
+    items = association.to_a
     if i = items.index(target)
       items.delete(subject)
       if i >= items.size
@@ -79,8 +69,7 @@ abstract class ReorderItemsAction < Crumble::ORM::Action
     end
 
     ctx.response.status = :created
-    ctx.response.headers.add("Content-Type", TURBO_STREAM_MIME_TYPE)
-    action.model_template.turbo_stream.to_html(ctx.response)
+    model_template.turbo_stream.to_html(ctx.response)
 
     true
   end
@@ -89,9 +78,11 @@ end
 class Orma::Record
   macro reorder_items_action(name, assoc, model_tpl)
     class {{name.id.capitalize}}Action < ReorderItemsAction
-      getter model : {{@type}}
+      @model : {{@type}}?
 
-      def initialize(@model); end
+      def model
+        @model ||= self.class.model_class.find(model_id)
+      end
 
       def self.model_class : ::Orma::Record.class
         {{@type.resolve}}
@@ -110,10 +101,12 @@ class Orma::Record
       end
     end
 
-    def {{name.id}}_action
-      {{name.id.capitalize}}Action.new(self)
+    def {{name.id}}_action_template
+      raise RuntimeError.new("ReorderItemsAction only works for persisted records!") unless id = self.id
+
+      {{name.capitalize.id}}Action::Template.new({{name.capitalize.id}}Action.uri_path(id.value))
     end
 
-    Crumble::ORM::ActionRegistry.add({{@type.name}}::{{name.capitalize.id}}Action)
+    Crumble::Turbo::ActionRegistry.add({{@type.name}}::{{name.capitalize.id}}Action)
   end
 end

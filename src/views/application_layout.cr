@@ -19,7 +19,7 @@ class ApplicationLayout < Crumble::Material::Layout
   end
 
   def stylesheets
-    [ApplicationStyle, Crumble::TurboStyle, ReorderItemsAction::Form::Style, Lists::HeaderView::Style, DeleteRecordAction::Form::Style, WebManifest]
+    [ApplicationStyle, Crumble::TurboStyle, ReorderItemsAction::Template::Style, Lists::HeaderView::Style, DeleteRecordAction::Template::Style, WebManifest]
   end
 
   def external_scripts
