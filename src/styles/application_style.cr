@@ -1,5 +1,9 @@
 class ApplicationStyle < CSS::Stylesheet
   rules do
+    rule Crumble::Material::Classes::MaterialIcon do
+      textDecoration None
+    end
+
     rule Classes::AddItemForm do
       display None
     end

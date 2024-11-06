@@ -9,6 +9,22 @@ class ListLayout < ApplicationLayout
     list.try(&.name).try(&.value)
   end
 
+  class BackLink
+    ToHtml.class_template do
+      a HomeResource, Crumble::Material::Classes::MaterialIcon do
+        "arrow_back"
+      end
+    end
+  end
+
+  def top_app_bar
+    Crumble::Material::TopAppBar.new(
+      leading_icon: BackLink,
+      headline: headline,
+      trailing_icons: contextual_actions || [] of Nil
+    )
+  end
+
   def headline
     list.try(&.header_view)
   end
