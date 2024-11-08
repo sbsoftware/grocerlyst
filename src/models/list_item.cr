@@ -1,13 +1,5 @@
 require "../actions/delete_record_action"
 
-struct NamedTuple
-  def to_html_attrs(_tag, attr_hash)
-    each do |key, value|
-      attr_hash[key.to_s] = value
-    end
-  end
-end
-
 class ListItem < Orma::Record
   id_column id : Int32?
   column name : String?
