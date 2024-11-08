@@ -20,7 +20,9 @@ class ListItem < Orma::Record
 
   delete_record_action :remove, list.items_view do
     before do |ctx, model|
-      return 403 unless ListItemPolicy.new(ctx).delete?(model)
+      return true if ListItemPolicy.new(ctx).delete?(model)
+
+      403
     end
   end
 
