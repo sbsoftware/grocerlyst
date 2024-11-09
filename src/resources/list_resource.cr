@@ -9,7 +9,7 @@ class ListResource < ApplicationResource
 
   def create
     new_list = List.new
-    new_list.name = Time.local.to_s("%F")
+    new_list.name = "Liste vom #{Time.local.to_s("%F")}"
     new_list.session_id = @ctx.session.id.to_s
     new_list.access_token = Random.new.hex
     new_list.save
