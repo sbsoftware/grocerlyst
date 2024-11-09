@@ -21,7 +21,8 @@ class ListLayout < ApplicationLayout
     Crumble::Material::TopAppBar.new(
       leading_icon: BackLink,
       headline: headline,
-      trailing_icons: contextual_actions || [] of Nil
+      trailing_icons: contextual_actions || [] of Nil,
+      type: :small
     )
   end
 
