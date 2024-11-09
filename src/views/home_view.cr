@@ -38,6 +38,7 @@ class HomeView < Crumble::ContextView
       justifyContent Center
       alignItems Center
       fontFamily "Roboto, sans serif"
+      fontSize 16.px
       prop("cursor", "pointer")
     end
 
