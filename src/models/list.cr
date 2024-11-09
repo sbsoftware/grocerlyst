@@ -35,6 +35,10 @@ class List < Orma::Record
     Lists::HeaderView.new(self)
   end
 
+  model_template :card_view do
+    Lists::CardView.new(@model)
+  end
+
   model_template :items_view do
     div Classes::AddItemForm do
       add_item_action_template.to_html
