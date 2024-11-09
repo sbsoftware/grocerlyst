@@ -27,7 +27,7 @@ class ListLayout < ApplicationLayout
   end
 
   def headline
-    list.try(&.header_view)
+    list.try(&.name)
   end
 
   def contextual_actions

@@ -31,10 +31,6 @@ class List < Orma::Record
     Lists::MenuItem.new(self)
   end
 
-  def header_view
-    Lists::HeaderView.new(self)
-  end
-
   model_template :card_view do
     Lists::CardView.new(@model)
   end
