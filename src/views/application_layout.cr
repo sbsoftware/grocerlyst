@@ -31,14 +31,6 @@ class ApplicationLayout < Crumble::Material::Layout
   end
 
   def drawer_items
-    all_lists_views + [NewListMenuItem] + legal_menu_items
-  end
-
-  def all_lists_views
-    ctx.list_policy.accessible_lists.map(&.default_view)
-  end
-
-  def legal_menu_items
     [LegalNoticeMenuItem, DataPrivacyNoticeMenuItem, ChangelogMenuItem]
   end
 end
