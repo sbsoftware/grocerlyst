@@ -7,6 +7,7 @@ class ApplicationStyle < CSS::Stylesheet
 
     rule Crumble::Material::Classes::MaterialIcon do
       textDecoration None
+      prop("cursor", "default")
     end
 
     rule Classes::AddItemForm do
