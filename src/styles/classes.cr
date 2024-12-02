@@ -16,4 +16,5 @@ module Classes
   class ChangeDescription < CSS::CSSClass; end
 
   css_class LinkButton
+  css_class TextView
 end

@@ -1,5 +1,10 @@
 class ApplicationStyle < CSS::Stylesheet
   rules do
+    rule Classes::TextView do
+      prop("margin-left", 16.px)
+      prop("margin-right", 16.px)
+    end
+
     rule Crumble::Material::Classes::MaterialIcon do
       textDecoration None
     end
