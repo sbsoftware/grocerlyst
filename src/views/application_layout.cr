@@ -31,6 +31,6 @@ class ApplicationLayout < Crumble::Material::Layout
   end
 
   def drawer_items
-    [LegalNoticeMenuItem, DataPrivacyNoticeMenuItem, ChangelogMenuItem]
+    [LegalNoticeMenuItem, DataPrivacyNoticeMenuItem]
   end
 end
