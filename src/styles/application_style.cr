@@ -5,7 +5,30 @@ class ApplicationStyle < CSS::Stylesheet
     end
 
     rule Classes::AddItemForm do
+      display Flex
+      justifyContent SpaceBetween
+      width 100.percent
+    end
+
+    rule Classes::AddItemForm >> form do
+      flexGrow 2
+    end
+
+    rule Classes::AddItemForm >> "input[type=\"text\"]" do
+      border 0.px, Solid, White
+      prop("outline", "none")
+      fontFamily "inherit"
+      fontSize "inherit"
+      padding 0
+      margin 0
+    end
+
+    rule Classes::AddItemForm >> "input[type=\"submit\"]" do
       display None
+    end
+
+    rule Classes::AddItemForm >> Crumble::Material::Classes::MaterialIcon do
+      color Black
     end
 
     rule Classes::AddItemDisplayHidden do

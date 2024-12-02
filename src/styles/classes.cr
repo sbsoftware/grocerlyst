@@ -3,6 +3,7 @@ module Classes
   class AddItemDisplayHidden < CSS::CSSClass; end
   class ListItems < CSS::CSSClass; end
   class ListItem < CSS::CSSClass; end
+  class ItemName < CSS::CSSClass; end
   class ItemListSearchActive < CSS::CSSClass; end
   class ItemSearchable < CSS::CSSClass; end
   class ItemSearchMatch < CSS::CSSClass; end

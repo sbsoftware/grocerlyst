@@ -18,11 +18,13 @@ class ListItem < Orma::Record
     end
   end
 
-  model_template :default_view, [Classes::ListItem, Classes::ItemSearchable, DeleteActionController, {draggable: "true"}] do
+  model_template :default_view, [Classes::ListItem, DeleteActionController, {draggable: "true"}] do
     switch_action_template.to_html do
       remove_action_template.to_html
       li active do
-        name
+        span Classes::ItemName do
+          name
+        end
 
         span Crumble::Material::Classes::MaterialIcon, DeleteActionController.delete_action("click") do
           "delete"

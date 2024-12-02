@@ -20,7 +20,7 @@ class List < Orma::Record
     params :name
 
     form do
-      input(ListItemSearchController.addInput_target, name: "name", type: "text")
+      input(ListItemSearchController.addInput_target, ListItemSearchController.filter_action("input"), name: "name", type: "text")
       input(ListItemSearchController.addSubmit_target, name: "Add Child", type: "submit")
     end
   end
@@ -36,18 +36,25 @@ class List < Orma::Record
   end
 
   model_template :items_view do
-    div Classes::AddItemForm do
-      add_item_action_template.to_html
-    end
     ul Classes::ListItems, ListItemSearchController.itemList_target, ListItemDragController, ListItemDragController.dragstart_action("dragstart"), ListItemDragController.dragover_action("dragover"), ListItemDragController.dragenter_action("dragenter"), ListItemDragController.drop_action("drop"), ListItemDragController.dragend_action("dragend") do
       reorder_list_items_action_template.to_html
       div Classes::ListItem, ListItemSearchController.addDisplayContainer_target, Classes::AddItemDisplayHidden, ListItem.active(false) do
-        li ListItemSearchController.add_action("click") do
-          span ListItemSearchController.addDisplay_target
+        li do
+          div Classes::AddItemForm do
+            add_item_action_template.to_html
+            span ListItemSearchController.add_action("click"), Crumble::Material::Classes::MaterialIcon do
+              "add_circle"
+            end
+            span ListItemSearchController.disable_search_mode_action("click"), Crumble::Material::Classes::MaterialIcon do
+              "cancel"
+            end
+          end
         end
       end
       list_items.to_a.each do |list_item|
-        list_item.default_view
+        div Classes::ItemSearchable, ListItemSearchController.disable_search_mode_action("click") do
+          list_item.default_view
+        end
       end
     end
   end

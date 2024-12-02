@@ -2,7 +2,7 @@ class ListLayout < ApplicationLayout
   property list : List?
 
   def body_controllers
-    [ListItemSearchController, ListItemHiderController, ListItemHiderController.list_target, Classes::HideCheckedItems]
+    [ListItemSearchController, ListItemSearchController.list_item_hider_controller_outlet("body"), ListItemHiderController, ListItemHiderController.list_target, Classes::HideCheckedItems]
   end
 
   def window_title
@@ -31,7 +31,7 @@ class ListLayout < ApplicationLayout
   end
 
   def contextual_actions
-    arr = [ItemHider] of (ItemHider.class | ShareList)
+    arr = [AddModeButton, ItemHider] of (AddModeButton.class | ItemHider.class | ShareList)
 
     if (_list = list) && ctx.list_policy.share?(_list)
       arr << ShareList.new(ctx, _list)
