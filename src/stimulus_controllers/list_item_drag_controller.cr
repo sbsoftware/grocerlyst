@@ -6,6 +6,14 @@ class ListItemDragController < Stimulus::Controller
     event.dataTransfer.effectAllowed = "move"
   end
 
+  action :drag do |event|
+    if event.clientY > (window.outerHeight - 120) && window.scrollY < (window.outerHeight - 15)
+      window.scrollTo({"top" => window.scrollY + 15})
+    elsif event.clientY < 120 && window.scrollY > 0
+      window.scrollTo({"top" => window.scrollY - 15})
+    end
+  end
+
   action :dragover do |event|
     event.preventDefault._call
     return true

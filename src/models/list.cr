@@ -36,7 +36,7 @@ class List < Orma::Record
   end
 
   model_template :items_view do
-    ul Classes::ListItems, ListItemSearchController.itemList_target, ListItemDragController, ListItemDragController.dragstart_action("dragstart"), ListItemDragController.dragover_action("dragover"), ListItemDragController.dragenter_action("dragenter"), ListItemDragController.drop_action("drop"), ListItemDragController.dragend_action("dragend") do
+    ul Classes::ListItems, ListItemSearchController.itemList_target, ListItemDragController, ListItemDragController.dragstart_action("dragstart"), ListItemDragController.drag_action("drag"), ListItemDragController.dragover_action("dragover"), ListItemDragController.dragenter_action("dragenter"), ListItemDragController.drop_action("drop"), ListItemDragController.dragend_action("dragend") do
       reorder_list_items_action_template.to_html
       div Classes::ListItem, ListItemSearchController.addDisplayContainer_target, Classes::AddItemDisplayHidden, ListItem.active(false) do
         li do
