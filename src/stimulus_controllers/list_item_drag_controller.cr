@@ -8,9 +8,9 @@ class ListItemDragController < Stimulus::Controller
 
   action :drag do |event|
     if event.clientY > (window.outerHeight - 120) && window.scrollY < document.body.clientHeight
-      window.scrollTo({"top" => window.scrollY + 15})
+      window.scrollTo({"top" => window.scrollY + 10})
     elsif event.clientY < 120 && window.scrollY > 0
-      window.scrollTo({"top" => window.scrollY - 15})
+      window.scrollTo({"top" => window.scrollY - 10})
     end
   end
 
