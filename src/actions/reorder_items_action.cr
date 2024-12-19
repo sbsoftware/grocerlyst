@@ -33,7 +33,7 @@ abstract class ReorderItemsAction < Orma::ModelAction
     end
   end
 
-  def controller
+  def model_action_controller
     unless body = ctx.request.body
       ctx.response.status = :bad_request
       return true

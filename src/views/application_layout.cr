@@ -18,6 +18,10 @@ class ApplicationLayout < Crumble::Material::Layout
     "Einkaufsliste"
   end
 
+  def body_controllers
+    super + [Crumble::Turbo::ModelTemplateRefreshController]
+  end
+
   def stylesheets
     [ApplicationStyle, HomeView::Style, Crumble::Material::Card::Style, Crumble::Material::Card::Title::Style, Crumble::Material::Card::SecondaryText::Style, Lists::CardView::Style, Crumble::TurboStyle, ReorderItemsAction::Template::Style, DeleteRecordAction::Template::Style, WebManifest]
   end

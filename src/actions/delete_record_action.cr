@@ -29,7 +29,7 @@ abstract class DeleteRecordAction < Orma::ModelAction
     end
   end
 
-  def controller
+  def model_action_controller
     model.db.exec("DELETE FROM #{model.table_name} WHERE id=#{model.id}")
 
     model_template.turbo_stream.to_html(ctx.response)
