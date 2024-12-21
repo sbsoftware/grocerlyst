@@ -6,7 +6,7 @@ dependencies:
     github: sbsoftware/crumble-material
   crumble-turbo:
     github: sbsoftware/crumble-turbo
-    version: ">= 0.8.0"
+    version: ">= 0.8.1"
   sqlite3:
     github: crystal-lang/crystal-sqlite3
   orma:
