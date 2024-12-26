@@ -14,7 +14,7 @@ shards:
 
   crumble-turbo:
     git: https://github.com/sbsoftware/crumble-turbo.git
-    version: 0.8.1
+    version: 0.8.2
 
   csuuid:
     git: https://github.com/wyhaines/csuuid.cr.git
