@@ -14,7 +14,7 @@ shards:
 
   crumble-turbo:
     git: https://github.com/sbsoftware/crumble-turbo.git
-    version: 0.8.3
+    version: 0.8.4
 
   csuuid:
     git: https://github.com/wyhaines/csuuid.cr.git
@@ -70,7 +70,7 @@ shards:
 
   stimulus:
     git: https://github.com/sbsoftware/stimulus.cr.git
-    version: 0.5.0
+    version: 0.6.0
 
   time-ext:
     git: https://github.com/wyhaines/time-ext.cr.git
