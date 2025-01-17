@@ -12,9 +12,11 @@ class ListItemSearchController < Stimulus::Controller
   end
 
   action :disable_search_mode do
-    this.addDisplayContainerTarget.classList.add(Classes::AddItemDisplayHidden.to_js_ref)
-    this.itemListTarget.classList.remove(Classes::ItemListSearchActive.to_js_ref)
-    this.listItemHiderOutlet.hide_inactive._call
+    unless this.addDisplayContainerTarget.classList.contains(Classes::AddItemDisplayHidden.to_js_ref)
+      this.addDisplayContainerTarget.classList.add(Classes::AddItemDisplayHidden.to_js_ref)
+      this.itemListTarget.classList.remove(Classes::ItemListSearchActive.to_js_ref)
+      this.listItemHiderOutlet.hide_inactive._call
+    end
   end
 
   action :filter do
