@@ -5,7 +5,7 @@ class ApplicationLayout < Crumble::Material::Layout
   class RootLink
     ToHtml.class_template do
       a href: HomeResource.uri_path do
-        "Einkaufsliste"
+        "Grocerlyst"
       end
     end
   end
@@ -15,7 +15,7 @@ class ApplicationLayout < Crumble::Material::Layout
   end
 
   def headline
-    "Einkaufsliste"
+    "Grocerlyst"
   end
 
   append_to_head ApplicationStyle, HomeView::Style, Lists::CardView::Style, WebManifest

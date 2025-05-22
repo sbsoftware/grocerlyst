@@ -17,7 +17,7 @@ end
 class WebManifest < JS::Code
   File = WebManifestFile.new(self.to_js)
 
-  Icon = PNGImage.register "einkaufsliste.app", "assets/einkaufsliste.png"
+  Icon = PNGImage.register "grocerlyst.app", "assets/einkaufsliste.png"
 
   def self.uri_path
     File.uri_path
@@ -26,8 +26,8 @@ class WebManifest < JS::Code
   def_to_js do
     _literal_js(<<-JSON)
     {
-      "name": "Einkaufsliste.app",
-      "short_name": "Einkaufsliste.app",
+      "name": "Grocerlyst.com",
+      "short_name": "Grocerlyst",
       "icons": [
         {
           "src": "#{Icon.uri_path}",

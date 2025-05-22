@@ -1,7 +1,7 @@
 class HomeResource < ApplicationResource
   def layout_config(layout)
     super
-    layout.window_title = "Einkaufsliste"
+    layout.window_title = "Grocerlyst"
   end
 
   def index
