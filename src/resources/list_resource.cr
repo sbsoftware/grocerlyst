@@ -1,3 +1,5 @@
+require "../views/list_view"
+
 class ListResource < ApplicationResource
   layout ListLayout
 
@@ -29,7 +31,7 @@ class ListResource < ApplicationResource
       @ctx.session.update!(last_used_list_id: list_id.value)
     end
 
-    render list.items_view
+    render ListView.new(ctx, list)
   end
 
   def list

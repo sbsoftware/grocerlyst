@@ -19,6 +19,7 @@ class ApplicationLayout < Crumble::Material::Layout
   end
 
   append_to_head ApplicationStyle, HomeView::Style, Lists::CardView::Style, WebManifest
+  append_to_head ListAccessPermission::SetNameAction::Template::Style
 
   append_to_head ServiceWorkerRegistration
 
