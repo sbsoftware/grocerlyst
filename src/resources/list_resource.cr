@@ -8,11 +8,13 @@ class ListResource < ApplicationResource
   end
 
   def create
-    new_list = List.new
-    new_list.name = "Liste vom #{Time.local.to_s("%F")}"
-    new_list.session_id = @ctx.session.id.to_s
-    new_list.access_token = Random.new.hex
-    new_list.save
+    new_list = List.create(
+      name: "Liste vom #{Time.local.to_s("%F")}",
+      session_id: ctx.session.id.to_s,
+      access_token: Random.new.hex
+    )
+
+    ListAccessPermission.create(list_id: new_list.id, session_id: ctx.session.id.to_s)
 
     redirect ListResource.uri_path(new_list.id)
   end
