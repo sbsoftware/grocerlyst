@@ -1,5 +1,3 @@
-require "../actions/delete_record_action"
-
 class ListItem < Orma::Record
   id_column id : Int32?
   column name : String?
@@ -16,18 +14,23 @@ class ListItem < Orma::Record
 
       403
     end
+
+    def self.confirm_prompt(model)
+      "#{model.name} wirklich löschen?"
+    end
   end
 
-  model_template :default_view, [Classes::ListItem, DeleteActionController, {draggable: "true"}, id] do
-    switch_action_template.to_html do
-      remove_action_template.to_html
-      li active do
-        span Classes::ItemName do
-          name
-        end
+  model_template :default_view, [Classes::ListItem] do
+    div Classes::ItemSearchable, ListItemSearchController.disable_search_mode_action("click") do
+      switch_action_template.to_html do
+        li active do
+          span Classes::ItemName do
+            name
+          end
 
-        span Crumble::Material::Classes::MaterialIcon, DeleteActionController.delete_action("click") do
-          "delete"
+          remove_action_template.to_html do
+            Crumble::Material::Icon.new("delete")
+          end
         end
       end
     end

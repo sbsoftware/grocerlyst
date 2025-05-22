@@ -5,11 +5,6 @@ class ApplicationStyle < CSS::Stylesheet
       prop("margin-right", 16.px)
     end
 
-    rule Crumble::Material::Classes::MaterialIcon do
-      textDecoration None
-      prop("cursor", "default")
-    end
-
     rule Classes::AddItemForm do
       display Flex
       justifyContent SpaceBetween
@@ -33,7 +28,7 @@ class ApplicationStyle < CSS::Stylesheet
       display None
     end
 
-    rule Classes::AddItemForm >> Crumble::Material::Classes::MaterialIcon do
+    rule Classes::AddItemForm >> Crumble::Material::Icon::IconClass do
       color Black
     end
 
@@ -57,7 +52,8 @@ class ApplicationStyle < CSS::Stylesheet
     rule Classes::ListItem >> li do
       display Flex
       justifyContent SpaceBetween
-      padding 8.px
+      alignItems Center
+      padding 8.px, 16.px
       border(1.px, Solid, {0xBB, 0xBB, 0xBB})
     end
 

@@ -18,21 +18,9 @@ class ApplicationLayout < Crumble::Material::Layout
     "Einkaufsliste"
   end
 
-  def body_controllers
-    super + [Crumble::Turbo::ModelTemplateRefreshController]
-  end
+  append_to_head ApplicationStyle, HomeView::Style, Lists::CardView::Style, WebManifest
 
-  def stylesheets
-    [ApplicationStyle, HomeView::Style, Crumble::Material::Card::Style, Crumble::Material::Card::Title::Style, Crumble::Material::Card::SecondaryText::Style, Lists::CardView::Style, Crumble::TurboStyle, ReorderItemsAction::Template::Style, DeleteRecordAction::Template::Style, WebManifest]
-  end
-
-  def external_scripts
-    ["https://unpkg.com/@hotwired/turbo@8.0.4/dist/turbo.es2017-umd.js"]
-  end
-
-  def inline_scripts
-    [ServiceWorkerRegistration.to_js]
-  end
+  append_to_head ServiceWorkerRegistration
 
   def drawer_items
     [LegalNoticeMenuItem, DataPrivacyNoticeMenuItem]

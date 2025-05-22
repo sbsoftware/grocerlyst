@@ -1,7 +1,6 @@
 require "./list_item"
 require "./list_access_permission"
 require "../views/lists/*"
-require "../actions/reorder_items_action"
 
 class List < Orma::Record
   id_column id : Int32?
@@ -25,7 +24,7 @@ class List < Orma::Record
     end
   end
 
-  reorder_items_action :reorder_list_items, list_items, items_view
+  reorder_children_action :reorder_list_items, list_items, default_view, items_view
 
   def default_view
     Lists::MenuItem.new(self)
@@ -36,26 +35,21 @@ class List < Orma::Record
   end
 
   model_template :items_view do
-    ul Classes::ListItems, ListItemSearchController.itemList_target, ListItemDragController, ListItemDragController.dragstart_action("dragstart"), ListItemDragController.drag_action("drag"), ListItemDragController.dragover_action("dragover"), ListItemDragController.dragenter_action("dragenter"), ListItemDragController.drop_action("drop"), ListItemDragController.dragend_action("dragend") do
-      reorder_list_items_action_template.to_html
+    ul Classes::ListItems, ListItemSearchController.itemList_target do
       div Classes::ListItem, ListItemSearchController.addDisplayContainer_target, Classes::AddItemDisplayHidden, ListItem.active(false) do
         li do
           div Classes::AddItemForm do
             add_item_action_template.to_html
-            span ListItemSearchController.add_action("click"), Crumble::Material::Classes::MaterialIcon do
-              "add_circle"
+            span ListItemSearchController.add_action("click") do
+              Crumble::Material::Icon.new("add_circle")
             end
-            span ListItemSearchController.disable_search_mode_action("click"), Crumble::Material::Classes::MaterialIcon do
-              "cancel"
+            span ListItemSearchController.disable_search_mode_action("click") do
+              Crumble::Material::Icon.new("cancel")
             end
           end
         end
       end
-      list_items.to_a.each do |list_item|
-        div Classes::ItemSearchable, ListItemSearchController.disable_search_mode_action("click") do
-          list_item.default_view
-        end
-      end
+      reorder_list_items_action_template.to_html
     end
   end
 end

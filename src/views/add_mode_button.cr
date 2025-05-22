@@ -24,8 +24,8 @@ class AddModeButton
   end
 
   ToHtml.class_template do
-    a Crumble::Material::Classes::MaterialIcon, AddModeButtonController, AddModeButtonController.enable_action("click"), AddModeButtonController.list_item_search_controller_outlet(ListItemSearchController.selector.to_s) do
-      "add"
+    a AddModeButtonController, AddModeButtonController.enable_action("click"), AddModeButtonController.list_item_search_controller_outlet(ListItemSearchController.selector.to_s) do
+      Crumble::Material::Icon.new("add")
     end
   end
 end

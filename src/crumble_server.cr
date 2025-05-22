@@ -1,8 +1,6 @@
 require "./session"
 require "./styles/*"
 require "./models/*"
-# temporary lib extensions
-require "./orma"
 require "./stimulus_controllers/*"
 require "./policies/*"
 require "./views/*"

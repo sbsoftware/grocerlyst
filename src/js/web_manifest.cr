@@ -49,4 +49,8 @@ class WebManifest < JS::Code
       href = uri_path
     end
   end
+
+  ToHtml.class_template do
+    link self
+  end
 end

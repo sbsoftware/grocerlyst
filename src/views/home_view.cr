@@ -1,4 +1,6 @@
-class HomeView < Crumble::ContextView
+class HomeView
+  include Crumble::ContextView
+
   css_class Lists
   css_class List
   css_class NewListCard
@@ -58,9 +60,7 @@ class HomeView < Crumble::ContextView
         Crumble::Material::Card.new.to_html do
           form action: ListResource.uri_path, method: "POST" do
             button do
-              span Crumble::Material::Classes::MaterialIcon do
-                "add_circle"
-              end
+              Crumble::Material::Icon.new("add_circle")
               span ButtonText do
                 "Neue Liste"
               end

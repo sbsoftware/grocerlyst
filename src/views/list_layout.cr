@@ -1,9 +1,7 @@
 class ListLayout < ApplicationLayout
   property list : List?
 
-  def body_controllers
-    super + [ListItemSearchController, ListItemSearchController.list_item_hider_controller_outlet("body"), ListItemHiderController, ListItemHiderController.list_target, Classes::HideCheckedItems]
-  end
+  body_attributes ListItemSearchController, ListItemSearchController.list_item_hider_controller_outlet("body"), ListItemHiderController, ListItemHiderController.list_target, Classes::HideCheckedItems
 
   def window_title
     list.try(&.name).try(&.value)
@@ -11,8 +9,8 @@ class ListLayout < ApplicationLayout
 
   class BackLink
     ToHtml.class_template do
-      a HomeResource, Crumble::Material::Classes::MaterialIcon do
-        "arrow_back"
+      a HomeResource do
+        Crumble::Material::Icon.new("arrow_back")
       end
     end
   end

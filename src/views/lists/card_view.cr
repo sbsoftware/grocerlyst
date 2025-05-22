@@ -1,7 +1,3 @@
-require "../material/card"
-require "../material/card_title"
-require "../material/card_secondary_text"
-
 class Lists::CardView
   getter list : List
 
@@ -14,15 +10,6 @@ class Lists::CardView
       display InlineBlock
       marginRight 8.px
     end
-
-    rule Attribute > span do
-      prop("vertical-align", "middle")
-      display InlineBlock
-    end
-
-    rule Attribute > Crumble::Material::Classes::MaterialIcon do
-      marginRight 2.px
-    end
   end
 
   ToHtml.instance_template do
@@ -30,22 +17,10 @@ class Lists::CardView
       Crumble::Material::Card::Title.new(list.name)
       Crumble::Material::Card::SecondaryText.new.to_html do
         div Attribute do
-          span Crumble::Material::Classes::MaterialIcon do
-            "list"
-          end
-          span do
-            list.list_items.count
-            " Elemente"
-          end
+          Crumble::Material::Icon.new("list", "#{list.list_items.count} Elemente")
         end
         div Attribute do
-          span Crumble::Material::Classes::MaterialIcon do
-            "account_circle"
-          end
-          span do
-            list.list_access_permissions.count + 1
-            " Teilnehmer"
-          end
+          Crumble::Material::Icon.new("account_circle", "#{list.list_access_permissions.count + 1} Teilnehmer")
         end
       end
     end

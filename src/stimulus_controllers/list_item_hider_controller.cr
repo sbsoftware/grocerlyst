@@ -22,9 +22,9 @@ class ListItemHiderController < Stimulus::Controller
 
   js_method :update_icon do
     if this.listTarget.classList.contains(Classes::HideCheckedItems.to_js_ref)
-      this.switchTarget.innerHTML = "visibility"
+      this.switchTarget.innerHTML = Crumble::Material::Icon.new("visibility").to_html.to_js_ref
     else
-      this.switchTarget.innerHTML = "visibility_off"
+      this.switchTarget.innerHTML = Crumble::Material::Icon.new("visibility_off").to_html.to_js_ref
     end
   end
 end
