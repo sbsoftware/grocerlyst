@@ -22,6 +22,18 @@ class List < Orma::Record
       input(ListItemSearchController.addInput_target, ListItemSearchController.filter_action("input"), name: "name", type: "text")
       input(ListItemSearchController.addSubmit_target, name: "Add Child", type: "submit")
     end
+
+    controller do
+      if body = ctx.request.body
+        new_child = child_instance(body.gets_to_end)
+
+        if existing_item = ListItem.where({"list_id" => model.id, "name" => new_child.name}).first?
+          existing_item.update(active: !existing_item.active.value)
+        else
+          new_child.save
+        end
+      end
+    end
   end
 
   reorder_children_action :reorder_list_items, list_items, default_view, items_view
