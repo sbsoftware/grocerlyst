@@ -56,11 +56,15 @@ class ApplicationStyle < CSS::Stylesheet
       color Silver
     end
 
-    rule Classes::ItemListSearchActive > Classes::ItemSearchable do
+    rule Classes::ItemSearchable do
+      width 100.percent
+    end
+
+    rule Classes::ItemListSearchActive >> Classes::ItemSearchable do
       display None
     end
 
-    rule Classes::ItemListSearchActive > Classes::ItemSearchMatch do
+    rule Classes::ItemListSearchActive >> Classes::ItemSearchMatch do
       display Block
     end
 
