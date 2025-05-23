@@ -21,15 +21,17 @@ class ListItem < Orma::Record
   end
 
   model_template :default_view, [Classes::ListItem] do
-    div Classes::ItemSearchable, ListItemSearchController.disable_search_mode_action("click") do
-      switch_action_template.to_html do
-        li active do
-          span Classes::ItemName do
-            name
-          end
+    Crumble::Material::ListItem.to_html do
+      div Classes::ItemSearchable, ListItemSearchController.disable_search_mode_action("click") do
+        switch_action_template.to_html do
+          li Classes::ListItem, active do
+            span Classes::ItemName do
+              name
+            end
 
-          remove_action_template.to_html do
-            Crumble::Material::Icon.new("delete")
+            remove_action_template.to_html do
+              Crumble::Material::Icon.new("delete")
+            end
           end
         end
       end

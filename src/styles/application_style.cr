@@ -1,5 +1,9 @@
 class ApplicationStyle < CSS::Stylesheet
   rules do
+    rule a do
+      color Black
+    end
+
     rule Classes::TextView do
       prop("margin-left", 16.px)
       prop("margin-right", 16.px)
@@ -43,18 +47,9 @@ class ApplicationStyle < CSS::Stylesheet
     end
 
     rule Classes::ListItem do
-      width 100.percent
-      fontSize 1.25.em
-      prop("line-height", 30.px)
-      prop("box-sizing", "border-box")
-    end
-
-    rule Classes::ListItem >> li do
       display Flex
       justifyContent SpaceBetween
       alignItems Center
-      padding 8.px, 16.px
-      border(1.px, Solid, {0xBB, 0xBB, 0xBB})
     end
 
     rule ListItem.active(false) do

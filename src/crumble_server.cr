@@ -3,8 +3,8 @@ require "./styles/*"
 require "./models/*"
 require "./stimulus_controllers/*"
 require "./policies/*"
-require "./views/*"
-require "./resources/*"
+require "./views/**"
+require "./resources/**"
 require "./request_context"
 
 if ENV.fetch("ORMA_CONTINUOUS_MIGRATION", "").in?(["1", "true"])

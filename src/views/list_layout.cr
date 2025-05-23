@@ -29,10 +29,13 @@ class ListLayout < ApplicationLayout
   end
 
   def contextual_actions
-    arr = [AddModeButton, ItemHider] of (AddModeButton.class | ItemHider.class | ShareList)
+    arr = [AddModeButton, ItemHider] of (AddModeButton.class | ItemHider.class | ShareList | ViewListMembersButton)
 
-    if (_list = list) && ctx.list_policy.share?(_list)
-      arr << ShareList.new(ctx, _list)
+    if (_list = list)
+      if ctx.list_policy.share?(_list)
+        arr << ShareList.new(ctx, _list)
+      end
+      arr << ViewListMembersButton.new(_list)
     end
 
     arr
