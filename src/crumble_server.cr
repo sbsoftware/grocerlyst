@@ -15,11 +15,4 @@ if ENV.fetch("ORMA_CONTINUOUS_MIGRATION", "").in?(["1", "true"])
   {% end %}
 end
 
-# Data migration v12
-List.all.each do |list|
-  if list.list_access_permissions.count.zero?
-    ListAccessPermission.create(list_id: list.id, session_id: list.session_id)
-  end
-end
-
 Crumble::Server.start
