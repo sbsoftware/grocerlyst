@@ -19,7 +19,7 @@ class List < Orma::Record
     params :name
 
     form do
-      input(ListItemSearchController.addInput_target, ListItemSearchController.filter_action("input"), name: "name", type: "text")
+      input(ListItemSearchController.addInput_target, ListItemSearchController.filter_action("input"), ListItemSearchController.add_action("keydown.enter"), ListItemSearchController.disable_search_mode_action("keydown.esc"), name: "name", type: "text")
       input(ListItemSearchController.addSubmit_target, name: "Add Child", type: "submit")
     end
 
