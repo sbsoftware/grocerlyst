@@ -17,7 +17,7 @@ class Lists::CardView
       Crumble::Material::Card::Title.new(list.name)
       Crumble::Material::Card::SecondaryText.new.to_html do
         div Attribute do
-          Crumble::Material::Icon.new("list", "#{list.list_items.count} Elemente")
+          Crumble::Material::Icon.new("list", "#{list.list_items.count} Einträge")
         end
         div Attribute do
           Crumble::Material::Icon.new("account_circle", "#{list.list_access_permissions.count} Teilnehmer")
