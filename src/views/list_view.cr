@@ -11,6 +11,7 @@ class ListView
 
   ToHtml.instance_template do
     list_access_permission.set_name_form if list.list_access_permissions.count > 1
+    list.set_name_action_template
     list.items_view
   end
 end

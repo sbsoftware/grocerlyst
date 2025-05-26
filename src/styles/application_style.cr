@@ -4,6 +4,14 @@ class ApplicationStyle < CSS::Stylesheet
       color Black
     end
 
+    rule "[data-action]" do
+      prop("cursor", "pointer")
+    end
+
+    rule input, button do
+      fontFamily "Roboto"
+    end
+
     rule Classes::TextView do
       prop("margin-left", 16.px)
       prop("margin-right", 16.px)
