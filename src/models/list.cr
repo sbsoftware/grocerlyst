@@ -155,21 +155,6 @@ class List < Orma::Record
 
   model_template :items_view do
     ul Classes::ListItems, ListItemSearchController.itemList_target do
-      div ListItemSearchController.addDisplayContainer_target, Classes::AddItemDisplayHidden, ListItem.active(false) do
-        Crumble::Material::ListItem.to_html do
-          li Classes::ListItem do
-            div Classes::AddItemForm do
-              add_item_action_template.to_html
-              span ListItemSearchController.add_action("click") do
-                Crumble::Material::Icon.new("add_circle")
-              end
-              span ListItemSearchController.disable_search_mode_action("click") do
-                Crumble::Material::Icon.new("cancel")
-              end
-            end
-          end
-        end
-      end
       reorder_list_items_action_template.to_html
     end
   end
