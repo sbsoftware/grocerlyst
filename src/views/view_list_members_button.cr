@@ -7,7 +7,7 @@ class ViewListMembersButton
 
   ToHtml.instance_template do
     a href: Lists::MembersResource.uri_path(list.id) do
-      Crumble::Material::Icon.new("account_circle")
+      Crumble::Material::Icon.new("group")
     end
   end
 end
