@@ -8,13 +8,6 @@ module Classes
   class ItemSearchable < CSS::CSSClass; end
   class ItemSearchMatch < CSS::CSSClass; end
   class HideCheckedItems < CSS::CSSClass; end
-  class ImprovementChangeType < CSS::CSSClass; end
-  class FeatureChangeType < CSS::CSSClass; end
-  class BugfixChangeType < CSS::CSSClass; end
-  class ChangeType < CSS::CSSClass; end
-  class ChangeTitle < CSS::CSSClass; end
-  class ChangeDescription < CSS::CSSClass; end
 
-  css_class LinkButton
   css_class TextView
 end
