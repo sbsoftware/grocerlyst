@@ -6,6 +6,7 @@ class ApplicationStyle < CSS::Stylesheet
 
     rule "[data-action]" do
       prop("cursor", "pointer")
+      prop("-webkit-tap-highlight-color", "transparent")
     end
 
     rule input, button do
