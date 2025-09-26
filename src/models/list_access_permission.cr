@@ -1,8 +1,8 @@
 require "./list"
 
 class ListAccessPermission < Orma::Record
-  id_column id : Int32?
-  column list_id : Int32?
+  id_column id : Int64?
+  column list_id : Int64?
   column session_id : String?
   column name : String?
   column created_at : Time?

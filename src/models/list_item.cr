@@ -1,7 +1,7 @@
 class ListItem < Orma::Record
-  id_column id : Int32?
+  id_column id : Int64?
   column name : String?
-  column list_id : Int32?
+  column list_id : Int64?
   column active : Bool = true
   column sort_order : Int32 = 0
   column created_at : Time?
@@ -41,6 +41,6 @@ class ListItem < Orma::Record
   end
 
   def list
-    List.where({"id" => list_id}).to_a.first
+    List.where(id: list_id).first
   end
 end

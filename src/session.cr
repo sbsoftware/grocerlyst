@@ -1,3 +1,3 @@
 class Crumble::Server::Session
-  property last_used_list_id : Int32?
+  property last_used_list_id : Int64?
 end

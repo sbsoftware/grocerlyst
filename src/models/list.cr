@@ -3,7 +3,7 @@ require "./list_access_permission"
 require "../views/lists/*"
 
 class List < Orma::Record
-  id_column id : Int32?
+  id_column id : Int64?
   column name : String?
   column session_id : String?
   column access_token : String?
