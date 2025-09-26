@@ -1,6 +1,6 @@
 class ListItemResource < ApplicationResource
   def update
-    body = @ctx.request.body
+    body = ctx.request.body
     unless body.nil?
       li = list_item
 

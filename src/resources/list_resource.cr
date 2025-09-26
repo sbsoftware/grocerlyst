@@ -22,13 +22,13 @@ class ListResource < ApplicationResource
   end
 
   def show
-    unless list && @ctx.list_policy.show?(list)
+    unless list && ctx.list_policy.show?(list)
       redirect HomeResource.uri_path
       return
     end
 
     if list_id = list.id
-      @ctx.session.update!(last_used_list_id: list_id.value)
+      ctx.session.update!(last_used_list_id: list_id.value)
     end
 
     render ListView.new(ctx, list)

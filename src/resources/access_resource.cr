@@ -3,12 +3,12 @@ require "./application_resource"
 class AccessResource < ApplicationResource
   def show
     unless id?
-      @ctx.response.status = :bad_request
+      ctx.response.status = :bad_request
       return
     end
 
     unless list = List.where({"access_token" => id}).to_a.first
-      @ctx.response.status = :not_found
+      ctx.response.status = :not_found
       return
     end
 
@@ -21,16 +21,16 @@ class AccessResource < ApplicationResource
 
   def update
     unless id?
-      @ctx.response.status = :bad_request
+      ctx.response.status = :bad_request
       return
     end
 
     unless list = List.where({"access_token" => id}).to_a.first
-      @ctx.response.status = :not_found
+      ctx.response.status = :not_found
       return
     end
 
-    ListAccessPermission.create(list_id: list.id, session_id: @ctx.session.id.to_s)
+    ListAccessPermission.create(list_id: list.id, session_id: ctx.session.id.to_s)
 
     redirect ListResource.uri_path(list.id)
   end
@@ -40,6 +40,6 @@ class AccessResource < ApplicationResource
   end
 
   def id?
-    self.class.match(@ctx.request.path).try { |m| m[2]? }
+    self.class.match(ctx.request.path).try { |m| m[2]? }
   end
 end
