@@ -1,12 +1,12 @@
 class Lists::HeaderView
-  getter list : List
+  include Crumble::ContextView
 
-  def initialize(@list); end
+  getter list : List
 
   css_class ListHeader
 
   ToHtml.instance_template do
-    div ListHeader, list.set_name_action_template.action_element_attributes do
+    div ListHeader, list.set_name_action_template(ctx).action_element_attributes do
       list.name
     end
   end

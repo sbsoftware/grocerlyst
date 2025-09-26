@@ -39,30 +39,21 @@ class List < Orma::Record
   reorder_children_action :reorder_list_items, list_items, default_view, items_view
 
   model_action :set_name, header_view do
-    NAME_FIELD = "name"
+    form do
+      field name : String
+    end
 
     controller do
       return unless body = ctx.request.body
 
-      name = nil
-      HTTP::Params.parse(body.gets_to_end) do |key, val|
-        case key
-        when NAME_FIELD
-          name = val
-        end
-      end
+      form = Form.from_www_form(body.gets_to_end)
 
-      model.update(name: name) if name && name.size.positive?
+      model.update(**form.values) if form.valid? && (name = form.name) && name.size.positive?
     end
 
-    class Template
-      getter uri_path : String
-      getter current_name : Orma::Attribute(String)?
-
-      def initialize(@uri_path, @current_name); end
-
+    view do
       css_class Hidden
-      css_class Wrapper
+      css_class Container
       css_class TopRow
 
       stimulus_controller ActionController do
@@ -83,18 +74,18 @@ class List < Orma::Record
         end
       end
 
-      ToHtml.instance_template do
-        div Wrapper, FormController, Hidden do
+      template do
+        div Container, FormController, Hidden do
           div TopRow do
             div FormController.hide_action("click") do
               Crumble::Material::Icon.new("close")
             end
           end
-          form action: uri_path, method: "POST" do
+          form action: action.uri_path, method: "POST" do
             label do
               "Name der Liste:"
             end
-            input type: :text, name: NAME_FIELD, value: current_name
+            input type: :text, name: "name", value: action.model.name
             button FormController.hide_action("click") do
               "Aktualisieren"
             end
@@ -102,17 +93,17 @@ class List < Orma::Record
         end
       end
 
-      add_style do
-        rule Wrapper do
+      style do
+        rule Container do
           padding 16.px
         end
 
-        rule Wrapper >> label do
+        rule Container >> label do
           display Block
           marginBottom 8.px
         end
 
-        rule Wrapper >> input do
+        rule Container >> input do
           width 100.percent
           marginBottom 8.px
         end
@@ -139,23 +130,19 @@ class List < Orma::Record
         [action_controller, action_controller.show_action("click"), form_controller_outlet]
       end
     end
-
-    def self.action_template(model)
-      Template.new(self.uri_path(model.id), model.name)
-    end
   end
 
   model_template :header_view do
-    Lists::HeaderView.new(model)
+    Lists::HeaderView.new(ctx: ctx, list: model)
   end
 
   model_template :card_view do
-    Lists::CardView.new(@model)
+    Lists::CardView.new(model)
   end
 
   model_template :items_view do
     ul Classes::ListItems, ListItemSearchController.itemList_target do
-      reorder_list_items_action_template.to_html
+      reorder_list_items_action_template(ctx).to_html
     end
   end
 end

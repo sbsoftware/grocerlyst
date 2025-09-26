@@ -6,7 +6,25 @@ class ListItem < Orma::Record
   column sort_order : Int32 = 0
   column created_at : Time?
 
-  boolean_flip_action :switch, :active, :default_view
+  boolean_flip_action :switch, :active, :default_view do
+    view do
+      template do
+        li model.active do
+          custom_action_trigger.to_html do
+            Crumble::Material::ListItem.to_html do
+              div Classes::ListItem do
+                span Classes::ItemName do
+                  model.name
+                end
+
+                model.remove_action_template(ctx).to_html
+              end
+            end
+          end
+        end
+      end
+    end
+  end
 
   delete_record_action :remove, list.items_view do
     before do |ctx, model|
@@ -15,28 +33,18 @@ class ListItem < Orma::Record
       403
     end
 
-    def self.confirm_prompt(model)
-      "#{model.name} wirklich löschen?"
+    view do
+      template do
+        custom_action_trigger(confirm_prompt: "#{model.name} wirklich löschen?").to_html do
+          Crumble::Material::Icon.new("delete")
+        end
+      end
     end
   end
 
   model_template :default_view do
     div Classes::ItemSearchable, ListItemSearchController.disable_search_mode_action("click") do
-      switch_action_template.to_html do
-        li active do
-          Crumble::Material::ListItem.to_html do
-            div Classes::ListItem do
-              span Classes::ItemName do
-                name
-              end
-
-              remove_action_template.to_html do
-                Crumble::Material::Icon.new("delete")
-              end
-            end
-          end
-        end
-      end
+      switch_action_template(ctx).to_html
     end
   end
 

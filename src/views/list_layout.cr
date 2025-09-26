@@ -25,7 +25,7 @@ class ListLayout < ApplicationLayout
   end
 
   def headline
-    list.try(&.header_view)
+    list.try(&.header_view.renderer(ctx))
   end
 
   def contextual_actions

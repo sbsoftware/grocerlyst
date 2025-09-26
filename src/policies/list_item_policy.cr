@@ -1,5 +1,5 @@
 class ListItemPolicy
-  getter ctx : Crumble::Server::RequestContext
+  getter ctx : Crumble::Server::HandlerContext
 
   def initialize(@ctx); end
 

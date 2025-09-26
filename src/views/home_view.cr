@@ -53,7 +53,7 @@ class HomeView
     ul Lists do
       ctx.list_policy.accessible_lists.each do |list|
         li do
-          list.card_view
+          list.card_view.renderer(ctx)
         end
       end
       li NewListCard do

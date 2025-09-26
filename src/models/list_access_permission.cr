@@ -12,12 +12,10 @@ class ListAccessPermission < Orma::Record
   end
 
   model_template :set_name_form do
-    set_name_action_template.to_html unless name
+    set_name_action_template(ctx).to_html unless name
   end
 
   model_action :set_name, set_name_form do
-    NAME_FIELD = "name"
-
     before do
       unless model.session_id == ctx.session.id.to_s
         return 403
@@ -26,39 +24,32 @@ class ListAccessPermission < Orma::Record
       true
     end
 
+    form do
+      field name : String
+    end
+
     controller do
       unless body = ctx.request.body
         ctx.response.status = :bad_request
         return
       end
 
-      new_name = nil
-      HTTP::Params.parse(body.gets_to_end) do |key, value|
-        case key
-        when NAME_FIELD
-          new_name = value
-        end
-      end
+      form = Form.from_www_form(body.gets_to_end)
 
-      model.update(name: new_name) if new_name && new_name.size.positive?
+      model.update(**form.values) if form.valid? && (new_name = form.name) && new_name.size.positive?
     end
 
-    class Template
-      getter uri_path : String
-
-      def initialize(@uri_path); end
-
-      css_class Wrapper
+    view do
+      css_class Container
       css_class Caption
       css_class Button
 
-      ToHtml.instance_template do
-        div Wrapper do
+      template do
+        div Container do
           span Caption do
             "Sag' den anderen, wie du heißt:"
           end
-          form action: uri_path, method: "POST" do
-            input type: :text, name: NAME_FIELD, required: true
+          action_form.to_html do
             button Button do
               "OK"
             end
@@ -67,7 +58,7 @@ class ListAccessPermission < Orma::Record
       end
 
       style do
-        rule Wrapper do
+        rule Container do
           padding 16.px
           backgroundColor "rgba(255, 230, 180, 0.5)"
           prop("line-height", 1.8)
@@ -77,7 +68,7 @@ class ListAccessPermission < Orma::Record
           marginRight 5.px
         end
 
-        rule Wrapper > form do
+        rule Container > form do
           display InlineBlock
         end
 
@@ -88,10 +79,6 @@ class ListAccessPermission < Orma::Record
           border 1.px, Solid, Black
         end
       end
-    end
-
-    def self.action_template(model)
-      Template.new(self.uri_path(model.id))
     end
   end
 end

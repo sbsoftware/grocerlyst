@@ -10,13 +10,13 @@ class ListView
   end
 
   ToHtml.instance_template do
-    list_access_permission.set_name_form if list.list_access_permissions.count > 1
-    list.set_name_action_template
+    list_access_permission.set_name_form.renderer(ctx) if list.list_access_permissions.count > 1
+    list.set_name_action_template(ctx)
     div ListItemSearchController.addDisplayContainer_target, Classes::AddItemDisplayHidden, ListItem.active(false) do
       Crumble::Material::ListItem.to_html do
         li Classes::ListItem do
           div Classes::AddItemForm do
-            list.add_item_action_template.to_html
+            list.add_item_action_template(ctx).to_html
             span ListItemSearchController.add_action("click") do
               Crumble::Material::Icon.new("add_circle")
             end
@@ -27,6 +27,6 @@ class ListView
         end
       end
     end
-    list.items_view
+    list.items_view.renderer(ctx)
   end
 end
