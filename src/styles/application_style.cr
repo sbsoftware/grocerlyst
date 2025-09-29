@@ -24,12 +24,13 @@ class ApplicationStyle < CSS::Stylesheet
       width 100.percent
     end
 
-    rule Classes::AddItemForm >> form do
+    rule Classes::AddItemForm > div do
       flexGrow 2
     end
 
     rule Classes::AddItemForm >> "input[type=\"text\"]" do
       border 0.px, Solid, White
+      backgroundColor White
       prop("outline", "none")
       fontFamily "inherit"
       fontSize "inherit"
