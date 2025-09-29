@@ -28,7 +28,7 @@ class HomeView
     end
 
     rule NewListCard >> form do
-      height 100.percent
+      height 68.px
     end
 
     rule NewListCard >> button do
