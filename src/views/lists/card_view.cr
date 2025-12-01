@@ -7,8 +7,8 @@ class Lists::CardView
 
   style do
     rule Attribute do
-      display InlineBlock
-      marginRight 8.px
+      display :inline_block
+      margin_right 8.px
     end
   end
 

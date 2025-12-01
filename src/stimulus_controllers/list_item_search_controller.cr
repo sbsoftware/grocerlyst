@@ -27,8 +27,8 @@ class ListItemSearchController < Stimulus::Controller
       this.itemListTarget.classList.remove(Classes::ItemListSearchActive.to_js_ref)
     else
       this.itemListTarget.classList.add(Classes::ItemListSearchActive.to_js_ref)
-      Array.from(this.itemListTarget.querySelectorAll(Classes::ItemSearchable.selector.to_s.to_js_ref)).forEach do |item|
-        name = item.querySelector(Classes::ItemName.selector.to_s.to_js_ref)
+      Array.from(this.itemListTarget.querySelectorAll(Classes::ItemSearchable.to_css_selector.to_s.to_js_ref)).forEach do |item|
+        name = item.querySelector(Classes::ItemName.to_css_selector.to_s.to_js_ref)
         if name.textContent.trim._call.toLowerCase._call.includes(search.trim._call.toLowerCase._call)
           item.classList.add(Classes::ItemSearchMatch.to_js_ref)
         else

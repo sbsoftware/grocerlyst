@@ -96,25 +96,25 @@ class List < Orma::Record
       style do
         rule Container do
           padding 16.px
-        end
 
-        rule Container >> label do
-          display Block
-          marginBottom 8.px
-        end
+          rule label do
+            display :block
+            margin_bottom 8.px
+          end
 
-        rule Container >> input do
-          width 100.percent
-          marginBottom 8.px
+          rule input do
+            width 100.percent
+            margin_bottom 8.px
+          end
         end
 
         rule TopRow do
-          display Flex
-          flexDirection RowReverse
+          display :flex
+          flex_direction :row_reverse
         end
 
         rule Hidden do
-          display None
+          display :none
         end
       end
 

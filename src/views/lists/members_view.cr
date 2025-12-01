@@ -47,8 +47,8 @@ module Lists
 
     style do
       rule Member do
-        display Flex
-        prop("gap", 8.px)
+        display :flex
+        gap 8.px
       end
     end
   end

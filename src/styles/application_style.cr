@@ -1,85 +1,89 @@
 class ApplicationStyle < CSS::Stylesheet
-  rules do
-    rule a do
-      color Black
-    end
+  rule a do
+    color :black
+  end
 
-    rule "[data-action]" do
-      prop("cursor", "pointer")
-      prop("-webkit-tap-highlight-color", "transparent")
-    end
+  rule "[data-action]" do
+    cursor :pointer
+    _webkit_tap_highlight_color :transparent
+  end
 
-    rule input, button do
-      fontFamily "Roboto"
-    end
+  rule input, button do
+    font_family "Roboto"
+  end
 
-    rule Classes::TextView do
-      prop("margin-left", 16.px)
-      prop("margin-right", 16.px)
-    end
+  rule Classes::TextView do
+    margin_left 16.px
+    margin_right 16.px
+  end
 
-    rule Classes::AddItemForm do
-      display Flex
-      justifyContent SpaceBetween
-      width 100.percent
-    end
+  rule Classes::AddItemForm do
+    display :flex
+    justify_content :space_between
+    width 100.percent
 
-    rule Classes::AddItemForm > div do
-      flexGrow 2
-    end
-
-    rule Classes::AddItemForm >> "input[type=\"text\"]" do
-      border 0.px, Solid, White
-      backgroundColor White
-      prop("outline", "none")
-      fontFamily "inherit"
-      fontSize "inherit"
+    rule "input[type=\"text\"]" do
+      border 0.px
+      border_style :solid
+      border_color :white
+      background_color :white
+      outline :none
+      font_family :inherit
+      font_size :inherit
       padding 0
       margin 0
     end
 
-    rule Classes::AddItemForm >> "input[type=\"submit\"]" do
-      display None
+    rule "input[type=\"submit\"]" do
+      display :none
     end
 
-    rule Classes::AddItemForm >> Crumble::Material::Icon::IconClass do
-      color Black
+    rule Crumble::Material::Icon::IconClass do
+      color :black
     end
+  end
 
-    rule Classes::AddItemDisplayHidden do
-      display None
-    end
+  rule Classes::AddItemForm > div do
+    flex_grow 2
+  end
 
-    rule Classes::ListItems do
-      listStyle None
-      margin 0
-      padding 0
-    end
+  rule Classes::AddItemDisplayHidden do
+    display :none
+  end
 
-    rule Classes::ListItem do
-      display Flex
-      justifyContent SpaceBetween
-      alignItems Center
-    end
+  rule Classes::ListItems do
+    list_style :none
+    margin 0
+    padding 0
+  end
 
-    rule ListItem.active(false) do
-      color Silver
-    end
+  rule Classes::ListItem do
+    display :flex
+    justify_content :space_between
+    align_items :center
+  end
 
+  rule ListItem.active(false) do
+    color :silver
+  end
+
+  rule Classes::ItemSearchable do
+    width 100.percent
+  end
+
+  rule Classes::ItemListSearchActive do
     rule Classes::ItemSearchable do
-      width 100.percent
+      display :none
     end
 
-    rule Classes::ItemListSearchActive >> Classes::ItemSearchable do
-      display None
+    rule Classes::ItemSearchMatch do
+      display :block
     end
+  end
 
-    rule Classes::ItemListSearchActive >> Classes::ItemSearchMatch do
-      display Block
-    end
-
-    rule Classes::HideCheckedItems >> ListItem.active(false) do
-      display None
+  rule Classes::HideCheckedItems do
+    rule ListItem.active(false) do
+      display :none
     end
   end
 end

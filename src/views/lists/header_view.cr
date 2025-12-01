@@ -11,10 +11,10 @@ class Lists::HeaderView
     end
   end
 
-  add_style do
+  style do
     rule ListHeader do
-      prop("overflow", "hidden")
-      prop("text-overflow", "ellipsis")
+      overflow :hidden
+      text_overflow :ellipsis
     end
   end
 end

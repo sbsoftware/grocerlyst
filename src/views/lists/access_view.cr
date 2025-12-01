@@ -23,11 +23,11 @@ module Lists
       end
     end
 
-    add_style do
+    style do
       rule Container do
-        display Flex
-        flexDirection Column
-        alignItems Center
+        display :flex
+        flex_direction :column
+        align_items :center
         padding 16.px
       end
     end

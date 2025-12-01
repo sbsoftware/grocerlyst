@@ -60,23 +60,24 @@ class ListAccessPermission < Orma::Record
       style do
         rule Container do
           padding 16.px
-          backgroundColor "rgba(255, 230, 180, 0.5)"
-          prop("line-height", 1.8)
+          background_color "rgba(255, 230, 180, 0.5)"
+          line_height 1.8
         end
 
         rule Caption do
-          marginRight 5.px
+          margin_right 5.px
         end
 
         rule Container > form do
-          display InlineBlock
+          display :inline_block
         end
 
         rule Button do
-          fontFamily "Roboto"
+          font_family "Roboto"
           padding 3.px
-          marginLeft 5.px
-          border 1.px, Solid, Black
+          margin_left 5.px
+          border 1.px, :solid
+          border_color :black
         end
       end
     end

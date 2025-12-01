@@ -1,7 +1,7 @@
 class CSS::AttrSelector
   def to_s(io : IO)
     io << "["
-    io << @name
+    io << @attr_name
     io << "~='"
     io << @value
     io << "']"

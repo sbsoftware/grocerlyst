@@ -8,44 +8,46 @@ class HomeView
 
   style do
     rule Lists do
-      listStyle None
+      list_style :none
       padding 0
       margin 0
-      display Flex
-      flexWrap Wrap
+      display :flex
+      flex_wrap :wrap
     end
 
     rule Lists > li do
-      marginLeft 16.px
-      marginRight 16.px
-      marginBottom 16.px
+      margin_left 16.px
+      margin_right 16.px
+      margin_bottom 16.px
     end
 
     media "max-width: 815px" do
       rule Lists do
-        justifyContent SpaceEvenly
+        justify_content :space_evenly
       end
     end
 
-    rule NewListCard >> form do
-      height 68.px
-    end
+    rule NewListCard do
+      rule form do
+        height 68.px
+      end
 
-    rule NewListCard >> button do
-      prop("border", "0")
-      prop("background-color", "transparent")
-      width 100.percent
-      height 100.percent
-      display Flex
-      justifyContent Center
-      alignItems Center
-      fontFamily "Roboto, sans serif"
-      fontSize 16.px
-      prop("cursor", "pointer")
+      rule button do
+        border :none
+        background_color :transparent
+        width 100.percent
+        height 100.percent
+        display :flex
+        justify_content :center
+        align_items :center
+        font_family "Roboto, sans serif"
+        font_size 16.px
+        cursor :pointer
+      end
     end
 
     rule ButtonText do
-      marginLeft 2.px
+      margin_left 2.px
     end
   end
 
