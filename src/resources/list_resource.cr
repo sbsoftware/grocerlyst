@@ -12,8 +12,7 @@ class ListResource < ApplicationResource
   def create
     new_list = List.create(
       name: "Liste vom #{Time.local.to_s("%F")}",
-      session_id: ctx.session.id.to_s,
-      access_token: Random.new.hex
+      session_id: ctx.session.id.to_s
     )
 
     ListAccessPermission.create(list_id: new_list.id, session_id: ctx.session.id.to_s)

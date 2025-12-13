@@ -1,15 +1,50 @@
 require "./list_item"
 require "./list_access_permission"
+require "../resources/application_resource"
 require "../views/lists/*"
 
 class List < Orma::Record
   id_column id : Int64?
   column name : String?
   column session_id : String?
-  column access_token : String?
   column created_at : Time?
 
   has_many_of ListAccessPermission
+
+  accessible ListAccessPermission, ListResource, items_view do
+    access_view do
+      css_class Container
+
+      template do
+        div Container do
+          h1 do
+            "Du wurdest eingeladen, an der Liste \"#{model.name}\" teilzunehmen!"
+          end
+
+          model.accept_access_action_template(ctx).to_html
+        end
+      end
+
+      style do
+        rule Container do
+          display :flex
+          flex_direction :column
+          align_items :center
+          padding 16.px
+        end
+      end
+    end
+
+    accept_access_view do
+      template do
+        button do
+          "Teilnehmen"
+        end
+      end
+    end
+
+    access_model_attributes session_id: ctx.session.id.to_s
+  end
 
   def list_items
     ListItem.where({"list_id" => id}).order_by_sort_order!
