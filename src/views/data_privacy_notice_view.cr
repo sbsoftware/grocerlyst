@@ -11,7 +11,7 @@ class DataPrivacyNoticeView
       end
 
       h3 { "Datenerfassung auf dieser Website" }
-      h4 { "Wer ist verantwortlich für die Datenerfassung auf dieser Website?"}
+      h4 { "Wer ist verantwortlich für die Datenerfassung auf dieser Website?" }
       p do
         "Die Datenverarbeitung auf dieser Website erfolgt durch den Websitebetreiber. Dessen Kontaktdaten können Sie dem Abschnitt „Hinweis zur Verantwortlichen Stelle“ in dieser Datenschutzerklärung entnehmen."
       end

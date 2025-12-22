@@ -4,7 +4,7 @@ require "../js/service_worker_registration"
 class ApplicationLayout < Crumble::Material::Layout
   class RootLink
     ToHtml.class_template do
-      a href: HomeResource.uri_path do
+      a href: HomePage.uri_path do
         "Grocerlyst"
       end
     end
@@ -16,6 +16,10 @@ class ApplicationLayout < Crumble::Material::Layout
 
   def headline
     "Grocerlyst"
+  end
+
+  def window_title
+    ctx.handler.window_title || "Grocerlyst"
   end
 
   append_to_head ApplicationStyle, HomeView::Style, Lists::CardView::Style, WebManifest

@@ -9,7 +9,7 @@ class ListLayout < ApplicationLayout
 
   class BackLink
     ToHtml.class_template do
-      a HomeResource do
+      a HomePage do
         Crumble::Material::Icon.new("arrow_back")
       end
     end

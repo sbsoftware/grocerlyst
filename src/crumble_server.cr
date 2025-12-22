@@ -4,6 +4,7 @@ require "./models/*"
 require "./stimulus_controllers/*"
 require "./policies/*"
 require "./views/**"
+require "./pages/**"
 require "./resources/**"
 require "./request_context"
 

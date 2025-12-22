@@ -22,7 +22,7 @@ class ListResource < ApplicationResource
 
   def show
     unless list && ctx.list_policy.show?(list)
-      redirect HomeResource.uri_path
+      redirect HomePage.uri_path
       return
     end
 
