@@ -60,7 +60,7 @@ class ListAccessPermission < Orma::Record
       style do
         rule Container do
           padding 16.px
-          background_color "rgba(255, 230, 180, 0.5)"
+          background_color rgb(255, 230, 180, alpha: 0.5)
           line_height 1.8
         end
 
