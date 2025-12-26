@@ -11,7 +11,7 @@ class ListResource < ApplicationResource
 
   def create
     new_list = List.create(
-      name: "Liste vom #{Time.local.to_s("%F")}",
+      name: "List from #{Time.local.to_s("%F")}",
       session_id: ctx.session.id.to_s
     )
 

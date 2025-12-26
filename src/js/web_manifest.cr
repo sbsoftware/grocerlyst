@@ -17,7 +17,7 @@ end
 class WebManifest < JS::Code
   File = WebManifestFile.new(self.to_js)
 
-  Icon = PNGImage.register "grocerlyst.app", "assets/einkaufsliste.png"
+  Icon = PNGImage.register "grocerlyst.app", "assets/grocerlyst.png"
 
   def self.uri_path
     File.uri_path

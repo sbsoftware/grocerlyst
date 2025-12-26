@@ -257,7 +257,7 @@ class HomeView
             end
           end
           div HeroImageWrap do
-            img HeroImage, src: GroceriesImageFile.uri_path, alt: "Lebensmittel"
+            img HeroImage, src: GroceriesImageFile.uri_path, alt: "Groceries"
           end
         end
 

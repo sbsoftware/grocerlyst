@@ -1,7 +1,7 @@
 class LegalNoticeMenuItem
   ToHtml.class_template do
     a href: LegalNoticePage.uri_path do
-      "Impressum"
+      "Legal notice"
     end
   end
 end

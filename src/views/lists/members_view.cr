@@ -23,7 +23,7 @@ module Lists
     ToHtml.instance_template do
       Crumble::Material::TopAppBar.new(
         leading_icon: BackLink.new(list),
-        headline: "Teilnehmer",
+        headline: "Members",
         trailing_icons: [] of Nil,
         type: :center_aligned
       )
@@ -36,7 +36,7 @@ module Lists
                 name
               else
                 i do
-                  "Anonym"
+                  "Anonymous"
                 end
               end
             end

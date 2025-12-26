@@ -18,7 +18,7 @@ class List < Orma::Record
       template do
         div Container do
           h1 do
-            "Du wurdest eingeladen, an der Liste \"#{model.name}\" teilzunehmen!"
+            "You have been invited to join the list \"#{model.name}\"!"
           end
 
           model.accept_access_action_template(ctx).to_html
@@ -38,7 +38,7 @@ class List < Orma::Record
     accept_access_view do
       template do
         button do
-          "Teilnehmen"
+          "Join"
         end
       end
     end
@@ -118,11 +118,11 @@ class List < Orma::Record
           end
           form action: action.uri_path, method: "POST" do
             label do
-              "Name der Liste:"
+              "List name:"
             end
             input type: :text, name: "name", value: action.model.name
             button FormController.hide_action("click") do
-              "Aktualisieren"
+              "Update"
             end
           end
         end

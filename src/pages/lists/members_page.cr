@@ -27,7 +27,7 @@ module Lists
     end
 
     def window_title : String?
-      "Teilnehmer"
+      "Members"
     end
   end
 end

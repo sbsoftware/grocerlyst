@@ -5,6 +5,6 @@ class LegalNoticePage < ApplicationPage
   view LegalNoticeView
 
   def window_title : String?
-    "Impressum"
+    "Legal notice"
   end
 end

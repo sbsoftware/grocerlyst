@@ -6,7 +6,7 @@ class ServiceWorker < JS::Code
   end
 
   def_to_js do
-    cacheName = "einkaufslisteApp"
+    cacheName = "grocerlystApp"
     cachedResources = [] of String
     cachedResources.push(Crumble::Material::RobotoRegular.uri_path.to_js_ref)
     cachedResources.push(Crumble::Material::Icon::Font.uri_path.to_js_ref)

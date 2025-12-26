@@ -5,6 +5,6 @@ class DataPrivacyNoticePage < ApplicationPage
   view DataPrivacyNoticeView
 
   def window_title : String?
-    "Datenschutz"
+    "Privacy policy"
   end
 end

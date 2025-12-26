@@ -35,7 +35,7 @@ class ListItem < Orma::Record
 
     view do
       template do
-        custom_action_trigger(confirm_prompt: "#{model.name} wirklich löschen?").to_html do
+        custom_action_trigger(confirm_prompt: "Really delete #{model.name}?").to_html do
           Crumble::Material::Icon.new("delete")
         end
       end

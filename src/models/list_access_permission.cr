@@ -47,7 +47,7 @@ class ListAccessPermission < Orma::Record
       template do
         div Container do
           span Caption do
-            "Sag' den anderen, wie du heißt:"
+            "Let others know your name:"
           end
           action_form.to_html do
             button Button do
