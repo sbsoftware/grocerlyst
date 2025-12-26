@@ -63,6 +63,15 @@ class LegalNoticeView
         "Quelle: "
         a(href: "https://www.e-recht24.de") { "eRecht24" }
       end
+
+      h2 { "Schriftarten (Font-Lizenzen)" }
+      p do
+        span { "Diese Anwendung nutzt unter anderem folgende Schriftarten:" }
+        br
+        a(href: Crumble::Material::RobotoLicense.uri_path) { "Roboto (LICENSE.txt)" }
+        br
+        a(href: Crumble::Material::Icon::FontLicense.uri_path) { "Material Symbols Outlined (LICENSE.txt)" }
+      end
     end
   end
 end

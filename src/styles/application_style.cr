@@ -15,6 +15,10 @@ class ApplicationStyle < CSS::Stylesheet
   rule Classes::TextView do
     margin_left 16.px
     margin_right 16.px
+
+    rule "a" do
+      text_decoration :underline
+    end
   end
 
   rule Classes::AddItemForm do
