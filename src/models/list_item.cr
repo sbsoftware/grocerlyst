@@ -26,7 +26,7 @@ class ListItem < Orma::Record
     end
   end
 
-  delete_record_action :remove, list.items_view do
+  delete_record_action :remove, {list.items_view, list.card_view} do
     before do |ctx, model|
       return true if ListItemPolicy.new(ctx).delete?(model)
 

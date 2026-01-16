@@ -50,7 +50,7 @@ class List < Orma::Record
     ListItem.where({"list_id" => id}).order_by_sort_order!
   end
 
-  create_child_action :add_item, ListItem, list_id, items_view do
+  create_child_action :add_item, ListItem, list_id, {items_view, card_view} do
     params :name
 
     form do
@@ -73,7 +73,7 @@ class List < Orma::Record
 
   reorder_children_action :reorder_list_items, list_items, default_view, items_view
 
-  model_action :set_name, header_view do
+  model_action :set_name, {header_view, card_view} do
     form do
       field name : String
     end
