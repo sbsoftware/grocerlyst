@@ -10,7 +10,7 @@ dependencies:
     version: ">= 0.5.0"
   crumble-turbo:
     github: sbsoftware/crumble-turbo
-    version: "~> 0.14.0"
+    version: "~> 0.16.0"
   sqlite3:
     github: crystal-lang/crystal-sqlite3
   orma:
