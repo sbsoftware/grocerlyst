@@ -6,7 +6,7 @@ class ListView
   def initialize(@ctx, @list); end
 
   def list_access_permission
-    ListAccessPermission.where({"list_id" => list.id, "session_id" => ctx.session.id.to_s}).first
+    ListAccessPermission.where(list_id: list.id, session_id: ctx.session.id.to_s).first
   end
 
   ToHtml.instance_template do

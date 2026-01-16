@@ -1,14 +1,14 @@
 require "./list"
 
 class ListAccessPermission < Orma::Record
-  id_column id : Int64?
-  column list_id : Int64?
-  column session_id : String?
+  id_column id : Int64
+  column list_id : Int64
+  column session_id : String
   column name : String?
   column created_at : Time?
 
   def list
-    List.where({"id" => list_id}).first
+    List.where(id: list_id).first
   end
 
   model_template :set_name_form do

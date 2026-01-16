@@ -1,7 +1,7 @@
 class ListItem < Orma::Record
-  id_column id : Int64?
+  id_column id : Int64
   column name : String?
-  column list_id : Int64?
+  column list_id : Int64
   column active : Bool = true
   column sort_order : Int32 = 0
   column created_at : Time?

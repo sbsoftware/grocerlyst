@@ -26,9 +26,7 @@ class ListResource < ApplicationResource
       return
     end
 
-    if list_id = list.id
-      ctx.session.update!(last_used_list_id: list_id.value)
-    end
+    ctx.session.update!(last_used_list_id: list.id.value)
 
     render ListView.new(ctx, list)
   end

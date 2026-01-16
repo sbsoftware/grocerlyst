@@ -4,9 +4,9 @@ require "../resources/application_resource"
 require "../views/lists/*"
 
 class List < Orma::Record
-  id_column id : Int64?
+  id_column id : Int64
   column name : String?
-  column session_id : String?
+  column session_id : String
   column created_at : Time?
 
   has_many_of ListAccessPermission
@@ -47,26 +47,33 @@ class List < Orma::Record
   end
 
   def list_items
-    ListItem.where({"list_id" => id}).order_by_sort_order!
+    ListItem.where(list_id: id).order_by_sort_order!
   end
 
   create_child_action :add_item, ListItem, list_id, {items_view, card_view} do
-    params :name
-
     form do
-      input(ListItemSearchController.addInput_target, ListItemSearchController.filter_action("input"), ListItemSearchController.add_action("keydown.enter"), ListItemSearchController.disable_search_mode_action("keydown.esc"), name: "name", type: "text")
-      input(ListItemSearchController.addSubmit_target, name: "Add Child", type: "submit")
+      field name : String
+    end
+
+    view do
+      template do
+        form action: action.uri_path, method: "POST" do
+          input(ListItemSearchController.addInput_target, ListItemSearchController.filter_action("input"), ListItemSearchController.add_action("keydown.enter"), ListItemSearchController.disable_search_mode_action("keydown.esc"), name: "name", type: "text")
+          input(ListItemSearchController.addSubmit_target, name: "Add Child", type: "submit")
+        end
+      end
     end
 
     controller do
-      if body = ctx.request.body
-        new_child = child_instance(body.gets_to_end)
+      return unless body = ctx.request.body
 
-        if existing_item = ListItem.where({"list_id" => model.id, "name" => new_child.name}).first?
-          existing_item.update(active: !existing_item.active.value)
-        else
-          new_child.save
-        end
+      form = Form.from_www_form(body.gets_to_end)
+      return unless form.valid? && (name = form.name) && name.size.positive?
+
+      if existing_item = ListItem.where(list_id: model.id.value, name: name).first?
+        existing_item.update(active: !existing_item.active.value)
+      else
+        ListItem.create(list_id: model.id.value, name: name)
       end
     end
   end

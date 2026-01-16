@@ -12,7 +12,7 @@ class ListPolicy
   end
 
   def accessible_lists
-    ListAccessPermission.where({"session_id" => ctx.session.id.to_s}).to_a.map(&.list)
+    ListAccessPermission.where(session_id: ctx.session.id.to_s).to_a.map(&.list)
   end
 
   private def owns?(list)
