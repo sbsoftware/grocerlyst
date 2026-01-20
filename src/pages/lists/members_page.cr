@@ -4,17 +4,9 @@ require "../../models/list"
 
 module Lists
   class MembersPage < ApplicationPage
-    def self.root_path
-      "/lists"
-    end
-
-    def self.nested_path
-      "/members"
-    end
-
-    def self.uri_path_matcher
-      /^\/lists\/((\d+))\/members(\/)?$/
-    end
+    root_path "/lists"
+    model list : List
+    nested_path "/members"
 
     layout ApplicationLayout do
       def top_app_bar

@@ -4,11 +4,8 @@ require "../models/list"
 require "../resources/list_resource"
 
 class HomePage < ApplicationPage
+  root_path "/"
   view HomeView
-
-  def self.root_path
-    "/"
-  end
 
   def window_title : String?
     "Grocerlyst"

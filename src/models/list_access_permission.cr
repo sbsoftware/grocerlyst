@@ -34,7 +34,7 @@ class ListAccessPermission < Orma::Record
         return
       end
 
-      form = Form.from_www_form(body.gets_to_end)
+      form = Form.from_www_form(ctx, body.gets_to_end)
 
       model.update(**form.values) if form.valid? && (new_name = form.name) && new_name.size.positive?
     end

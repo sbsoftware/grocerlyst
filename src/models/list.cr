@@ -67,7 +67,7 @@ class List < Orma::Record
     controller do
       return unless body = ctx.request.body
 
-      form = Form.from_www_form(body.gets_to_end)
+      form = Form.from_www_form(ctx, body.gets_to_end)
       return unless form.valid? && (name = form.name) && name.size.positive?
 
       if existing_item = ListItem.where(list_id: model.id.value, name: name).first?
@@ -88,7 +88,7 @@ class List < Orma::Record
     controller do
       return unless body = ctx.request.body
 
-      form = Form.from_www_form(body.gets_to_end)
+      form = Form.from_www_form(ctx, body.gets_to_end)
 
       model.update(**form.values) if form.valid? && (name = form.name) && name.size.positive?
     end

@@ -1,6 +1,7 @@
 require "crumble"
 require "sqlite3"
 require "orma"
+require "crumble-orma"
 require "crumble-stimulus"
 require "crumble-turbo"
 require "crumble-material"
