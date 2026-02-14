@@ -52,7 +52,7 @@ class List < Orma::Record
 
   create_child_action :add_item, ListItem, list_id, {items_view, card_view} do
     form do
-      field name : String
+      field name : String, allow_blank: false
     end
 
     view do
@@ -65,10 +65,7 @@ class List < Orma::Record
     end
 
     controller do
-      return unless body = ctx.request.body
-
-      form = Form.from_www_form(ctx, body.gets_to_end)
-      return unless form.valid? && (name = form.name) && name.size.positive?
+      return unless form.valid? && (name = form.name)
 
       if existing_item = ListItem.where(list_id: model.id.value, name: name).first?
         existing_item.update(active: !existing_item.active.value)
@@ -82,15 +79,11 @@ class List < Orma::Record
 
   model_action :set_name, {header_view, card_view} do
     form do
-      field name : String
+      field name : String, allow_blank: false
     end
 
     controller do
-      return unless body = ctx.request.body
-
-      form = Form.from_www_form(ctx, body.gets_to_end)
-
-      model.update(**form.values) if form.valid? && (name = form.name) && name.size.positive?
+      model.update(**form.values) if form.valid?
     end
 
     view do
