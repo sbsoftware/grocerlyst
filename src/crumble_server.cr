@@ -1,5 +1,7 @@
 require "./session"
 require "./styles/*"
+require "./views/application_layout"
+require "./pages/application_page"
 require "./models/*"
 require "./stimulus_controllers/*"
 require "./policies/*"
