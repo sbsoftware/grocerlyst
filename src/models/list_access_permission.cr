@@ -12,10 +12,59 @@ class ListAccessPermission < Orma::Record
   end
 
   model_template :set_name_form do
-    set_name_action_template(ctx).to_html unless name
+    return if name
+
+    div style: "padding:16px; background-color:rgba(255,230,180,0.5); line-height:1.8;" do
+      span style: "margin-right:5px;" do
+        "Let others know your name:"
+      end
+      set_name_action_template(ctx).to_html
+    end
   end
 
-  model_action :set_name, set_name_form do
+  model_template :members_row do
+    stimulus_controller NameEditorController do
+      targets :form
+
+      action :show do
+        this.formTarget.hidden = false
+      end
+    end
+
+    div NameEditorController do
+      Crumble::Material::ListItem.to_html do
+        div style: "display:flex; gap:8px; align-items:center;" do
+          Crumble::Material::Icon.new("account_circle")
+
+          if session_id == ctx.session.id.to_s
+            button NameEditorController.show_action("click"), type: "button", style: "border:0; background:none; padding:0; font:inherit; text-align:left; cursor:pointer;" do
+              if current_name = name
+                current_name
+              else
+                i do
+                  "Anonymous"
+                end
+              end
+            end
+          elsif current_name = name
+            current_name
+          else
+            i do
+              "Anonymous"
+            end
+          end
+        end
+      end
+
+      if session_id == ctx.session.id.to_s
+        div NameEditorController.form_target, hidden: true, style: "padding:0 16px 12px 48px;" do
+          set_name_action_template(ctx).to_html
+        end
+      end
+    end
+  end
+
+  model_action :set_name, {set_name_form, list.members_view} do
     before do
       unless model.session_id == ctx.session.id.to_s
         return 403
@@ -25,59 +74,20 @@ class ListAccessPermission < Orma::Record
     end
 
     form do
-      field name : String
+      field name : String, allow_blank: false
     end
 
     controller do
-      unless body = ctx.request.body
-        ctx.response.status = :bad_request
-        return
-      end
-
-      form = Form.from_www_form(ctx, body.gets_to_end)
-
-      model.update(**form.values) if form.valid? && (new_name = form.name) && new_name.size.positive?
+      model.update(**form.values) if form.valid?
     end
 
     view do
-      css_class Container
-      css_class Caption
-      css_class Button
-
       template do
-        div Container do
-          span Caption do
-            "Let others know your name:"
+        form action: action.uri_path, method: "POST", style: "display:flex; gap:8px; align-items:center;" do
+          input type: :text, name: "name", value: action.model.name
+          button type: "submit" do
+            "Save"
           end
-          action_form.to_html do
-            button Button do
-              "OK"
-            end
-          end
-        end
-      end
-
-      style do
-        rule Container do
-          padding 16.px
-          background_color rgb(255, 230, 180, alpha: 0.5)
-          line_height 1.8
-        end
-
-        rule Caption do
-          margin_right 5.px
-        end
-
-        rule Container > form do
-          display :inline_block
-        end
-
-        rule Button do
-          font_family "Roboto"
-          padding 3.px
-          margin_left 5.px
-          border 1.px, :solid
-          border_color :black
         end
       end
     end

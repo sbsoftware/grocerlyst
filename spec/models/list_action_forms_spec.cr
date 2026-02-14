@@ -25,3 +25,19 @@ describe List::SetNameAction::Form do
     form.errors.not_nil!.should contain("name")
   end
 end
+
+describe ListAccessPermission::SetNameAction::Form do
+  it "rejects blank names" do
+    form = ListAccessPermission::SetNameAction::Form.from_www_form(build_handler_context, "name=")
+
+    form.valid?.should be_false
+    form.errors.should_not be_nil
+    form.errors.not_nil!.should contain("name")
+  end
+
+  it "accepts non-empty names" do
+    form = ListAccessPermission::SetNameAction::Form.from_www_form(build_handler_context, "name=Alex")
+
+    form.valid?.should be_true
+  end
+end
