@@ -12,51 +12,24 @@ class ListAccessPermission < Orma::Record
   end
 
   model_template :set_name_form do
-    css_class IntroContainer
-    css_class IntroCaption
-
     return if name
 
-    div IntroContainer do
-      span IntroCaption do
+    div class: "set-name-intro-container" do
+      span class: "set-name-intro-caption" do
         "Let others know your name:"
       end
       set_name_action_template(ctx).to_html
     end
-
-    style do
-      rule IntroContainer do
-        padding 16.px
-        background_color rgb(255, 230, 180, alpha: 0.5)
-        line_height 1.8
-      end
-
-      rule IntroCaption do
-        margin_right 5.px
-      end
-    end
   end
 
   model_template :members_row do
-    css_class MemberRow
-    css_class OwnNameButton
-    css_class EditFormContainer
-
-    stimulus_controller NameEditorController do
-      targets :form
-
-      action :show do
-        this.formTarget.hidden = false
-      end
-    end
-
-    div NameEditorController do
+    div ListMemberNameEditorController do
       Crumble::Material::ListItem.to_html do
-        div MemberRow do
+        div class: "list-member-row" do
           Crumble::Material::Icon.new("account_circle")
 
           if session_id == ctx.session.id.to_s
-            button OwnNameButton, NameEditorController.show_action("click"), type: "button" do
+            button ListMemberNameEditorController.show_action("click"), type: "button", class: "own-list-member-name" do
               if current_name = name
                 current_name
               else
@@ -76,33 +49,9 @@ class ListAccessPermission < Orma::Record
       end
 
       if session_id == ctx.session.id.to_s
-        div EditFormContainer, NameEditorController.form_target, hidden: true do
+        div ListMemberNameEditorController.form_target, class: "list-member-edit-form-container", hidden: true do
           set_name_action_template(ctx).to_html
         end
-      end
-    end
-
-    style do
-      rule MemberRow do
-        display :flex
-        gap 8.px
-        align_items :center
-      end
-
-      rule OwnNameButton do
-        border 0
-        background :none
-        padding 0
-        property("font", "inherit")
-        text_align :left
-        cursor :pointer
-      end
-
-      rule EditFormContainer do
-        padding_top 0.px
-        padding_right 16.px
-        padding_bottom 12.px
-        padding_left 48.px
       end
     end
   end
@@ -137,6 +86,38 @@ class ListAccessPermission < Orma::Record
       end
 
       style do
+        rule ".set-name-intro-container" do
+          padding 16.px
+          background_color rgb(255, 230, 180, alpha: 0.5)
+          line_height 1.8
+        end
+
+        rule ".set-name-intro-caption" do
+          margin_right 5.px
+        end
+
+        rule ".list-member-row" do
+          display :flex
+          gap 8.px
+          align_items :center
+        end
+
+        rule ".own-list-member-name" do
+          border 0
+          background_color :transparent
+          padding 0
+          property("font", "inherit")
+          text_align :left
+          cursor :pointer
+        end
+
+        rule ".list-member-edit-form-container" do
+          padding_top 0.px
+          padding_right 16.px
+          padding_bottom 12.px
+          padding_left 48.px
+        end
+
         rule Form do
           display :flex
           gap 8.px
