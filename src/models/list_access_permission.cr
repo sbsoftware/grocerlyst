@@ -12,17 +12,36 @@ class ListAccessPermission < Orma::Record
   end
 
   model_template :set_name_form do
+    css_class IntroContainer
+    css_class IntroCaption
+
     return if name
 
-    div style: "padding:16px; background-color:rgba(255,230,180,0.5); line-height:1.8;" do
-      span style: "margin-right:5px;" do
+    div IntroContainer do
+      span IntroCaption do
         "Let others know your name:"
       end
       set_name_action_template(ctx).to_html
     end
+
+    style do
+      rule IntroContainer do
+        padding 16.px
+        background_color rgb(255, 230, 180, alpha: 0.5)
+        line_height 1.8
+      end
+
+      rule IntroCaption do
+        margin_right 5.px
+      end
+    end
   end
 
   model_template :members_row do
+    css_class MemberRow
+    css_class OwnNameButton
+    css_class EditFormContainer
+
     stimulus_controller NameEditorController do
       targets :form
 
@@ -33,11 +52,11 @@ class ListAccessPermission < Orma::Record
 
     div NameEditorController do
       Crumble::Material::ListItem.to_html do
-        div style: "display:flex; gap:8px; align-items:center;" do
+        div MemberRow do
           Crumble::Material::Icon.new("account_circle")
 
           if session_id == ctx.session.id.to_s
-            button NameEditorController.show_action("click"), type: "button", style: "border:0; background:none; padding:0; font:inherit; text-align:left; cursor:pointer;" do
+            button OwnNameButton, NameEditorController.show_action("click"), type: "button" do
               if current_name = name
                 current_name
               else
@@ -57,9 +76,33 @@ class ListAccessPermission < Orma::Record
       end
 
       if session_id == ctx.session.id.to_s
-        div NameEditorController.form_target, hidden: true, style: "padding:0 16px 12px 48px;" do
+        div EditFormContainer, NameEditorController.form_target, hidden: true do
           set_name_action_template(ctx).to_html
         end
+      end
+    end
+
+    style do
+      rule MemberRow do
+        display :flex
+        gap 8.px
+        align_items :center
+      end
+
+      rule OwnNameButton do
+        border 0
+        background :none
+        padding 0
+        property("font", "inherit")
+        text_align :left
+        cursor :pointer
+      end
+
+      rule EditFormContainer do
+        padding_top 0.px
+        padding_right 16.px
+        padding_bottom 12.px
+        padding_left 48.px
       end
     end
   end
@@ -82,12 +125,22 @@ class ListAccessPermission < Orma::Record
     end
 
     view do
+      css_class Form
+
       template do
-        form action: action.uri_path, method: "POST", style: "display:flex; gap:8px; align-items:center;" do
+        form Form, action: action.uri_path, method: "POST" do
           input type: :text, name: "name", value: action.model.name
           button type: "submit" do
             "Save"
           end
+        end
+      end
+
+      style do
+        rule Form do
+          display :flex
+          gap 8.px
+          align_items :center
         end
       end
     end
