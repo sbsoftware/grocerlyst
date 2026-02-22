@@ -8,6 +8,9 @@ require "crumble-stimulus"
 require "crumble-turbo"
 require "crumble-material"
 
+SPEC_DB_CONNECTION_STRING = "sqlite3:///tmp/ekl_spec.db"
+ENV["DATABASE_URL"] = SPEC_DB_CONNECTION_STRING
+
 require "../src/session"
 require "../src/styles/*"
 require "../src/views/application_layout"

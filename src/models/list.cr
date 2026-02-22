@@ -180,4 +180,10 @@ class List < Orma::Record
       reorder_list_items_action_template(ctx).to_html
     end
   end
+
+  model_template :members_view do
+    list_access_permissions.each do |list_access_permission|
+      list_access_permission.members_row.renderer(ctx)
+    end
+  end
 end

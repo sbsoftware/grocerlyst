@@ -27,8 +27,6 @@ module Lists
         end
       end
 
-      css_class Member
-
       template do
         Crumble::Material::TopAppBar.new(
           leading_icon: BackLink.new(list),
@@ -37,27 +35,7 @@ module Lists
           type: :center_aligned
         )
         div do
-          list.list_access_permissions.each do |list_access_permission|
-            Crumble::Material::ListItem.to_html do
-              div Member do
-                Crumble::Material::Icon.new("account_circle")
-                if name = list_access_permission.name
-                  name
-                else
-                  i do
-                    "Anonymous"
-                  end
-                end
-              end
-            end
-          end
-        end
-      end
-
-      style do
-        rule Member do
-          display :flex
-          gap 8.px
+          list.members_view.renderer(ctx)
         end
       end
     end
