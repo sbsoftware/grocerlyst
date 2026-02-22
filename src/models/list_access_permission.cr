@@ -12,13 +12,13 @@ class ListAccessPermission < Orma::Record
   end
 
   model_template :set_name_form do
-    return if name
-
-    div class: "set-name-intro-container" do
-      span class: "set-name-intro-caption" do
-        "Let others know your name:"
+    unless name
+      div class: "set-name-intro-container" do
+        span class: "set-name-intro-caption" do
+          "Let others know your name:"
+        end
+        set_name_action_template(ctx).to_html
       end
-      set_name_action_template(ctx).to_html
     end
   end
 

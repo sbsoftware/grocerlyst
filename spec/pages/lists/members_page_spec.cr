@@ -1,19 +1,5 @@
 require "../../spec_helper"
 
-LISTS_MEMBERS_PAGE_SPEC_DB_CONNECTION = "sqlite3:///tmp/ekl_members_page_spec.db"
-
-class List
-  def self.db_connection_string
-    LISTS_MEMBERS_PAGE_SPEC_DB_CONNECTION
-  end
-end
-
-class ListAccessPermission
-  def self.db_connection_string
-    LISTS_MEMBERS_PAGE_SPEC_DB_CONNECTION
-  end
-end
-
 describe Lists::MembersPage do
   before_each do
     List.continuous_migration!
