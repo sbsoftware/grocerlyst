@@ -33,6 +33,9 @@ describe ListResource do
     end
 
     response_body.should contain("Resource Spec List")
+    response_body.should contain("id=\"#{Crumble::Material::TopAppBar::TopAppBarId}\"")
+    response_body.should contain("arrow_back")
+    response_body.should contain(Lists::MembersPage.uri_path(list_id: list.id))
   end
 
   it "redirects to home when the user has no access to the list" do

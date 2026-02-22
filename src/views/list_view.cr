@@ -9,7 +9,12 @@ class ListView
     ListAccessPermission.where(list_id: list.id, session_id: ctx.session.id.to_s).first
   end
 
+  private def top_app_bar
+    ListLayout.new(ctx: ctx, list: list).top_app_bar
+  end
+
   ToHtml.instance_template do
+    top_app_bar
     list_access_permission.set_name_form.renderer(ctx) if list.list_access_permissions.count > 1
     list.set_name_action_template(ctx)
     div ListItemSearchController.addDisplayContainer_target, Classes::AddItemDisplayHidden, ListItem.active(false) do
