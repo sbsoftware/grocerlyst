@@ -3,6 +3,7 @@ require "./application_page"
 class DataPrivacyNoticePage < ApplicationPage
   view do
     template do
+      ApplicationTopAppBar.new(ctx: ctx)
       div Classes::TextView do
         h1 { "Datenschutz" }
 

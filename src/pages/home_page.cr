@@ -244,6 +244,7 @@ class HomePage < ApplicationPage
     end
 
     template do
+      ApplicationTopAppBar.new(ctx: ctx)
       div Home do
         div Container do
           div Hero do
