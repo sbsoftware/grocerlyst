@@ -37,6 +37,9 @@ class ListAccessPermission < Orma::Record
                 span class: "own-list-member-name" do
                   current_name
                 end
+                span class: "list-member-you-badge" do
+                  "You"
+                end
               else
                 i do
                   "Anonymous"
@@ -114,7 +117,17 @@ class ListAccessPermission < Orma::Record
         end
 
         rule ".own-list-member-name" do
-          text_decoration :underline
+          font_weight 600
+        end
+
+        rule ".list-member-you-badge" do
+          font_size 12.px
+          line_height 1
+          padding 3.px, 8.px
+          border_radius 999.px
+          background_color "#D9EDFF"
+          color "#1A5A8A"
+          font_weight 600
         end
 
         rule ".list-member-edit-trigger" do
@@ -131,7 +144,7 @@ class ListAccessPermission < Orma::Record
         end
 
         rule ".list-member-edit-form-container" do
-          padding_top 0.px
+          padding_top 8.px
           padding_right 16.px
           padding_bottom 12.px
           padding_left 48.px

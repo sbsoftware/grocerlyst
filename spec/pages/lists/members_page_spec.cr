@@ -29,6 +29,7 @@ describe Lists::MembersPage do
     response_body.should contain("Members")
     response_body.should contain("Alice")
     response_body.should contain("Bob")
+    response_body.should contain("You")
     response_body.should contain("list-member-edit-toggle")
   end
 end
