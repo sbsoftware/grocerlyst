@@ -11,14 +11,15 @@ describe Lists::MembersPage do
 
   it "renders the members page with list members" do
     list = List.create(name: "Members Spec List", session_id: "owner-session")
-    ListAccessPermission.create(list_id: list.id, session_id: "owner-session", name: "Alice")
-    ListAccessPermission.create(list_id: list.id, session_id: "guest-session", name: "Bob")
 
     response_body = String.build do |io|
       request_ctx = Crumble::Server::TestRequestContext.new(
         response_io: io,
         resource: Lists::MembersPage.uri_path(list_id: list.id)
       )
+
+      ListAccessPermission.create(list_id: list.id, session_id: request_ctx.session.id.to_s, name: "Alice")
+      ListAccessPermission.create(list_id: list.id, session_id: "guest-session", name: "Bob")
 
       Lists::MembersPage.handle(request_ctx).should eq(true)
       request_ctx.response.status_code.should eq(200)
@@ -28,5 +29,6 @@ describe Lists::MembersPage do
     response_body.should contain("Members")
     response_body.should contain("Alice")
     response_body.should contain("Bob")
+    response_body.should contain("list-member-edit-toggle")
   end
 end

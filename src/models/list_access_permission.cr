@@ -23,34 +23,45 @@ class ListAccessPermission < Orma::Record
   end
 
   model_template :members_row do
-    div ListMemberNameEditorController do
-      Crumble::Material::ListItem.to_html do
-        div class: "list-member-row" do
-          Crumble::Material::Icon.new("account_circle")
+    if session_id == ctx.session.id.to_s
+      toggle_id = "list-member-edit-toggle-#{id.value}"
 
-          if session_id == ctx.session.id.to_s
-            button ListMemberNameEditorController.show_action("click"), type: "button", class: "own-list-member-name" do
+      div class: "list-member-editor" do
+        input type: "checkbox", id: toggle_id, class: "list-member-edit-toggle"
+        label class: "list-member-edit-trigger", for: toggle_id do
+          Crumble::Material::ListItem.to_html do
+            div class: "list-member-row" do
+              Crumble::Material::Icon.new("account_circle")
+
               if current_name = name
-                current_name
+                span class: "own-list-member-name" do
+                  current_name
+                end
               else
                 i do
                   "Anonymous"
                 end
               end
             end
-          elsif current_name = name
+          end
+        end
+
+        div class: "list-member-edit-form-container" do
+          set_name_action_template(ctx).to_html
+        end
+      end
+    else
+      Crumble::Material::ListItem.to_html do
+        div class: "list-member-row" do
+          Crumble::Material::Icon.new("account_circle")
+
+          if current_name = name
             current_name
           else
             i do
               "Anonymous"
             end
           end
-        end
-      end
-
-      if session_id == ctx.session.id.to_s
-        div ListMemberNameEditorController.form_target, class: "list-member-edit-form-container", hidden: true do
-          set_name_action_template(ctx).to_html
         end
       end
     end
@@ -103,12 +114,20 @@ class ListAccessPermission < Orma::Record
         end
 
         rule ".own-list-member-name" do
-          border 0
-          background_color :transparent
-          padding 0
-          property("font", "inherit")
-          text_align :left
+          text_decoration :underline
+        end
+
+        rule ".list-member-edit-trigger" do
           cursor :pointer
+          display :block
+        end
+
+        rule ".list-member-edit-toggle" do
+          display :none
+        end
+
+        rule ".list-member-edit-form-container" do
+          display :none
         end
 
         rule ".list-member-edit-form-container" do
@@ -116,6 +135,10 @@ class ListAccessPermission < Orma::Record
           padding_right 16.px
           padding_bottom 12.px
           padding_left 48.px
+        end
+
+        rule ".list-member-editor > .list-member-edit-toggle:checked + .list-member-edit-trigger + .list-member-edit-form-container" do
+          display :block
         end
 
         rule Form do
