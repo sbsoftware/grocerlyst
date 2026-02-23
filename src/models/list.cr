@@ -1,6 +1,6 @@
 require "./list_item"
 require "./list_access_permission"
-require "../resources/application_resource"
+require "../pages/list_page"
 require "../views/lists/*"
 
 class List < Orma::Record
@@ -11,7 +11,7 @@ class List < Orma::Record
 
   has_many_of ListAccessPermission
 
-  accessible ListAccessPermission, ListResource, items_view do
+  accessible ListAccessPermission, ListPage, items_view do
     access_view do
       css_class Container
 
