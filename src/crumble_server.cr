@@ -7,6 +7,7 @@ require "./stimulus_controllers/*"
 require "./policies/*"
 require "./views/**"
 require "./pages/**"
+require "./actions/**"
 require "./resources/**"
 require "./request_context"
 

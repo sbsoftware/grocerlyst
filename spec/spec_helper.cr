@@ -45,3 +45,15 @@ def build_handler_context(method = "POST", resource = "/")
   handler = SpecViewHandler.new(method, resource)
   Crumble::Server::HandlerContext.new(handler.request_ctx, handler)
 end
+
+module SpecSupport
+  def self.reset_db!
+    List.db.exec("DELETE FROM list_items")
+    List.db.exec("DELETE FROM list_access_permissions")
+    List.db.exec("DELETE FROM lists")
+  end
+end
+
+List.continuous_migration!
+ListItem.continuous_migration!
+ListAccessPermission.continuous_migration!
