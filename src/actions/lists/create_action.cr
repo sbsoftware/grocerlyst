@@ -16,8 +16,8 @@ module Lists
 
     view do
       template do
-        action_form(hidden: true).to_html do
-          button type: "submit" do
+        custom_action_trigger.to_html do
+          button type: "button" do
             "Create List"
           end
         end
