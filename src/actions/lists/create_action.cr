@@ -11,7 +11,7 @@ module Lists
 
       ListAccessPermission.create(list_id: new_list.id, session_id: ctx.session.id.to_s)
 
-      redirect ListPage.uri_path(new_list.id)
+      redirect ListPage.uri_path(list_id: new_list.id)
     end
 
     view do

@@ -21,7 +21,7 @@ module Lists
         def initialize(@list); end
 
         ToHtml.instance_template do
-          a href: ListPage.uri_path(list.id) do
+          a href: ListPage.uri_path(list_id: list.id) do
             Crumble::Material::Icon.new("arrow_back")
           end
         end

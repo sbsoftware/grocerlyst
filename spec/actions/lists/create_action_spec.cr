@@ -19,6 +19,6 @@ describe Lists::CreateAction do
     ListAccessPermission.where(list_id: list.id, session_id: ctx.session.id.to_s).first.should_not be_nil
 
     ctx.response.status_code.should eq(303)
-    ctx.response.headers["Location"].should eq(ListPage.uri_path(list.id.value))
+    ctx.response.headers["Location"].should eq(ListPage.uri_path(list_id: list.id.value))
   end
 end

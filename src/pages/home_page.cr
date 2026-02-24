@@ -257,7 +257,7 @@ class HomePage < ApplicationPage
                 "Are You A Grocerlyst?"
               end
               div HeroCta do
-                Lists::CreateAction.new(ctx).custom_action_trigger.to_html do
+                ::Lists::CreateAction.new(ctx).custom_action_trigger.to_html do
                   button PrimaryButton, type: "button" do
                     "Get Started"
                   end
@@ -336,7 +336,7 @@ class HomePage < ApplicationPage
               end
               li NewListCard do
                 Crumble::Material::Card.new.to_html do
-                  Lists::CreateAction.new(ctx).custom_action_trigger.to_html do
+                  ::Lists::CreateAction.new(ctx).custom_action_trigger.to_html do
                     button type: "button" do
                       Crumble::Material::Icon.new("add_circle")
                     end
@@ -357,7 +357,7 @@ class HomePage < ApplicationPage
   def call
     if ctx.request.headers["Referer"]?.nil? && (last_list_id = ctx.session.last_used_list_id) && List.find(last_list_id)
       ctx.response.status_code = 303
-      ctx.response.headers["Location"] = ListPage.uri_path(last_list_id)
+      ctx.response.headers["Location"] = ListPage.uri_path(list_id: last_list_id)
       return
     end
 
