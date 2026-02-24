@@ -13,7 +13,7 @@ class Lists::CardView
   end
 
   ToHtml.instance_template do
-    Crumble::Material::Card.new(link_target: ListPage.uri_path(list.id)).to_html do
+    Crumble::Material::Card.new(link_target: ListPage.uri_path(list_id: list.id)).to_html do
       Crumble::Material::Card::Title.new(list.name)
       Crumble::Material::Card::SecondaryText.new.to_html do
         div Attribute do
