@@ -39,6 +39,10 @@ class SpecViewHandler
   def window_title : String?
     nil
   end
+
+  def self.db
+    TEST_DB
+  end
 end
 
 def build_handler_context(method = "POST", resource = "/")
