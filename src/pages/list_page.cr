@@ -8,12 +8,6 @@ class ListPage < ApplicationPage
 
   layout ListLayout
 
-  def page_layout
-    layout = previous_def
-    layout.list = list
-    layout
-  end
-
   # Keep parity with the old resource: non-accessible lists always bounce back home.
   before do
     current_list = list.not_nil!
