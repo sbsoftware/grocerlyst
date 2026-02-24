@@ -6,7 +6,6 @@ require "crumble-orma"
 require "crumble-stimulus"
 require "crumble-turbo"
 require "crumble-material"
-require "file_utils"
 require "../src/session"
 require "../src/styles/*"
 require "../src/models/*"
@@ -19,15 +18,16 @@ require "../src/resources/**"
 require "../src/request_context"
 require "../lib/crumble/spec/test_request_context"
 
-TEST_DB_PATH              = "./tmp/spec.db"
-TEST_DB_CONNECTION_STRING = "sqlite3://#{TEST_DB_PATH}"
-
-FileUtils.mkdir_p("./tmp")
-File.delete(TEST_DB_PATH) if File.exists?(TEST_DB_PATH)
+TEST_DB_CONNECTION_STRING = "sqlite3:%3Amemory%3A?max_pool_size=1"
+TEST_DB                   = DB.open(TEST_DB_CONNECTION_STRING)
 
 class List
   def self.db_connection_string
     TEST_DB_CONNECTION_STRING
+  end
+
+  def self.db
+    TEST_DB
   end
 end
 
@@ -35,11 +35,19 @@ class ListItem
   def self.db_connection_string
     TEST_DB_CONNECTION_STRING
   end
+
+  def self.db
+    TEST_DB
+  end
 end
 
 class ListAccessPermission
   def self.db_connection_string
     TEST_DB_CONNECTION_STRING
+  end
+
+  def self.db
+    TEST_DB
   end
 end
 
