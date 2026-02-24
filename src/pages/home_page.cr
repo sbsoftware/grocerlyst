@@ -256,9 +256,11 @@ class HomePage < ApplicationPage
               p HeroLead do
                 "Are You A Grocerlyst?"
               end
-              form HeroCta, action: Lists::CreateAction.uri_path, method: "POST" do
-                button PrimaryButton, type: "submit" do
-                  "Get Started"
+              div HeroCta do
+                Lists::CreateAction.new(ctx).custom_action_trigger.to_html do
+                  button PrimaryButton, type: "button" do
+                    "Get Started"
+                  end
                 end
               end
             end
@@ -334,8 +336,8 @@ class HomePage < ApplicationPage
               end
               li NewListCard do
                 Crumble::Material::Card.new.to_html do
-                  form action: Lists::CreateAction.uri_path, method: "POST" do
-                    button do
+                  Lists::CreateAction.new(ctx).custom_action_trigger.to_html do
+                    button type: "button" do
                       Crumble::Material::Icon.new("add_circle")
                     end
                   end
