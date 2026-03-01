@@ -40,10 +40,6 @@ class SpecViewHandler
   def window_title : String?
     nil
   end
-
-  def self.db
-    TEST_DB
-  end
 end
 
 def build_handler_context(method = "POST", resource = "/")
@@ -53,8 +49,8 @@ end
 
 module SpecSupport
   def self.reset_db!
-    List.db.exec("DELETE FROM list_items")
-    List.db.exec("DELETE FROM list_access_permissions")
+    ListItem.db.exec("DELETE FROM list_items")
+    ListAccessPermission.db.exec("DELETE FROM list_access_permissions")
     List.db.exec("DELETE FROM lists")
   end
 end
