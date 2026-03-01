@@ -8,8 +8,16 @@ require "crumble-stimulus"
 require "crumble-turbo"
 require "crumble-material"
 
-SPEC_DB_CONNECTION_STRING = "sqlite3:///tmp/ekl_spec.db"
+SPEC_DB_PATH              = "/tmp/ekl_spec_#{Random::Secure.hex(8)}.db"
+SPEC_DB_CONNECTION_STRING = "sqlite3://#{SPEC_DB_PATH}"
 ENV["DATABASE_URL"] = SPEC_DB_CONNECTION_STRING
+
+at_exit do
+  # Keep runs isolated from stale sqlite files with restrictive permissions.
+  File.delete?(SPEC_DB_PATH)
+  File.delete?("#{SPEC_DB_PATH}-shm")
+  File.delete?("#{SPEC_DB_PATH}-wal")
+end
 
 require "../src/session"
 require "../src/styles/*"
