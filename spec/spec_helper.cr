@@ -8,7 +8,7 @@ require "crumble-stimulus"
 require "crumble-turbo"
 require "crumble-material"
 
-SPEC_DB_CONNECTION_STRING = "sqlite3:///tmp/ekl_spec.db"
+SPEC_DB_CONNECTION_STRING = "sqlite3:%3Amemory%3A?max_pool_size=1"
 ENV["DATABASE_URL"] = SPEC_DB_CONNECTION_STRING
 
 require "../src/session"

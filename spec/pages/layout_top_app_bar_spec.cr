@@ -1,6 +1,11 @@
 require "../spec_helper"
 
 describe "pages with explicit top app bar" do
+  before_each do
+    List.continuous_migration!
+    ListAccessPermission.continuous_migration!
+  end
+
   it "renders the top app bar on the home page" do
     response_body = String.build do |io|
       request_ctx = Crumble::Server::TestRequestContext.new(
