@@ -19,3 +19,6 @@ dependencies:
   crumble-orma:
     github: sbsoftware/crumble-orma
     version: ">= 0.3.0"
+  crumble-stimulus:
+    github: sbsoftware/crumble-stimulus
+    version: ">= 0.4.2"
