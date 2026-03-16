@@ -13,6 +13,7 @@ describe ListPage do
 
     ctx.response.status_code.should eq(303)
     ctx.response.headers["Location"].should eq(HomePage.uri_path)
+    ctx.session.last_used_list_id.should be_nil
   end
 
   it "renders an accessible list and stores it as last used" do

@@ -34,16 +34,16 @@ class ListPage < ApplicationPage
     end
   end
 
-  def call
+  before do
     current_list = list.not_nil!
 
     unless ctx.list_policy.show?(current_list)
       ctx.response.status_code = 303
       ctx.response.headers["Location"] = HomePage.uri_path
-      return
+      return 303
     end
 
     ctx.session.update!(last_used_list_id: current_list.id.value)
-    super
+    true
   end
 end
