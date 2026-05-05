@@ -2,5 +2,6 @@ bin/
 lib/
 tmp/
 
+.env
 data.db
 .deploy.yml
