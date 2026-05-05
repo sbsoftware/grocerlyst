@@ -2,23 +2,8 @@ name: einkaufsliste
 version: 18.5.0
 
 dependencies:
-  crumble:
-    github: sbsoftware/crumble
-    version: ">= 0.29.0"
-  crumble-material:
-    github: sbsoftware/crumble-material
-    version: ">= 0.5.0"
-  crumble-turbo:
-    github: sbsoftware/crumble-turbo
-    version: ">= 0.17.0"
+  hot-crumble:
+    github: sbsoftware/hot-crumble
+    version: "~> 0.2.0"
   sqlite3:
     github: crystal-lang/crystal-sqlite3
-  orma:
-    github: sbsoftware/orma
-    version: ">= 0.6.0"
-  crumble-orma:
-    github: sbsoftware/crumble-orma
-    version: ">= 0.3.0"
-  crumble-stimulus:
-    github: sbsoftware/crumble-stimulus
-    version: ">= 0.4.3"

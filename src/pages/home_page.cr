@@ -1,6 +1,7 @@
 require "./application_page"
 require "../models/list"
-require "../resources/list_resource"
+require "./list_page"
+require "../actions/lists/create_action"
 
 class HomePage < ApplicationPage
   root_path "/"
@@ -255,9 +256,11 @@ class HomePage < ApplicationPage
               p HeroLead do
                 "Are You A Grocerlyst?"
               end
-              form HeroCta, action: ListResource.uri_path, method: "POST" do
-                button PrimaryButton, type: "submit" do
-                  "Get Started"
+              div HeroCta do
+                ::Lists::CreateAction.new(ctx).custom_action_trigger.to_html do
+                  button PrimaryButton, type: "button" do
+                    "Get Started"
+                  end
                 end
               end
             end
@@ -333,8 +336,8 @@ class HomePage < ApplicationPage
               end
               li NewListCard do
                 Crumble::Material::Card.new.to_html do
-                  form action: ListResource.uri_path, method: "POST" do
-                    button do
+                  ::Lists::CreateAction.new(ctx).custom_action_trigger.to_html do
+                    button type: "button" do
                       Crumble::Material::Icon.new("add_circle")
                     end
                   end
@@ -354,7 +357,7 @@ class HomePage < ApplicationPage
   def call
     if ctx.request.headers["Referer"]?.nil? && (last_list_id = ctx.session.last_used_list_id) && List.find(last_list_id)
       ctx.response.status_code = 303
-      ctx.response.headers["Location"] = ListResource.uri_path(last_list_id)
+      ctx.response.headers["Location"] = ListPage.uri_path(list_id: last_list_id)
       return
     end
 

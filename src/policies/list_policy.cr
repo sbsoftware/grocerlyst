@@ -3,11 +3,11 @@ class ListPolicy
 
   def initialize(@ctx); end
 
-  def show?(list)
+  def show?(list : List)
     owns?(list) || has_access?(list)
   end
 
-  def share?(list)
+  def share?(list : List)
     owns?(list) || has_access?(list)
   end
 
@@ -15,11 +15,11 @@ class ListPolicy
     ListAccessPermission.where(session_id: ctx.session.id.to_s).to_a.map(&.list)
   end
 
-  private def owns?(list)
+  private def owns?(list : List)
     list.session_id == ctx.session.id.to_s
   end
 
-  private def has_access?(list)
+  private def has_access?(list : List)
     list.list_access_permissions.to_a.any? do |list_access_permission|
       list_access_permission.session_id == ctx.session.id.to_s
     end

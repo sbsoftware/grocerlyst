@@ -15,6 +15,7 @@ require "../src/session"
 require "../src/styles/*"
 require "../src/views/application_layout"
 require "../src/pages/application_page"
+require "../src/resources/application_resource"
 require "../src/models/*"
 require "../src/stimulus_controllers/*"
 require "../src/policies/*"
@@ -45,3 +46,15 @@ def build_handler_context(method = "POST", resource = "/")
   handler = SpecViewHandler.new(method, resource)
   Crumble::Server::HandlerContext.new(handler.request_ctx, handler)
 end
+
+module SpecSupport
+  def self.reset_db!
+    ListItem.db.exec("DELETE FROM list_items")
+    ListAccessPermission.db.exec("DELETE FROM list_access_permissions")
+    List.db.exec("DELETE FROM lists")
+  end
+end
+
+List.continuous_migration!
+ListItem.continuous_migration!
+ListAccessPermission.continuous_migration!
