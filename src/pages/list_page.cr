@@ -12,7 +12,22 @@ class ListPage < ApplicationPage
       ListAccessPermission.where(list_id: list.id, session_id: ctx.session.id.to_s).first
     end
 
+    def top_app_bar
+      Crumble::Material::TopAppBar.new(
+        leading_icon: Crumble::Material::NavigationDrawer::MenuSwitch,
+        headline: list.header_view.renderer(ctx),
+        trailing_icons: [
+          AddModeButton,
+          ItemHider,
+          ShareList.new(ctx: ctx, list: list),
+          ViewListMembersButton.new(list),
+        ],
+        type: :small
+      )
+    end
+
     template do
+      top_app_bar
       list_access_permission.set_name_form.renderer(ctx) if list.list_access_permissions.count > 1
       list.set_name_action_template(ctx)
       div ListItemSearchController.addDisplayContainer_target, Classes::AddItemDisplayHidden, ListItem.active(false) do

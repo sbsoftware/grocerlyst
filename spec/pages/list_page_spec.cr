@@ -28,6 +28,10 @@ describe ListPage do
 
     ctx.response.status_code.should eq(200)
     response_io.to_s.should contain("Weekly Shopping")
+    response_io.to_s.should contain("id=\"#{Crumble::Material::TopAppBar::TopAppBarId}\"")
+    response_io.to_s.should contain("Menu")
+    response_io.to_s.should contain("visibility")
+    response_io.to_s.should contain(ListItemHiderController.switch_target.to_s)
     ctx.session.last_used_list_id.should eq(list.id.value)
   end
 end

@@ -6,7 +6,8 @@ class Lists::HeaderView
   css_class ListHeader
 
   ToHtml.instance_template do
-    div ListHeader, list.set_name_action_template(ctx).action_element_attributes do
+    # This headline is used inside the top app bar, so keep the wrapper inline-safe.
+    span ListHeader, list.set_name_action_template(ctx).action_element_attributes do
       list.name
     end
   end
