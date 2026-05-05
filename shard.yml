@@ -4,6 +4,6 @@ version: 18.5.0
 dependencies:
   hot-crumble:
     github: sbsoftware/hot-crumble
-    tag: v0.2.0
+    version: "~> 0.2.0"
   sqlite3:
     github: crystal-lang/crystal-sqlite3
