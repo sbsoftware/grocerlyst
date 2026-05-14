@@ -11,6 +11,8 @@ require "./actions/**"
 require "./resources/**"
 require "./request_context"
 
+PushNotifications.configure!
+
 if ENV.fetch("ORMA_CONTINUOUS_MIGRATION", "").in?(["1", "true"])
   {% for orm_class in Orma::Record.all_subclasses %}
     {% if !orm_class.abstract? %}

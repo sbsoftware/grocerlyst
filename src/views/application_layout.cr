@@ -1,5 +1,5 @@
 require "../js/web_manifest"
-require "../js/service_worker_registration"
+require "../js/service_worker"
 
 class ApplicationLayout < Crumble::Material::Layout
   class RootLink
@@ -22,11 +22,9 @@ class ApplicationLayout < Crumble::Material::Layout
     ctx.handler.window_title || "Grocerlyst"
   end
 
-  append_to_head ApplicationStyle, Lists::CardView::Style, WebManifest
+  append_to_head ApplicationStyle, Lists::CardView::Style, PushSubscriptionBanner::Style, WebManifest
   append_to_head ListAccessPermission::SetNameAction::Template::Style
   append_to_head Crumble::Material::ListItem::Style
-
-  append_to_head ServiceWorkerRegistration
 
   def drawer_items
     [LegalNoticeMenuItem, DataPrivacyNoticeMenuItem]

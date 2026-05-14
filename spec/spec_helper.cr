@@ -7,11 +7,13 @@ require "crumble-orma"
 require "crumble-stimulus"
 require "crumble-turbo"
 require "crumble-material"
+require "crumble-web-push"
 
 SPEC_DB_CONNECTION_STRING = "sqlite3:%3Amemory%3A?max_pool_size=1"
 ENV["DATABASE_URL"] = SPEC_DB_CONNECTION_STRING
 
 require "../src/session"
+require "../src/push_notifications"
 require "../src/styles/*"
 require "../src/views/application_layout"
 require "../src/pages/application_page"
@@ -49,6 +51,7 @@ end
 
 module SpecSupport
   def self.reset_db!
+    PushNotifications.configure!
     ListItem.db.exec("DELETE FROM list_items")
     ListAccessPermission.db.exec("DELETE FROM list_access_permissions")
     List.db.exec("DELETE FROM lists")
