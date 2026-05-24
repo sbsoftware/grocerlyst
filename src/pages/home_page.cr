@@ -355,7 +355,7 @@ class HomePage < ApplicationPage
   end
 
   def call
-    if ctx.request.headers["Referer"]?.nil? && (last_list_id = ctx.session.last_used_list_id) && ::List.find(last_list_id)
+    if ctx.request.headers["Referer"]?.nil? && (last_list_id = ctx.session.last_used_list_id) && List.find(last_list_id)
       ctx.response.status_code = 303
       ctx.response.headers["Location"] = ListPage.uri_path(list_id: last_list_id)
       return
