@@ -1,6 +1,8 @@
 require "./application_page"
 require "../models/list"
+require "../push_notifications"
 require "../views/list_layout"
+require "../views/push_subscription_banner"
 
 class ListPage < ApplicationPage
   model list : List, HomePage.uri_path
@@ -28,6 +30,7 @@ class ListPage < ApplicationPage
 
     template do
       top_app_bar
+      PushSubscriptionBanner.new(ctx: ctx).to_html unless PushNotifications.subscribed?(ctx.session.id.to_s)
       list_access_permission.set_name_form.renderer(ctx) if list.list_access_permissions.count > 1
       list.set_name_action_template(ctx)
       div ListItemSearchController.addDisplayContainer_target, Classes::AddItemDisplayHidden, ListItem.active(false) do
