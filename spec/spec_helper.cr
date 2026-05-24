@@ -10,6 +10,14 @@ require "crumble-material"
 
 SPEC_DB_CONNECTION_STRING = "sqlite3:%3Amemory%3A?max_pool_size=1"
 ENV["DATABASE_URL"] = SPEC_DB_CONNECTION_STRING
+ENV["LEGAL_NOTICE_NAME"] = "Test Owner"
+ENV["LEGAL_NOTICE_STREET"] = "Test Street 1"
+ENV["LEGAL_NOTICE_CITY"] = "12345 Test City"
+ENV["LEGAL_NOTICE_COUNTRY"] = "Germany"
+ENV["LEGAL_NOTICE_REPRESENTED_BY"] = "Test Owner"
+ENV["LEGAL_NOTICE_PHONE"] = "+49 123 456789"
+ENV["LEGAL_NOTICE_FAX"] = ""
+ENV["LEGAL_NOTICE_EMAIL"] = "test@example.com"
 
 require "../src/session"
 require "../src/styles/*"

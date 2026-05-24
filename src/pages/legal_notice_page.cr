@@ -236,35 +236,35 @@ class LegalNoticePage < ApplicationPage
     end
 
     private def legal_name : String
-      ENV.fetch("LEGAL_NOTICE_NAME", "Stefan Bilharz")
+      ENV.fetch("LEGAL_NOTICE_NAME")
     end
 
     private def legal_street : String
-      ENV.fetch("LEGAL_NOTICE_STREET", "Riederstr. 16")
+      ENV.fetch("LEGAL_NOTICE_STREET")
     end
 
     private def legal_city : String
-      ENV.fetch("LEGAL_NOTICE_CITY", "70619 Stuttgart")
+      ENV.fetch("LEGAL_NOTICE_CITY")
     end
 
     private def legal_country : String
-      ENV.fetch("LEGAL_NOTICE_COUNTRY", "Germany")
+      ENV.fetch("LEGAL_NOTICE_COUNTRY")
     end
 
     private def legal_represented_by : String
-      ENV.fetch("LEGAL_NOTICE_REPRESENTED_BY", legal_name)
+      ENV.fetch("LEGAL_NOTICE_REPRESENTED_BY")
     end
 
     private def legal_phone : String
-      ENV.fetch("LEGAL_NOTICE_PHONE", "+49 176 69941209")
+      ENV.fetch("LEGAL_NOTICE_PHONE")
     end
 
     private def legal_fax : String
-      ENV.fetch("LEGAL_NOTICE_FAX", "")
+      ENV.fetch("LEGAL_NOTICE_FAX")
     end
 
     private def legal_email : String
-      ENV.fetch("LEGAL_NOTICE_EMAIL", "kontakt@sbsoftware.de")
+      ENV.fetch("LEGAL_NOTICE_EMAIL")
     end
   end
 
