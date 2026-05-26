@@ -234,37 +234,36 @@ class LegalNoticePage < ApplicationPage
     end
   end
 
-    private def legal_name : String
-      ENV.fetch("LEGAL_NOTICE_NAME")
-    end
+  private def legal_name : String
+    ENV.fetch("LEGAL_NOTICE_NAME")
+  end
 
-    private def legal_street : String
-      ENV.fetch("LEGAL_NOTICE_STREET")
-    end
+  private def legal_street : String
+    ENV.fetch("LEGAL_NOTICE_STREET")
+  end
 
-    private def legal_city : String
-      ENV.fetch("LEGAL_NOTICE_CITY")
-    end
+  private def legal_city : String
+    ENV.fetch("LEGAL_NOTICE_CITY")
+  end
 
-    private def legal_country : String
-      ENV.fetch("LEGAL_NOTICE_COUNTRY")
-    end
+  private def legal_country : String
+    ENV.fetch("LEGAL_NOTICE_COUNTRY")
+  end
 
-    private def legal_represented_by : String
-      ENV.fetch("LEGAL_NOTICE_REPRESENTED_BY")
-    end
+  private def legal_represented_by : String
+    ENV.fetch("LEGAL_NOTICE_REPRESENTED_BY")
+  end
 
-    private def legal_phone : String
-      ENV.fetch("LEGAL_NOTICE_PHONE")
-    end
+  private def legal_phone : String
+    ENV.fetch("LEGAL_NOTICE_PHONE")
+  end
 
-    private def legal_fax : String
-      ENV.fetch("LEGAL_NOTICE_FAX")
-    end
+  private def legal_fax : String
+    ENV.fetch("LEGAL_NOTICE_FAX")
+  end
 
-    private def legal_email : String
-      ENV.fetch("LEGAL_NOTICE_EMAIL")
-    end
+  private def legal_email : String
+    ENV.fetch("LEGAL_NOTICE_EMAIL")
   end
 
   def window_title : String?
