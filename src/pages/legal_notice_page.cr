@@ -259,7 +259,7 @@ class LegalNoticePage < ApplicationPage
   end
 
   private def legal_fax : String
-    ENV.fetch("LEGAL_NOTICE_FAX")
+    ENV.fetch("LEGAL_NOTICE_FAX", "")
   end
 
   private def legal_email : String
