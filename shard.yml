@@ -4,6 +4,9 @@ version: 18.5.0
 dependencies:
   hot-crumble:
     github: sbsoftware/hot-crumble
-    version: "~> 0.2.0"
+    version: "~> 0.3.0"
+  crumble-web-push:
+    github: sbsoftware/crumble-web-push
+    version: "~> 0.1.0"
   sqlite3:
     github: crystal-lang/crystal-sqlite3

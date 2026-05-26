@@ -3,6 +3,7 @@ require "./styles/*"
 require "./views/application_layout"
 require "./pages/application_page"
 require "./models/*"
+require "./actions/lists/accept_access_push_notification"
 require "./stimulus_controllers/*"
 require "./policies/*"
 require "./views/**"
@@ -10,6 +11,8 @@ require "./pages/**"
 require "./actions/**"
 require "./resources/**"
 require "./request_context"
+
+PushNotifications.configure!
 
 if ENV.fetch("ORMA_CONTINUOUS_MIGRATION", "").in?(["1", "true"])
   {% for orm_class in Orma::Record.all_subclasses %}
