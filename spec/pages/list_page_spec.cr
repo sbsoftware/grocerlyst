@@ -30,7 +30,7 @@ describe ListPage do
     response_io.to_s.should contain("Weekly Shopping")
     response_io.to_s.should contain("id=\"#{Crumble::Material::TopAppBar::TopAppBarId}\"")
     response_io.to_s.should contain("Get notifications when your lists change.")
-    response_io.to_s.should contain(CrumbleWebPush::SubscriptionController.subscribe_action("click").to_s)
+    response_io.to_s.should contain(PushSubscriptionBannerController.subscribe_action("click").to_s)
     response_io.to_s.should contain("Menu")
     response_io.to_s.should contain("visibility")
     response_io.to_s.should contain(ListItemHiderController.switch_target.to_s)

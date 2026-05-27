@@ -5,12 +5,12 @@ class PushSubscriptionBanner
   css_class Content
 
   template do
-    div Banner do
+    div Banner, PushSubscriptionBannerController do
       div Content do
         span do
           "Get notifications when your lists change."
         end
-        button CrumbleWebPush::SubscriptionController.subscribe_action("click"), type: "button" do
+        button PushSubscriptionBannerController.subscribe_action("click"), type: "button" do
           "Subscribe"
         end
       end
