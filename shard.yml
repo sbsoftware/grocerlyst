@@ -1,5 +1,5 @@
 name: einkaufsliste
-version: 18.5.0
+version: 20.0.0
 
 dependencies:
   hot-crumble:
