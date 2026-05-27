@@ -1,52 +1,53 @@
 require "./application_page"
 require "../models/list"
+require "../push_notifications"
 require "../views/list_layout"
+require "../views/push_subscription_banner"
 
 class ListPage < ApplicationPage
   model list : List, HomePage.uri_path
 
   layout ListLayout
 
-  view do
-    def list_access_permission
-      ListAccessPermission.where(list_id: list.id, session_id: ctx.session.id.to_s).first
-    end
+  def list_access_permission
+    ListAccessPermission.where(list_id: list.id, session_id: ctx.session.id.to_s).first
+  end
 
-    def top_app_bar
-      Crumble::Material::TopAppBar.new(
-        leading_icon: Crumble::Material::NavigationDrawer::MenuSwitch,
-        headline: list.header_view.renderer(ctx),
-        trailing_icons: [
-          AddModeButton,
-          ItemHider,
-          ShareList.new(ctx: ctx, list: list),
-          ViewListMembersButton.new(list),
-        ],
-        type: :small
-      )
-    end
+  def top_app_bar
+    Crumble::Material::TopAppBar.new(
+      leading_icon: Crumble::Material::NavigationDrawer::MenuSwitch,
+      headline: list.header_view.renderer(ctx),
+      trailing_icons: [
+        AddModeButton,
+        ItemHider,
+        ShareList.new(ctx: ctx, list: list),
+        ViewListMembersButton.new(list),
+      ],
+      type: :small
+    )
+  end
 
-    template do
-      top_app_bar
-      list_access_permission.set_name_form.renderer(ctx) if list.list_access_permissions.count > 1
-      list.set_name_action_template(ctx)
-      div ListItemSearchController.addDisplayContainer_target, Classes::AddItemDisplayHidden, ListItem.active(false) do
-        Crumble::Material::ListItem.to_html do
-          li Classes::ListItem do
-            div Classes::AddItemForm do
-              list.add_item_action_template(ctx).to_html
-              span ListItemSearchController.add_action("click") do
-                Crumble::Material::Icon.new("add_circle")
-              end
-              span ListItemSearchController.disable_search_mode_action("click") do
-                Crumble::Material::Icon.new("cancel")
-              end
+  template do
+    top_app_bar
+    PushSubscriptionBanner.new(ctx: ctx).to_html unless PushNotifications.subscribed?(ctx.session.id.to_s)
+    list_access_permission.set_name_form.renderer(ctx) if list.list_access_permissions.count > 1
+    list.set_name_action_template(ctx)
+    div ListItemSearchController.addDisplayContainer_target, Classes::AddItemDisplayHidden, ListItem.active(false) do
+      Crumble::Material::ListItem.to_html do
+        li Classes::ListItem do
+          div Classes::AddItemForm do
+            list.add_item_action_template(ctx).to_html
+            span ListItemSearchController.add_action("click") do
+              Crumble::Material::Icon.new("add_circle")
+            end
+            span ListItemSearchController.disable_search_mode_action("click") do
+              Crumble::Material::Icon.new("cancel")
             end
           end
         end
       end
-      list.items_view.renderer(ctx)
     end
+    list.items_view.renderer(ctx)
   end
 
   before do
