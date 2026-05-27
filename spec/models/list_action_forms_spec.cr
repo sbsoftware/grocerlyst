@@ -34,6 +34,20 @@ describe List::SetNameAction::Form do
   end
 end
 
+describe List::AcceptAccessAction::Form do
+  before_each do
+    SpecSupport.reset_db!
+  end
+
+  it "renders the model access token into the action form" do
+    list = List.create(name: "Groceries", session_id: "session")
+
+    html = list.accept_access_action_template(build_handler_context).to_html
+
+    html.should contain(%(name="access_token" value="#{list.access_token.value}"))
+  end
+end
+
 describe ListAccessPermission::SetNameAction::Form do
   before_each do
     SpecSupport.reset_db!
