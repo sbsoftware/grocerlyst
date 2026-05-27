@@ -1,5 +1,6 @@
 class PushSubscriptionBanner
   include Crumble::ContextView
+  include Crumble::Crababel
 
   css_class Banner
   css_class Content
@@ -8,10 +9,10 @@ class PushSubscriptionBanner
     div Banner, PushSubscriptionBannerController do
       div Content do
         span do
-          "Get notifications when your lists change."
+          t.message
         end
         button PushSubscriptionBannerController.subscribe_action("click"), type: "button" do
-          "Subscribe"
+          t.subscribe
         end
       end
     end

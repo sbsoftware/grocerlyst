@@ -37,6 +37,21 @@ describe ListPage do
     ctx.session.last_used_list_id.should eq(list.id.value)
   end
 
+  it "renders the push subscription banner in the accepted language" do
+    list = List.create(name: "Weekly Shopping", session_id: "owner-session")
+    response_io = IO::Memory.new
+    headers = HTTP::Headers{"Accept-Language" => "de"}
+    ctx = Crumble::Server::TestRequestContext.new(response_io: response_io, method: "GET", resource: ListPage.uri_path(list_id: list.id.value), headers: headers)
+
+    ListAccessPermission.create(list_id: list.id, session_id: ctx.session.id.to_s)
+
+    ListPage.handle(ctx).should be_true
+    ctx.response.flush
+
+    response_io.to_s.should contain("Benachrichtigungen erhalten, wenn sich deine Listen ändern.")
+    response_io.to_s.should contain("Abonnieren")
+  end
+
   it "hides the push subscription banner when the current session is subscribed" do
     list = List.create(name: "Weekly Shopping", session_id: "owner-session")
     response_io = IO::Memory.new

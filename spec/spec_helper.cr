@@ -7,6 +7,7 @@ require "crumble-orma"
 require "crumble-stimulus"
 require "crumble-turbo"
 require "crumble-material"
+require "crumble-crababel"
 require "crumble-web-push"
 
 SPEC_DB_CONNECTION_STRING = "sqlite3:%3Amemory%3A?max_pool_size=1"
