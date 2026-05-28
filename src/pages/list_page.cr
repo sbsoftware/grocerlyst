@@ -18,7 +18,6 @@ class ListPage < ApplicationPage
       leading_icon: Crumble::Material::NavigationDrawer::MenuSwitch,
       headline: list.header_view.renderer(ctx),
       trailing_icons: [
-        AddModeButton,
         ItemHider,
         ShareList.new(ctx: ctx, list: list),
         ViewListMembersButton.new(list),
@@ -32,6 +31,7 @@ class ListPage < ApplicationPage
     PushSubscriptionBanner.new(ctx: ctx).to_html unless PushNotifications.subscribed?(ctx.session.id.to_s)
     list_access_permission.set_name_form.renderer(ctx) if list.list_access_permissions.count > 1
     list.set_name_action_template(ctx)
+    AddModeButton
     div ListItemSearchController.addDisplayContainer_target, Classes::AddItemDisplayHidden, ListItem.active(false) do
       Crumble::Material::ListItem.to_html do
         li Classes::ListItem do
