@@ -4,6 +4,7 @@ class PushSubscriptionBanner
 
   css_class Banner
   css_class Content
+  css_class DismissButton
 
   template do
     div Banner, PushSubscriptionBannerController do
@@ -13,6 +14,9 @@ class PushSubscriptionBanner
         end
         button PushSubscriptionBannerController.subscribe_action("click"), type: "button" do
           t.subscribe
+        end
+        button DismissButton, PushSubscriptionBannerController.dismiss_action("click"), type: "button", aria: {label: t.dismiss} do
+          Crumble::Material::Icon.new("close")
         end
       end
     end
@@ -44,6 +48,18 @@ class PushSubscriptionBanner
         background_color "#2F6D45"
         color :white
         font_weight 600
+      end
+
+      rule DismissButton do
+        display :inline_flex
+        align_items :center
+        justify_content :center
+        width 36.px
+        height 36.px
+        padding 0
+        border_radius 50.percent
+        background_color :transparent
+        color "#183B25"
       end
     end
   end
