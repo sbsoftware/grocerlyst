@@ -20,6 +20,33 @@ describe List::AddItemAction::Form do
   end
 end
 
+describe List::AddItemAction do
+  before_each do
+    SpecSupport.reset_db!
+  end
+
+  it "inserts items submitted from the top form at the top" do
+    list = List.create(name: "Groceries", session_id: "session")
+    ListItem.create(list_id: list.id.value, name: "Existing")
+    ctx = Crumble::Server::TestRequestContext.new(method: "POST", resource: List::AddItemAction.uri_path(list.id), body: URI::Params.encode({name: "Top", placement: "top"}))
+
+    List::AddItemAction.handle(ctx)
+
+    list.list_items.map { |item| item.name.try(&.value) }.should eq(["Top", "Existing"])
+  end
+
+  it "inserts items submitted from the bottom form at the bottom" do
+    list = List.create(name: "Groceries", session_id: "session")
+    ListItem.create(list_id: list.id.value, name: "First", sort_order: 1)
+    ListItem.create(list_id: list.id.value, name: "Second", sort_order: 2)
+    ctx = Crumble::Server::TestRequestContext.new(method: "POST", resource: List::AddItemAction.uri_path(list.id), body: URI::Params.encode({name: "Bottom", placement: "bottom"}))
+
+    List::AddItemAction.handle(ctx)
+
+    list.list_items.map { |item| item.name.try(&.value) }.should eq(["First", "Second", "Bottom"])
+  end
+end
+
 describe List::SetNameAction::Form do
   before_each do
     SpecSupport.reset_db!

@@ -5,24 +5,33 @@ class ListItemSearchController < Stimulus::Controller
   outlets ListItemHiderController
 
   action :enable_search_mode do
-    this.addButtonContainerTarget.classList.add(Classes::AddItemDisplayHidden.to_js_ref)
-    this.addDisplayContainerTarget.classList.remove(Classes::AddItemDisplayHidden.to_js_ref)
+    index = event.params.placement == "bottom" ? 1 : 0
+    this.addButtonContainerTargets.forEach do |container|
+      container.classList.add(Classes::AddItemDisplayHidden.to_js_ref)
+    end
+    this.addDisplayContainerTargets[index].classList.remove(Classes::AddItemDisplayHidden.to_js_ref)
     this.listItemHiderOutlet.show_inactive._call
-    this.addInputTarget.value = ""
-    this.addInputTarget.focus._call
+    this.addInputTargets[index].value = ""
+    this.addInputTargets[index].focus._call
   end
 
   action :disable_search_mode do
-    unless this.addDisplayContainerTarget.classList.contains(Classes::AddItemDisplayHidden.to_js_ref)
-      this.addDisplayContainerTarget.classList.add(Classes::AddItemDisplayHidden.to_js_ref)
-      this.addButtonContainerTarget.classList.remove(Classes::AddItemDisplayHidden.to_js_ref)
+    unless this.addDisplayContainerTargets.every do |container|
+             container.classList.contains(Classes::AddItemDisplayHidden.to_js_ref)
+           end
+      this.addDisplayContainerTargets.forEach do |container|
+        container.classList.add(Classes::AddItemDisplayHidden.to_js_ref)
+      end
+      this.addButtonContainerTargets.forEach do |container|
+        container.classList.remove(Classes::AddItemDisplayHidden.to_js_ref)
+      end
       this.itemListTarget.classList.remove(Classes::ItemListSearchActive.to_js_ref)
       this.listItemHiderOutlet.hide_inactive._call
     end
   end
 
-  action :filter do
-    search = this.addInputTarget.value
+  action :filter do |event|
+    search = event.currentTarget.value
     that = this
 
     if search == ""
@@ -40,10 +49,11 @@ class ListItemSearchController < Stimulus::Controller
     end
   end
 
-  action :add do
-    if this.addInputTarget.value != ""
+  action :add do |event|
+    index = event.params.placement == "bottom" ? 1 : 0
+    if this.addInputTargets[index].value != ""
       this.disable_search_mode._call
-      this.addSubmitTarget.click._call
+      this.addSubmitTargets[index].click._call
     end
   end
 end
