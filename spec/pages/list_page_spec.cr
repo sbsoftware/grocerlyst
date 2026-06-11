@@ -82,6 +82,7 @@ describe ListPage do
 
     response = response_io.to_s
     response.index(AddModeButton::Container.to_s).should_not be_nil
+    response.index(ListItemSearchController.addButtonContainer_target.to_s).should_not be_nil
     response.index(AddModeButton::AddModeButtonController.enable_action("click").to_s).should_not be_nil
     response.index(AddModeButton::AddModeButtonController.enable_action("click").to_s).not_nil!.should be < response.index(ListItemSearchController.addDisplayContainer_target.to_s).not_nil!
     response.index(AddModeButton::AddModeButtonController.enable_action("click").to_s).not_nil!.should be < response.index(Classes::ListItems.to_s).not_nil!
