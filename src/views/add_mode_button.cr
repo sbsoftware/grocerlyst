@@ -15,6 +15,7 @@ class Stimulus::Controller
 end
 
 class AddModeButton
+  css_class Container
   css_class Button
 
   class AddModeButtonController < Stimulus::Controller
@@ -26,12 +27,20 @@ class AddModeButton
   end
 
   ToHtml.class_template do
-    button Button, AddModeButtonController, AddModeButtonController.enable_action("click"), AddModeButtonController.list_item_search_controller_outlet(ListItemSearchController.selector.to_s), type: "button" do
-      Crumble::Material::Icon.new("add")
+    div Container, ListItemSearchController.addButtonContainer_target do
+      button Button, AddModeButtonController, AddModeButtonController.enable_action("click"), AddModeButtonController.list_item_search_controller_outlet(ListItemSearchController.selector.to_s), type: "button" do
+        Crumble::Material::Icon.new("add_circle")
+      end
     end
   end
 
   style do
+    rule Container do
+      display :flex
+      justify_content :center
+      padding 8.px, 16.px
+    end
+
     rule Button do
       padding 0
     end

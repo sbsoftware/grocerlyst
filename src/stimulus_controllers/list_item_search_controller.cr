@@ -1,10 +1,11 @@
 require "./list_item_hider_controller"
 
 class ListItemSearchController < Stimulus::Controller
-  targets :addInput, :addSubmit, :addDisplayContainer, :itemList
+  targets :addInput, :addSubmit, :addButtonContainer, :addDisplayContainer, :itemList
   outlets ListItemHiderController
 
   action :enable_search_mode do
+    this.addButtonContainerTarget.classList.add(Classes::AddItemDisplayHidden.to_js_ref)
     this.addDisplayContainerTarget.classList.remove(Classes::AddItemDisplayHidden.to_js_ref)
     this.listItemHiderOutlet.show_inactive._call
     this.addInputTarget.value = ""
@@ -14,6 +15,7 @@ class ListItemSearchController < Stimulus::Controller
   action :disable_search_mode do
     unless this.addDisplayContainerTarget.classList.contains(Classes::AddItemDisplayHidden.to_js_ref)
       this.addDisplayContainerTarget.classList.add(Classes::AddItemDisplayHidden.to_js_ref)
+      this.addButtonContainerTarget.classList.remove(Classes::AddItemDisplayHidden.to_js_ref)
       this.itemListTarget.classList.remove(Classes::ItemListSearchActive.to_js_ref)
       this.listItemHiderOutlet.hide_inactive._call
     end
