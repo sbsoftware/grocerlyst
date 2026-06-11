@@ -5,7 +5,8 @@ class ListItemSearchController < Stimulus::Controller
   outlets ListItemHiderController
 
   action :enable_search_mode do
-    index = event.params.placement == "bottom" ? 1 : 0
+    index = 0
+    index = 1 if event.params.placement == "bottom"
     this.addButtonContainerTargets.forEach do |container|
       container.classList.add(Classes::AddItemDisplayHidden.to_js_ref)
     end
@@ -50,7 +51,8 @@ class ListItemSearchController < Stimulus::Controller
   end
 
   action :add do |event|
-    index = event.params.placement == "bottom" ? 1 : 0
+    index = 0
+    index = 1 if event.params.placement == "bottom"
     if this.addInputTargets[index].value != ""
       this.disable_search_mode._call
       this.addSubmitTargets[index].click._call
