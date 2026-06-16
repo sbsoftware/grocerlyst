@@ -71,7 +71,9 @@ describe ListPage do
 
   it "renders add item actions above and below the active list" do
     list = List.create(name: "Weekly Shopping", session_id: "owner-session")
-    ListItem.create(list_id: list.id.value, name: "Milk", active: true)
+    9.times do |index|
+      ListItem.create(list_id: list.id.value, name: "Item #{index}", active: true)
+    end
     response_io = IO::Memory.new
     ctx = Crumble::Server::TestRequestContext.new(response_io: response_io, method: "GET", resource: ListPage.uri_path(list_id: list.id.value))
 
@@ -93,5 +95,24 @@ describe ListPage do
     top_form_index.should be < list_index
     list_index.should be < bottom_form_index
     bottom_form_index.should be < bottom_button_index
+  end
+
+  it "hides the top add item button until the active list has more than eight items" do
+    list = List.create(name: "Weekly Shopping", session_id: "owner-session")
+    8.times do |index|
+      ListItem.create(list_id: list.id.value, name: "Item #{index}", active: true)
+    end
+    ListItem.create(list_id: list.id.value, name: "Inactive", active: false)
+    response_io = IO::Memory.new
+    ctx = Crumble::Server::TestRequestContext.new(response_io: response_io, method: "GET", resource: ListPage.uri_path(list_id: list.id.value))
+
+    ListAccessPermission.create(list_id: list.id, session_id: ctx.session.id.to_s)
+
+    ListPage.handle(ctx).should be_true
+    ctx.response.flush
+
+    response = response_io.to_s
+    response.should_not contain(AddModeButton::AddModeButtonController.param("placement", "top").to_s)
+    response.should contain(AddModeButton::AddModeButtonController.param("placement", "bottom").to_s)
   end
 end

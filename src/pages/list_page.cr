@@ -26,12 +26,16 @@ class ListPage < ApplicationPage
     )
   end
 
+  def show_top_add_item_button?
+    list.list_items.where(active: true).count > 8
+  end
+
   template do
     top_app_bar
     PushSubscriptionBanner.new(ctx: ctx).to_html unless PushNotifications.subscribed?(ctx.session.id.to_s)
     list_access_permission.set_name_form.renderer(ctx) if list.list_access_permissions.count > 1
     list.set_name_action_template(ctx)
-    AddModeButton.new("top")
+    AddModeButton.new("top") if show_top_add_item_button?
     AddItemForm.new(list, "top")
     list.items_view.renderer(ctx)
     AddItemForm.new(list, "bottom")
