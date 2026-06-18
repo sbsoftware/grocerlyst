@@ -2,15 +2,21 @@ require "./list_item_hider_controller"
 
 class ListItemSearchController < Stimulus::Controller
   targets :addInput, :addSubmit, :addButtonContainer, :addDisplayContainer, :itemList
-  outlets ListItemHiderController
 
   js_method :connect do
     this.update_top_add_button._call
   end
 
+  js_method :list_item_hider_controller do
+    return this.application.getControllerForElementAndIdentifier._call(
+      document.body,
+      ::ListItemHiderController.controller_name.to_js_ref
+    )
+  end
+
   js_method :visible_item_count do
     count = this.itemListTarget.querySelectorAll(Classes::ItemSearchable.to_css_selector.to_s.to_js_ref).length
-    if this.listItemHiderOutlet.listTarget.classList.contains(Classes::HideCheckedItems.to_js_ref)
+    if document.body.classList.contains(Classes::HideCheckedItems.to_js_ref)
       count = count - this.itemListTarget.querySelectorAll("#{Classes::ItemSearchable.to_css_selector} #{ListItem.active(false).to_css_selector}".to_js_ref).length
     end
     return count
@@ -39,7 +45,7 @@ class ListItemSearchController < Stimulus::Controller
       container.classList.add(Classes::AddItemDisplayHidden.to_js_ref)
     end
     this.addDisplayContainerTargets[index].classList.remove(Classes::AddItemDisplayHidden.to_js_ref)
-    this.listItemHiderOutlet.show_inactive._call
+    this.list_item_hider_controller._call.show_inactive._call
     this.addInputTargets[index].value = ""
     this.addInputTargets[index].focus._call
   end
@@ -56,7 +62,7 @@ class ListItemSearchController < Stimulus::Controller
       end
       this.update_top_add_button._call
       this.itemListTarget.classList.remove(Classes::ItemListSearchActive.to_js_ref)
-      this.listItemHiderOutlet.hide_inactive._call
+      this.list_item_hider_controller._call.hide_inactive._call
     end
   end
 
