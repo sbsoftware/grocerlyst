@@ -7,4 +7,15 @@ describe ListItemSearchController do
     js.should_not contain("= if (")
     js.should contain("index = 0;if (event.params.placement == \"bottom\") {index = 1;}")
   end
+
+  it "generates client-side top add button visibility based on visible item count" do
+    js = ListItemSearchController.to_js
+
+    js.should contain("visible_item_count()")
+    js.should contain(".classes--item-searchable [data-orma-list-item-active~='false']")
+    js.should contain("return count;")
+    js.should contain("enable_search_mode(event)")
+    js.should contain("this.visible_item_count() > 8")
+    js.should contain("update_top_add_button()")
+  end
 end

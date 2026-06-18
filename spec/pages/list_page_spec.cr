@@ -97,12 +97,8 @@ describe ListPage do
     bottom_form_index.should be < bottom_button_index
   end
 
-  it "hides the top add item button until the active list has more than eight items" do
+  it "renders the top add item button hidden so client-side visibility can account for inactive items" do
     list = List.create(name: "Weekly Shopping", session_id: "owner-session")
-    8.times do |index|
-      ListItem.create(list_id: list.id.value, name: "Item #{index}", active: true)
-    end
-    ListItem.create(list_id: list.id.value, name: "Inactive", active: false)
     response_io = IO::Memory.new
     ctx = Crumble::Server::TestRequestContext.new(response_io: response_io, method: "GET", resource: ListPage.uri_path(list_id: list.id.value))
 
@@ -112,7 +108,8 @@ describe ListPage do
     ctx.response.flush
 
     response = response_io.to_s
-    response.should_not contain(AddModeButton::AddModeButtonController.param("placement", "top").to_s)
+    response.should contain(AddModeButton::AddModeButtonController.param("placement", "top").to_s)
     response.should contain(AddModeButton::AddModeButtonController.param("placement", "bottom").to_s)
+    response.index(Classes::AddItemDisplayHidden.to_s).not_nil!.should be < response.index(AddModeButton::AddModeButtonController.param("placement", "top").to_s).not_nil!
   end
 end

@@ -31,7 +31,7 @@ class AddModeButton
   end
 
   ToHtml.instance_template do
-    div Container, ListItemSearchController.addButtonContainer_target do
+    div Container, ListItemSearchController.addButtonContainer_target, (Classes::AddItemDisplayHidden if placement == "top") do
       button Button, AddModeButtonController, AddModeButtonController.param("placement", placement), AddModeButtonController.enable_action("click"), AddModeButtonController.list_item_search_controller_outlet(ListItemSearchController.selector.to_s), type: "button" do
         Crumble::Material::Icon.new("add_circle")
       end

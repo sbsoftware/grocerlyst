@@ -4,7 +4,35 @@ class ListItemSearchController < Stimulus::Controller
   targets :addInput, :addSubmit, :addButtonContainer, :addDisplayContainer, :itemList
   outlets ListItemHiderController
 
-  action :enable_search_mode do
+  js_method :connect do
+    this.update_top_add_button._call
+  end
+
+  js_method :visible_item_count do
+    count = this.itemListTarget.querySelectorAll(Classes::ItemSearchable.to_css_selector.to_s.to_js_ref).length
+    if this.listItemHiderOutlet.listTarget.classList.contains(Classes::HideCheckedItems.to_js_ref)
+      count = count - this.itemListTarget.querySelectorAll("#{Classes::ItemSearchable.to_css_selector} #{ListItem.active(false).to_css_selector}".to_js_ref).length
+    end
+    return count
+  end
+
+  js_method :update_top_add_button do
+    topButtonContainer = this.addButtonContainerTargets[0]
+    unless this.addDisplayContainerTargets.every do |container|
+             container.classList.contains(Classes::AddItemDisplayHidden.to_js_ref)
+           end
+      topButtonContainer.classList.add(Classes::AddItemDisplayHidden.to_js_ref)
+      return
+    end
+
+    if this.visible_item_count._call > 8
+      topButtonContainer.classList.remove(Classes::AddItemDisplayHidden.to_js_ref)
+    else
+      topButtonContainer.classList.add(Classes::AddItemDisplayHidden.to_js_ref)
+    end
+  end
+
+  action :enable_search_mode do |event|
     index = 0
     index = 1 if event.params.placement == "bottom"
     this.addButtonContainerTargets.forEach do |container|
@@ -26,6 +54,7 @@ class ListItemSearchController < Stimulus::Controller
       this.addButtonContainerTargets.forEach do |container|
         container.classList.remove(Classes::AddItemDisplayHidden.to_js_ref)
       end
+      this.update_top_add_button._call
       this.itemListTarget.classList.remove(Classes::ItemListSearchActive.to_js_ref)
       this.listItemHiderOutlet.hide_inactive._call
     end
