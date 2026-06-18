@@ -22,11 +22,19 @@ class ListItemSearchController < Stimulus::Controller
     return count
   end
 
+  js_method :add_forms_hidden do
+    hidden = true
+    this.addDisplayContainerTargets.forEach do |container|
+      unless container.classList.contains(Classes::AddItemDisplayHidden.to_js_ref)
+        hidden = false
+      end
+    end
+    return hidden
+  end
+
   js_method :update_top_add_button do
     topButtonContainer = this.addButtonContainerTargets[0]
-    unless this.addDisplayContainerTargets.every do |container|
-             container.classList.contains(Classes::AddItemDisplayHidden.to_js_ref)
-           end
+    unless this.add_forms_hidden._call
       topButtonContainer.classList.add(Classes::AddItemDisplayHidden.to_js_ref)
       return
     end
@@ -51,9 +59,7 @@ class ListItemSearchController < Stimulus::Controller
   end
 
   action :disable_search_mode do
-    unless this.addDisplayContainerTargets.every do |container|
-             container.classList.contains(Classes::AddItemDisplayHidden.to_js_ref)
-           end
+    unless this.add_forms_hidden._call
       this.addDisplayContainerTargets.forEach do |container|
         container.classList.add(Classes::AddItemDisplayHidden.to_js_ref)
       end

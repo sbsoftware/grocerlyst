@@ -17,6 +17,9 @@ describe ListItemSearchController do
     js.should contain("return count;")
     js.should contain("enable_search_mode(event)")
     js.should_not contain(".try(")
+    js.should contain("add_forms_hidden()")
+    js.should contain("return hidden;")
+    js.should_not contain(".every(function(container) {container.classList.contains")
     js.should contain("this.visible_item_count() > 8")
     js.should contain("update_top_add_button()")
   end
