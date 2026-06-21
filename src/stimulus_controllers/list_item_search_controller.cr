@@ -32,6 +32,12 @@ class ListItemSearchController < Stimulus::Controller
     return hidden
   end
 
+  js_method :clear_search_matches do
+    Array.from(this.itemListTarget.querySelectorAll(Classes::ItemSearchable.to_css_selector.to_s.to_js_ref)).forEach do |item|
+      item.classList.remove(Classes::ItemSearchMatch.to_js_ref)
+    end
+  end
+
   js_method :update_top_add_button do
     topButtonContainer = this.addButtonContainerTargets[0]
     unless this.add_forms_hidden._call
@@ -54,6 +60,8 @@ class ListItemSearchController < Stimulus::Controller
     end
     this.addDisplayContainerTargets[index].classList.remove(Classes::AddItemDisplayHidden.to_js_ref)
     this.list_item_hider_controller._call.show_inactive._call
+    this.itemListTarget.classList.add(Classes::ItemListSearchActive.to_js_ref)
+    this.clear_search_matches._call
     this.addInputTargets[index].value = ""
     this.addInputTargets[index].focus._call
   end
@@ -76,10 +84,10 @@ class ListItemSearchController < Stimulus::Controller
     search = event.currentTarget.value
     that = this
 
-    if search == ""
-      this.itemListTarget.classList.remove(Classes::ItemListSearchActive.to_js_ref)
-    else
-      this.itemListTarget.classList.add(Classes::ItemListSearchActive.to_js_ref)
+    this.itemListTarget.classList.add(Classes::ItemListSearchActive.to_js_ref)
+    this.clear_search_matches._call
+
+    unless search == ""
       Array.from(this.itemListTarget.querySelectorAll(Classes::ItemSearchable.to_css_selector.to_s.to_js_ref)).forEach do |item|
         name = item.querySelector(Classes::ItemName.to_css_selector.to_s.to_js_ref)
         if name.textContent.trim._call.toLowerCase._call.includes(search.trim._call.toLowerCase._call)

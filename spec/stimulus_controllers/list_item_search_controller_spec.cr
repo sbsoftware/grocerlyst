@@ -20,6 +20,9 @@ describe ListItemSearchController do
     js.should contain("add_forms_hidden()")
     js.should contain("return hidden;")
     js.should_not contain(".every(function(container) {container.classList.contains")
+    js.should contain("clear_search_matches()")
+    js.should contain("this.itemListTarget.classList.add(\"classes--item-list-search-active\");this.clear_search_matches();this.addInputTargets[index].value = \"\"")
+    js.should contain("if (search == \"\") {} else")
     js.should contain("this.visible_item_count() > 8")
     js.should contain("update_top_add_button()")
   end
