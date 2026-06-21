@@ -5,6 +5,32 @@ class ListItemSearchController < Stimulus::Controller
 
   js_method :connect do
     this.update_top_add_button._call
+    this.observe_item_list_changes._call
+  end
+
+  js_method :disconnect do
+    if this.itemListObserver
+      this.itemListObserver.disconnect._call
+    end
+  end
+
+  js_method :itemListTargetConnected do
+    this.update_top_add_button._call
+    this.observe_item_list_changes._call
+  end
+
+  js_method :itemListTargetDisconnected do
+    if this.itemListObserver
+      this.itemListObserver.disconnect._call
+    end
+  end
+
+  js_method :observe_item_list_changes do
+    if this.itemListObserver
+      this.itemListObserver.disconnect._call
+    end
+    this.itemListObserver = MutationObserver.new(-> { this.update_top_add_button._call })
+    this.itemListObserver.observe(this.itemListTarget, {"childList" => true, "subtree" => true, "attributes" => true, "attributeFilter" => ["data-orma-list-item-active", "class"]})
   end
 
   js_method :list_item_hider_controller do

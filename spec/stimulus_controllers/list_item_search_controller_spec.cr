@@ -26,4 +26,15 @@ describe ListItemSearchController do
     js.should contain("this.visible_item_count() > 8")
     js.should contain("update_top_add_button()")
   end
+
+  it "observes list DOM updates so active-state changes update the top add button" do
+    js = ListItemSearchController.to_js
+
+    js.should contain("itemListTargetConnected()")
+    js.should contain("itemListTargetDisconnected()")
+    js.should contain("MutationObserver")
+    js.should contain("this.itemListObserver.observe(this.itemListTarget")
+    js.should contain("attributeFilter: [\"data-orma-list-item-active\", \"class\"]")
+    js.should contain("this.update_top_add_button();")
+  end
 end
