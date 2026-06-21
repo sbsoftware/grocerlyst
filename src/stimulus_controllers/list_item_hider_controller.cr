@@ -1,35 +1,28 @@
 class ListItemHiderController < Stimulus::Controller
+  outlets ListItemSearchController
+
   targets :list, :switch
 
   js_method :connect do
     this.update_icon._call
-    this.update_top_add_button._call
   end
 
   action :switch do
     this.listTarget.classList.toggle(Classes::HideCheckedItems.to_js_ref)
     this.update_icon._call
-    this.update_top_add_button._call
+    this.listItemSearchOutlet.update_top_add_button._call
   end
 
   action :show_inactive do
     this.listTarget.classList.remove(Classes::HideCheckedItems.to_js_ref)
     this.update_icon._call
-    this.update_top_add_button._call
+    this.listItemSearchOutlet.update_top_add_button._call
   end
 
   action :hide_inactive do
     this.listTarget.classList.add(Classes::HideCheckedItems.to_js_ref)
     this.update_icon._call
-    this.update_top_add_button._call
-  end
-
-  js_method :update_top_add_button do
-    listItemSearchController = this.application.getControllerForElementAndIdentifier._call(
-      document.body,
-      ::ListItemSearchController.controller_name.to_js_ref
-    )
-    listItemSearchController.update_top_add_button._call if listItemSearchController
+    this.listItemSearchOutlet.update_top_add_button._call
   end
 
   js_method :update_icon do

@@ -1,6 +1,8 @@
 require "./list_item_hider_controller"
 
 class ListItemSearchController < Stimulus::Controller
+  outlets ListItemHiderController
+
   targets :addInput, :addSubmit, :addButtonContainer, :addDisplayContainer, :itemList
 
   js_method :connect do
@@ -31,13 +33,6 @@ class ListItemSearchController < Stimulus::Controller
     end
     this.itemListObserver = MutationObserver.new(-> { this.update_top_add_button._call })
     this.itemListObserver.observe(this.itemListTarget, {"childList" => true, "subtree" => true, "attributes" => true, "attributeFilter" => ["data-orma-list-item-active", "class"]})
-  end
-
-  js_method :list_item_hider_controller do
-    return this.application.getControllerForElementAndIdentifier._call(
-      document.body,
-      ::ListItemHiderController.controller_name.to_js_ref
-    )
   end
 
   js_method :visible_item_count do
@@ -85,7 +80,7 @@ class ListItemSearchController < Stimulus::Controller
       container.classList.add(Classes::AddItemDisplayHidden.to_js_ref)
     end
     this.addDisplayContainerTargets[index].classList.remove(Classes::AddItemDisplayHidden.to_js_ref)
-    this.list_item_hider_controller._call.show_inactive._call
+    this.listItemHiderOutlet.show_inactive._call
     this.itemListTarget.classList.add(Classes::ItemListSearchActive.to_js_ref)
     this.clear_search_matches._call
     this.addInputTargets[index].value = ""
@@ -102,7 +97,7 @@ class ListItemSearchController < Stimulus::Controller
       end
       this.update_top_add_button._call
       this.itemListTarget.classList.remove(Classes::ItemListSearchActive.to_js_ref)
-      this.list_item_hider_controller._call.hide_inactive._call
+      this.listItemHiderOutlet.hide_inactive._call
     end
   end
 

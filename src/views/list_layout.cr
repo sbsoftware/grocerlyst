@@ -4,7 +4,7 @@ class ListLayout < ApplicationLayout
     ctx.handler.as?(ListPage).try(&.list)
   end
 
-  body_attributes ListItemSearchController, ListItemHiderController, ListItemHiderController.list_target, Classes::HideCheckedItems
+  body_attributes ListItemSearchController, ListItemSearchController.list_item_hider_controller_outlet("body"), ListItemHiderController, ListItemHiderController.list_item_search_controller_outlet("body"), ListItemHiderController.list_target, Classes::HideCheckedItems
 
   def window_title
     list.try(&.name).try(&.value)
