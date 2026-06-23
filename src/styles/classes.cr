@@ -1,3 +1,9 @@
+class CSS::Class
+  def self.attribute_name
+    "class"
+  end
+end
+
 module Classes
   css_class AddItemForm
   css_class AddItemDisplayHidden

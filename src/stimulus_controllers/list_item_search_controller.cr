@@ -32,7 +32,7 @@ class ListItemSearchController < Stimulus::Controller
       this.itemListObserver.disconnect._call
     end
     this.itemListObserver = MutationObserver.new(-> { this.update_top_add_button._call })
-    this.itemListObserver.observe(this.itemListTarget, {"childList" => true, "subtree" => true, "attributes" => true, "attributeFilter" => ["data-orma-list-item-active", "class"]})
+    this.itemListObserver.observe(this.itemListTarget, {"childList" => true, "subtree" => true, "attributes" => true, "attributeFilter" => ["data-orma-list-item-active", CSS::Class.attribute_name.to_js_ref]})
   end
 
   js_method :visible_item_count do
