@@ -42,7 +42,7 @@ class AddModeButton
     rule Container do
       display :flex
       justify_content :center
-      padding 8.px, 16.px
+      padding 16.px, 16.px
     end
 
     rule Button do
