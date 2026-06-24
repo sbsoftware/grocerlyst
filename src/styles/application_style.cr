@@ -36,19 +36,21 @@ class ApplicationStyle < CSS::Stylesheet
       font_size :inherit
       padding 0
       margin 0
+      flex_grow 1
     end
 
     rule "input[type=\"submit\"]" do
       display :none
     end
 
+    rule "form" do
+      display :flex
+      flex_grow 1
+    end
+
     rule Crumble::Material::Icon::IconClass do
       color :black
     end
-  end
-
-  rule Classes::AddItemForm > div do
-    flex_grow 2
   end
 
   rule Classes::AddItemDisplayHidden do

@@ -69,9 +69,11 @@ describe ListPage do
     response_io.to_s.should_not contain("Get notifications when your lists change.")
   end
 
-  it "renders the add item button above the active list" do
+  it "renders add item actions above and below the active list" do
     list = List.create(name: "Weekly Shopping", session_id: "owner-session")
-    ListItem.create(list_id: list.id.value, name: "Milk", active: true)
+    9.times do |index|
+      ListItem.create(list_id: list.id.value, name: "Item #{index}", active: true)
+    end
     response_io = IO::Memory.new
     ctx = Crumble::Server::TestRequestContext.new(response_io: response_io, method: "GET", resource: ListPage.uri_path(list_id: list.id.value))
 
@@ -84,7 +86,30 @@ describe ListPage do
     response.index(AddModeButton::Container.to_s).should_not be_nil
     response.index(ListItemSearchController.addButtonContainer_target.to_s).should_not be_nil
     response.index(AddModeButton::AddModeButtonController.enable_action("click").to_s).should_not be_nil
-    response.index(AddModeButton::AddModeButtonController.enable_action("click").to_s).not_nil!.should be < response.index(ListItemSearchController.addDisplayContainer_target.to_s).not_nil!
-    response.index(AddModeButton::AddModeButtonController.enable_action("click").to_s).not_nil!.should be < response.index(Classes::ListItems.to_s).not_nil!
+    top_button_index = response.index(AddModeButton::AddModeButtonController.param("placement", "top").to_s).not_nil!
+    top_form_index = response.index(%(name="placement" type="hidden" value="top")).not_nil!
+    list_index = response.index(Classes::ListItems.to_s).not_nil!
+    bottom_form_index = response.index(%(name="placement" type="hidden" value="bottom")).not_nil!
+    bottom_button_index = response.index(AddModeButton::AddModeButtonController.param("placement", "bottom").to_s).not_nil!
+    top_button_index.should be < top_form_index
+    top_form_index.should be < list_index
+    list_index.should be < bottom_form_index
+    bottom_form_index.should be < bottom_button_index
+  end
+
+  it "renders the top add item button hidden so client-side visibility can account for inactive items" do
+    list = List.create(name: "Weekly Shopping", session_id: "owner-session")
+    response_io = IO::Memory.new
+    ctx = Crumble::Server::TestRequestContext.new(response_io: response_io, method: "GET", resource: ListPage.uri_path(list_id: list.id.value))
+
+    ListAccessPermission.create(list_id: list.id, session_id: ctx.session.id.to_s)
+
+    ListPage.handle(ctx).should be_true
+    ctx.response.flush
+
+    response = response_io.to_s
+    response.should contain(AddModeButton::AddModeButtonController.param("placement", "top").to_s)
+    response.should contain(AddModeButton::AddModeButtonController.param("placement", "bottom").to_s)
+    response.index(Classes::AddItemDisplayHidden.to_s).not_nil!.should be < response.index(AddModeButton::AddModeButtonController.param("placement", "top").to_s).not_nil!
   end
 end
