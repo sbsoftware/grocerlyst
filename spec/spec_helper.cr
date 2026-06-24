@@ -62,6 +62,7 @@ end
 module SpecSupport
   def self.reset_db!
     PushNotifications.configure!
+    ListActionEvent.db.exec("DELETE FROM list_action_events")
     ListItem.db.exec("DELETE FROM list_items")
     ListAccessPermission.db.exec("DELETE FROM list_access_permissions")
     List.db.exec("DELETE FROM lists")
@@ -71,3 +72,4 @@ end
 List.continuous_migration!
 ListItem.continuous_migration!
 ListAccessPermission.continuous_migration!
+ListActionEvent.continuous_migration!

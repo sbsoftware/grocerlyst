@@ -7,6 +7,14 @@ class ListItem < Orma::Record
   column created_at : Time?
 
   boolean_flip_action :switch, :active, :default_view do
+    controller do
+      return unless form.valid?
+
+      new_active = form.active.not_nil!
+      model.update(active: new_active)
+      ListActionEvent.record!(model.list_id.value, ctx.session.id.to_s, new_active ? "activated" : "deactivated", model)
+    end
+
     view do
       template do
         li model.active do
@@ -31,6 +39,11 @@ class ListItem < Orma::Record
       return true if ListItemPolicy.new(ctx).delete?(model)
 
       403
+    end
+
+    controller do
+      ListActionEvent.record!(model.list_id.value, ctx.session.id.to_s, "deleted", model)
+      model.destroy
     end
 
     view do

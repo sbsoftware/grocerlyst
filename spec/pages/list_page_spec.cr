@@ -33,6 +33,7 @@ describe ListPage do
     response_io.to_s.should contain(PushSubscriptionBannerController.subscribe_action("click").to_s)
     response_io.to_s.should contain("Menu")
     response_io.to_s.should contain("visibility")
+    response_io.to_s.should contain("history")
     response_io.to_s.should contain(ListItemHiderController.switch_target.to_s)
     ctx.session.last_used_list_id.should eq(list.id.value)
   end
