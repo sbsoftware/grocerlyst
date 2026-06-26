@@ -50,6 +50,10 @@ class List < Orma::Record
     ListItem.where(list_id: id).order_by_sort_order!
   end
 
+  def action_events
+    ListActionEvent.where(list_id: id).order_by_created_at!(:desc)
+  end
+
   create_child_action :add_item, ListItem, list_id, {items_view, card_view} do
     form do
       field name : String, allow_blank: false
@@ -69,10 +73,13 @@ class List < Orma::Record
       return unless form.valid? && (name = form.name)
 
       if existing_item = ListItem.where(list_id: model.id.value, name: name).first?
-        existing_item.update(active: !existing_item.active.value)
+        new_active = !existing_item.active.value
+        existing_item.update(active: new_active)
+        ListActionEvent.record!(ctx.session.id.to_s, new_active ? "activated" : "deactivated", existing_item)
       else
         sort_order = form.placement == "bottom" ? model.list_items.last?.try(&.sort_order.value).try(&.+(1)) || 0 : model.list_items.first?.try(&.sort_order.value).try(&.-(1)) || 0
-        ListItem.create(list_id: model.id.value, name: name, sort_order: sort_order)
+        item = ListItem.create(list_id: model.id.value, name: name, sort_order: sort_order)
+        ListActionEvent.record!(ctx.session.id.to_s, "added", item)
       end
     end
   end
@@ -186,6 +193,14 @@ class List < Orma::Record
   model_template :members_view do
     list_access_permissions.each do |list_access_permission|
       list_access_permission.members_row.renderer(ctx)
+    end
+  end
+
+  model_template :action_log_view do
+    div class: "list-action-events" do
+      action_events.each do |event|
+        event.row_view.renderer(ctx)
+      end
     end
   end
 end
