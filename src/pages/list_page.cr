@@ -9,13 +9,21 @@ class ListPage < ApplicationPage
 
   layout ListLayout
 
+  class BackLink
+    ToHtml.class_template do
+      a href: HomePage.uri_path do
+        Crumble::Material::Icon.new("arrow_back")
+      end
+    end
+  end
+
   def list_access_permission
     ListAccessPermission.where(list_id: list.id, session_id: ctx.session.id.to_s).first
   end
 
   def top_app_bar
     Crumble::Material::TopAppBar.new(
-      leading_icon: Crumble::Material::NavigationDrawer::MenuSwitch,
+      leading_icon: BackLink,
       headline: list.header_view.renderer(ctx),
       trailing_icons: [
         ItemHider,
