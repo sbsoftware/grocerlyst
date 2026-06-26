@@ -15,6 +15,11 @@ class Stimulus::Controller
 end
 
 class AddModeButton
+  getter placement : String
+
+  def initialize(@placement); end
+
+  css_class Container
   css_class Button
 
   class AddModeButtonController < Stimulus::Controller
@@ -25,13 +30,21 @@ class AddModeButton
     end
   end
 
-  ToHtml.class_template do
-    button Button, AddModeButtonController, AddModeButtonController.enable_action("click"), AddModeButtonController.list_item_search_controller_outlet(ListItemSearchController.selector.to_s), type: "button" do
-      Crumble::Material::Icon.new("add")
+  ToHtml.instance_template do
+    div Container, ListItemSearchController.addButtonContainer_target, (Classes::AddItemDisplayHidden if placement == "top") do
+      button Button, AddModeButtonController, AddModeButtonController.param("placement", placement), AddModeButtonController.enable_action("click"), AddModeButtonController.list_item_search_controller_outlet(ListItemSearchController.selector.to_s), type: "button" do
+        Crumble::Material::Icon.new("add_circle")
+      end
     end
   end
 
   style do
+    rule Container do
+      display :flex
+      justify_content :center
+      padding 16.px, 16.px
+    end
+
     rule Button do
       padding 0
     end

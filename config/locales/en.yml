@@ -13,6 +13,7 @@ en:
   push_subscription_banner:
     message: "Get notifications when your lists change."
     subscribe: "Subscribe"
+    dismiss: "Dismiss notification hint"
 de:
   list:
     add_item_action:
@@ -28,3 +29,4 @@ de:
   push_subscription_banner:
     message: "Benachrichtigungen erhalten, wenn sich deine Listen ändern."
     subscribe: "Abonnieren"
+    dismiss: "Benachrichtigungshinweis ausblenden"
