@@ -75,11 +75,11 @@ class List < Orma::Record
       if existing_item = ListItem.where(list_id: model.id.value, name: name).first?
         new_active = !existing_item.active.value
         existing_item.update(active: new_active)
-        ListActionEvent.record!(model.id.value, ctx.session.id.to_s, new_active ? "activated" : "deactivated", existing_item)
+        ListActionEvent.record!(ctx.session.id.to_s, new_active ? "activated" : "deactivated", existing_item)
       else
         sort_order = form.placement == "bottom" ? model.list_items.last?.try(&.sort_order.value).try(&.+(1)) || 0 : model.list_items.first?.try(&.sort_order.value).try(&.-(1)) || 0
         item = ListItem.create(list_id: model.id.value, name: name, sort_order: sort_order)
-        ListActionEvent.record!(model.id.value, ctx.session.id.to_s, "added", item)
+        ListActionEvent.record!(ctx.session.id.to_s, "added", item)
       end
     end
   end
@@ -197,7 +197,7 @@ class List < Orma::Record
   end
 
   model_template :action_log_view do
-    ul class: "list-action-events" do
+    div class: "list-action-events" do
       action_events.each do |event|
         event.row_view.renderer(ctx)
       end

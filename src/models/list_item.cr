@@ -12,7 +12,7 @@ class ListItem < Orma::Record
 
       new_active = form.active.not_nil!
       model.update(active: new_active)
-      ListActionEvent.record!(model.list_id.value, ctx.session.id.to_s, new_active ? "activated" : "deactivated", model)
+      ListActionEvent.record!(ctx.session.id.to_s, new_active ? "activated" : "deactivated", model)
     end
 
     view do
@@ -42,7 +42,7 @@ class ListItem < Orma::Record
     end
 
     controller do
-      ListActionEvent.record!(model.list_id.value, ctx.session.id.to_s, "deleted", model)
+      ListActionEvent.record!(ctx.session.id.to_s, "deleted", model)
       model.destroy
     end
 

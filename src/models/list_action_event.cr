@@ -7,8 +7,8 @@ class ListActionEvent < Orma::Record
   column item_name : String?
   column created_at : Time?
 
-  def self.record!(list_id, actor_session_id, action_type, item : ListItem)
-    create(list_id: list_id, actor_session_id: actor_session_id, action_type: action_type, item_id: item.id.value, item_name: item.name.try(&.value))
+  def self.record!(actor_session_id, action_type, item : ListItem)
+    create(list_id: item.list_id.value, actor_session_id: actor_session_id, action_type: action_type, item_id: item.id.value, item_name: item.name.try(&.value))
   end
 
   def list
@@ -39,8 +39,8 @@ class ListActionEvent < Orma::Record
   end
 
   model_template :row_view do
-    Crumble::Material::ListItem.to_html do
-      li class: "list-action-event-row" do
+    div class: "list-action-event-row" do
+      Crumble::Material::Card.new.to_html do
         div class: "list-action-event-main" do
           span class: "list-action-event-actor" do
             actor_name

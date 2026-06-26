@@ -23,6 +23,7 @@ class ApplicationLayout < Crumble::Material::Layout
   end
 
   append_to_head ApplicationStyle, Lists::CardView::Style, PushSubscriptionBanner::Style, WebManifest
+  append_to_head Lists::ActionLogPage::Style
   append_to_head ListAccessPermission::SetNameAction::Template::Style
   append_to_head Crumble::Material::ListItem::Style
 
