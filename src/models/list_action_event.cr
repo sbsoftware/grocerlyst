@@ -8,7 +8,9 @@ class ListActionEvent < Orma::Record
   column created_at : Time?
 
   def self.record!(actor_session_id, action_type, item : ListItem)
-    create(list_id: item.list_id.value, actor_session_id: actor_session_id, action_type: action_type, item_id: item.id.value, item_name: item.name.try(&.value))
+    event = create(list_id: item.list_id.value, actor_session_id: actor_session_id, action_type: action_type, item_id: item.id.value, item_name: item.name.try(&.value))
+    PushNotifications.notify_item_changed(event)
+    event
   end
 
   def list

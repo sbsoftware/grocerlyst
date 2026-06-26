@@ -34,4 +34,47 @@ describe PushNotifications do
     sender.payloads.size.should eq(1)
     JSON.parse(sender.payloads.first)["body"].as_s.should eq("Someone joined Dinner")
   end
+
+  it "notifies subscribed list members when an item change action is logged" do
+    sender = RecordingPushSender.new
+    PushNotifications.sender = sender
+    list = List.create(name: "Dinner", session_id: "owner-session")
+    item = ListItem.create(list_id: list.id, name: "Milk")
+    ListAccessPermission.create(list_id: list.id, session_id: "actor-session", name: "Alice")
+    ListAccessPermission.create(list_id: list.id, session_id: "member-session", name: "Bob")
+    ListAccessPermission.create(list_id: list.id, session_id: "unsubscribed-session", name: "Chris")
+    PushNotifications.subscription_adapter.save(Crumble::Web::Push::Server::Subscription.new(session_id: "actor-session", web_push_subscription: WebPush::Subscription.new(endpoint: "https://example.com/actor", p256dh: "p256dh", auth: "auth")))
+    PushNotifications.subscription_adapter.save(Crumble::Web::Push::Server::Subscription.new(session_id: "member-session", web_push_subscription: WebPush::Subscription.new(endpoint: "https://example.com/member", p256dh: "p256dh", auth: "auth")))
+    PushNotifications.subscription_adapter.save(Crumble::Web::Push::Server::Subscription.new(session_id: "outside-session", web_push_subscription: WebPush::Subscription.new(endpoint: "https://example.com/outside", p256dh: "p256dh", auth: "auth")))
+
+    ListActionEvent.record!("actor-session", "added", item)
+
+    sender.sessions.should eq(["member-session"])
+    sender.payloads.size.should eq(1)
+    payload = JSON.parse(sender.payloads.first)
+    payload["title"].as_s.should eq("List changed")
+    payload["body"].as_s.should eq("Alice has made changes to List Dinner")
+    payload["url"].as_s.should eq(ListPage.uri_path(list_id: list.id.value))
+    List.find(list.id).item_change_notification_sent_at.should_not be_nil
+  end
+
+  it "rate-limits item change notifications per list for five minutes" do
+    sender = RecordingPushSender.new
+    PushNotifications.sender = sender
+    list = List.create(name: "Dinner", session_id: "owner-session")
+    item = ListItem.create(list_id: list.id, name: "Milk")
+    ListAccessPermission.create(list_id: list.id, session_id: "actor-session", name: "Alice")
+    ListAccessPermission.create(list_id: list.id, session_id: "member-session", name: "Bob")
+    PushNotifications.subscription_adapter.save(Crumble::Web::Push::Server::Subscription.new(session_id: "member-session", web_push_subscription: WebPush::Subscription.new(endpoint: "https://example.com/member", p256dh: "p256dh", auth: "auth")))
+
+    ListActionEvent.record!("actor-session", "added", item)
+    ListActionEvent.record!("actor-session", "activated", item)
+
+    sender.payloads.size.should eq(1)
+
+    List.find(list.id).update(item_change_notification_sent_at: Time.utc - 6.minutes)
+    ListActionEvent.record!("actor-session", "deactivated", item)
+
+    sender.payloads.size.should eq(2)
+  end
 end
