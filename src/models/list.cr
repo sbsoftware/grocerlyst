@@ -57,6 +57,7 @@ class List < Orma::Record
   create_child_action :add_item, ListItem, list_id, {items_view, card_view} do
     form do
       field name : String, allow_blank: false
+      field placement : String?, type: :hidden
     end
 
     view do
@@ -76,7 +77,8 @@ class List < Orma::Record
         existing_item.update(active: new_active)
         ListActionEvent.record!(model.id.value, ctx.session.id.to_s, new_active ? "activated" : "deactivated", existing_item)
       else
-        item = ListItem.create(list_id: model.id.value, name: name)
+        sort_order = form.placement == "bottom" ? model.list_items.last?.try(&.sort_order.value).try(&.+(1)) || 0 : model.list_items.first?.try(&.sort_order.value).try(&.-(1)) || 0
+        item = ListItem.create(list_id: model.id.value, name: name, sort_order: sort_order)
         ListActionEvent.record!(model.id.value, ctx.session.id.to_s, "added", item)
       end
     end
