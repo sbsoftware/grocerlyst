@@ -31,6 +31,9 @@ describe ListPage do
     response_io.to_s.should contain("id=\"#{Crumble::Material::TopAppBar::TopAppBarId}\"")
     response_io.to_s.should contain("Get notifications when your lists change.")
     response_io.to_s.should contain(PushSubscriptionBannerController.subscribe_action("click").to_s)
+    response_io.to_s.should contain(PushSubscriptionBannerController.dismiss_action("click").to_s)
+    response_io.to_s.should contain("aria-label=\"Dismiss notification hint\"")
+    response_io.to_s.should contain("close")
     response_io.to_s.should contain("Menu")
     response_io.to_s.should contain("visibility")
     response_io.to_s.should contain("history")
@@ -65,5 +68,24 @@ describe ListPage do
     ctx.response.flush
 
     response_io.to_s.should_not contain("Get notifications when your lists change.")
+  end
+
+  it "renders the add item button above the active list" do
+    list = List.create(name: "Weekly Shopping", session_id: "owner-session")
+    ListItem.create(list_id: list.id.value, name: "Milk", active: true)
+    response_io = IO::Memory.new
+    ctx = Crumble::Server::TestRequestContext.new(response_io: response_io, method: "GET", resource: ListPage.uri_path(list_id: list.id.value))
+
+    ListAccessPermission.create(list_id: list.id, session_id: ctx.session.id.to_s)
+
+    ListPage.handle(ctx).should be_true
+    ctx.response.flush
+
+    response = response_io.to_s
+    response.index(AddModeButton::Container.to_s).should_not be_nil
+    response.index(ListItemSearchController.addButtonContainer_target.to_s).should_not be_nil
+    response.index(AddModeButton::AddModeButtonController.enable_action("click").to_s).should_not be_nil
+    response.index(AddModeButton::AddModeButtonController.enable_action("click").to_s).not_nil!.should be < response.index(ListItemSearchController.addDisplayContainer_target.to_s).not_nil!
+    response.index(AddModeButton::AddModeButtonController.enable_action("click").to_s).not_nil!.should be < response.index(Classes::ListItems.to_s).not_nil!
   end
 end

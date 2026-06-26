@@ -1,4 +1,10 @@
 class PushSubscriptionBannerController < Stimulus::Controller
+  action :dismiss do |event|
+    event.preventDefault._call if event
+
+    this.element.remove._call
+  end
+
   action :subscribe do |event|
     event.preventDefault._call if event
 
