@@ -99,7 +99,8 @@ class List < Orma::Record
     view do
       css_class Hidden
       css_class Container
-      css_class TopRow
+      css_class Form
+      css_class DismissButton
 
       stimulus_controller ActionController do
         outlets FormController
@@ -121,18 +122,16 @@ class List < Orma::Record
 
       template do
         div Container, FormController, Hidden do
-          div TopRow do
-            div FormController.hide_action("click") do
-              Crumble::Material::Icon.new("close")
-            end
-          end
-          form action: action.uri_path, method: "POST" do
+          form Form, action: action.uri_path, method: "POST" do
             label do
               "List name:"
             end
             input type: :text, name: "name", value: action.model.name
-            button FormController.hide_action("click") do
+            button FormController.hide_action("click"), type: "submit" do
               "Update"
+            end
+            button DismissButton, FormController.hide_action("click"), type: "button", aria: {label: "Dismiss list name form"} do
+              Crumble::Material::Icon.new("close")
             end
           end
         end
@@ -142,20 +141,28 @@ class List < Orma::Record
         rule Container do
           padding 16.px
 
+          rule Form do
+            display :flex
+            align_items :center
+            gap 8.px
+          end
+
           rule label do
-            display :block
-            margin_bottom 8.px
+            flex_shrink 0
           end
 
           rule input do
-            width 100.percent
-            margin_bottom 8.px
+            flex_grow 1
+            min_width 0
           end
-        end
 
-        rule TopRow do
-          display :flex
-          flex_direction :row_reverse
+          rule "button" do
+            flex_shrink 0
+          end
+
+          rule DismissButton do
+            margin_left :auto
+          end
         end
 
         rule Hidden do
