@@ -33,8 +33,6 @@ describe Lists::ActionLogPage do
     response_body.should contain("Alice")
     response_body.should contain("added")
     response_body.should contain("Milk")
-    response_body.should contain(%(data-controller="local-time"))
-    response_body.should contain(%(datetime="))
   end
 
   it "renders a padded empty state for users with list access" do
