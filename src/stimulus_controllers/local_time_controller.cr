@@ -6,6 +6,6 @@ class LocalTimeController < Stimulus::Controller
     date = Date.new(value)
     return nil if Number.isNaN(date.getTime._call)
 
-    this.element.textContent = Intl.DateTimeFormat.new(nil, {dateStyle: "medium", timeStyle: "short"}).format(date)
+    this.element.textContent = Intl.DateTimeFormat.new(nil, {dateStyle: "medium", timeStyle: "short", hour12: false}).format(date)
   end
 end
