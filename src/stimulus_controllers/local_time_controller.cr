@@ -3,9 +3,9 @@ class LocalTimeController < Stimulus::Controller
     value = this.element.getAttribute("datetime")
     return nil unless value
 
-    date = _literal_js("new Date(value)")
-    return nil if _literal_js("Number.isNaN(date.getTime())")
+    date = Date.new(value)
+    return nil if Number.isNaN(date.getTime._call)
 
-    this.element.textContent = _literal_js(%(new Intl.DateTimeFormat(undefined, {dateStyle: "medium", timeStyle: "short"}).format(date)))
+    this.element.textContent = Intl.DateTimeFormat.new(nil, {dateStyle: "medium", timeStyle: "short"}).format(date)
   end
 end
