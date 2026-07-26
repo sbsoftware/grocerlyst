@@ -22,7 +22,7 @@ class ListActionEvent < Orma::Record
   end
 
   def formatted_created_at
-    created_at.try(&.value.to_s("%Y-%m-%d %H:%M")) || ""
+    created_at.try(&.value.to_s("%Y-%m-%d %H:%M UTC")) || ""
   end
 
   def display_action
@@ -54,7 +54,7 @@ class ListActionEvent < Orma::Record
             item_name.try(&.value) || "deleted item"
           end
         end
-        time class: "list-action-event-time", datetime: created_at.try(&.value.to_rfc3339) || "" do
+        time LocalTimeController, class: "list-action-event-time", datetime: created_at.try(&.value.to_rfc3339) || "" do
           formatted_created_at
         end
       end

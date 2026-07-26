@@ -37,9 +37,9 @@ class ListPage < ApplicationPage
 
   template do
     top_app_bar
+    list.set_name_action_template(ctx)
     PushSubscriptionBanner.new(ctx: ctx).to_html unless PushNotifications.subscribed?(ctx.session.id.to_s)
     list_access_permission.set_name_form.renderer(ctx) if list.list_access_permissions.count > 1
-    list.set_name_action_template(ctx)
     AddModeButton.new("top")
     AddItemForm.new(list, "top")
     list.items_view.renderer(ctx)

@@ -73,6 +73,31 @@ class ListItemSearchController < Stimulus::Controller
     end
   end
 
+  js_method :scroll_add_form_into_view do |index|
+    container = this.addDisplayContainerTargets[index]
+    return nil unless container
+
+    rect = container.getBoundingClientRect._call
+    viewportHeight = window.innerHeight
+    viewportTopOffset = 0
+    if window.visualViewport
+      viewportHeight = window.visualViewport.height
+      viewportTopOffset = window.visualViewport.offsetTop || 0
+    end
+
+    # Keep the active add form near the bottom of the visual viewport so
+    # matching list items immediately above it remain visible on mobile.
+    targetTop = window.scrollY + rect.bottom - viewportHeight - viewportTopOffset + 16
+    targetTop = 0 if targetTop < 0
+    window.scrollTo({"top" => targetTop})
+  end
+
+  js_method :schedule_add_form_scroll do |index|
+    this.scroll_add_form_into_view._call(index)
+    window.setTimeout(-> { this.scroll_add_form_into_view._call(index) }, 150)
+    window.setTimeout(-> { this.scroll_add_form_into_view._call(index) }, 350)
+  end
+
   action :enable_search_mode do |event|
     index = 0
     index = 1 if event.params.placement == "bottom"
@@ -85,6 +110,7 @@ class ListItemSearchController < Stimulus::Controller
     this.clear_search_matches._call
     this.addInputTargets[index].value = ""
     this.addInputTargets[index].focus._call
+    this.schedule_add_form_scroll._call(index)
   end
 
   action :disable_search_mode do

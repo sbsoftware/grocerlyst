@@ -73,6 +73,10 @@ class LegalNoticePage < ApplicationPage
           p { "Angaben gemäß § 5 DDG" }
           p do
             span { legal_name }
+            unless legal_name2.empty?
+              br
+              span { legal_name2 }
+            end
             br
             span { legal_street }
             br
@@ -157,6 +161,10 @@ class LegalNoticePage < ApplicationPage
           p { "Information according to Section 5 DDG" }
           p do
             span { legal_name }
+            unless legal_name2.empty?
+              br
+              span { legal_name2 }
+            end
             br
             span { legal_street }
             br
@@ -236,6 +244,10 @@ class LegalNoticePage < ApplicationPage
 
   private def legal_name : String
     ENV.fetch("LEGAL_NOTICE_NAME")
+  end
+
+  private def legal_name2 : String
+    ENV.fetch("LEGAL_NOTICE_NAME2", "")
   end
 
   private def legal_street : String

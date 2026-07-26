@@ -887,6 +887,10 @@ class DataPrivacyNoticePage < ApplicationPage
   ToHtml.inline_template :controller_address do |email_label|
     p do
       span { legal_name }
+      unless legal_name2.empty?
+        br
+        span { legal_name2 }
+      end
       br
       span { legal_street }
       br
@@ -904,6 +908,10 @@ class DataPrivacyNoticePage < ApplicationPage
 
   private def legal_name : String
     ENV.fetch("LEGAL_NOTICE_NAME")
+  end
+
+  private def legal_name2 : String
+    ENV.fetch("LEGAL_NOTICE_NAME2", "")
   end
 
   private def legal_street : String

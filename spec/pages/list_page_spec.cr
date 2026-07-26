@@ -58,6 +58,32 @@ describe ListPage do
     response_io.to_s.should contain("Abonnieren")
   end
 
+  it "renders the list name form directly below the top app bar before the subscription banner" do
+    list = List.create(name: "Weekly Shopping", session_id: "owner-session")
+    response_io = IO::Memory.new
+    ctx = Crumble::Server::TestRequestContext.new(response_io: response_io, method: "GET", resource: ListPage.uri_path(list_id: list.id.value))
+
+    ListAccessPermission.create(list_id: list.id, session_id: ctx.session.id.to_s)
+
+    ListPage.handle(ctx).should be_true
+    ctx.response.flush
+
+    response = response_io.to_s
+    top_app_bar_index = response.index(%(id="#{Crumble::Material::TopAppBar::TopAppBarId}")).not_nil!
+    set_name_form_index = response.index(%(action="#{List::SetNameAction.uri_path(list.id)}")).not_nil!
+    subscription_banner_index = response.index(PushSubscriptionBanner::Banner.to_s).not_nil!
+    label_index = response.index("List name:", set_name_form_index).not_nil!
+    input_index = response.index(%(name="name"), set_name_form_index).not_nil!
+    submit_index = response.index("Update", set_name_form_index).not_nil!
+    dismiss_index = response.index(%(aria-label="Dismiss list name form"), set_name_form_index).not_nil!
+
+    top_app_bar_index.should be < set_name_form_index
+    set_name_form_index.should be < subscription_banner_index
+    label_index.should be < input_index
+    input_index.should be < submit_index
+    submit_index.should be < dismiss_index
+  end
+
   it "hides the push subscription banner when the current session is subscribed" do
     list = List.create(name: "Weekly Shopping", session_id: "owner-session")
     response_io = IO::Memory.new
