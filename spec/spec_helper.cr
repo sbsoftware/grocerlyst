@@ -13,6 +13,7 @@ require "crumble-web-push"
 SPEC_DB_CONNECTION_STRING = "sqlite3:%3Amemory%3A?max_pool_size=1"
 ENV["DATABASE_URL"] = SPEC_DB_CONNECTION_STRING
 ENV["LEGAL_NOTICE_NAME"] = "Test Owner"
+ENV["LEGAL_NOTICE_NAME2"] = ""
 ENV["LEGAL_NOTICE_STREET"] = "Test Street 1"
 ENV["LEGAL_NOTICE_CITY"] = "12345 Test City"
 ENV["LEGAL_NOTICE_COUNTRY"] = "Germany"
