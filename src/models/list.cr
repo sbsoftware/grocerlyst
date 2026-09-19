@@ -8,7 +8,6 @@ class List < Orma::Record
   column name : String?
   column session_id : String
   column created_at : Time?
-  column item_change_notification_sent_at : Time?
 
   has_many_of ListAccessPermission
 
