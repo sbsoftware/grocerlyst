@@ -3,7 +3,7 @@ require "crumble-web-push"
 
 module PushNotifications
   TTL_SECONDS            = 60
-  ITEM_CHANGE_RATE_LIMIT = 5.minutes
+  ITEM_CHANGE_RATE_LIMIT = 10.minutes
 
   abstract class Sender
     abstract def send_to_sessions(sessions : Enumerable(Crumble::Web::Push::Server::Subscription), payload : String) : Nil
@@ -51,8 +51,8 @@ module PushNotifications
 
   def self.notify_item_changed(event : ListActionEvent) : Nil
     list = event.list
-    if sent_at = list.item_change_notification_sent_at
-      return if sent_at.value > Time.utc - ITEM_CHANGE_RATE_LIMIT
+    if previous_event = list.action_events.find { |action_event| action_event.id.value != event.id.value }
+      return if previous_event.created_at.not_nil!.value >= Time.utc - ITEM_CHANGE_RATE_LIMIT
     end
 
     subscriptions = list.list_access_permissions.to_a.compact_map do |member_permission|
@@ -63,7 +63,6 @@ module PushNotifications
     return if subscriptions.empty?
 
     @@sender.send_to_sessions(subscriptions, item_changed_payload(event))
-    list.update(item_change_notification_sent_at: Time.utc)
   rescue Crumble::Web::Push::Server::Integration::ConfigurationError
   end
 

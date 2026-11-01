@@ -55,10 +55,9 @@ describe PushNotifications do
     payload["title"].as_s.should eq("List changed")
     payload["body"].as_s.should eq("Alice has made changes to List Dinner")
     payload["url"].as_s.should eq(ListPage.uri_path(list_id: list.id.value))
-    List.find(list.id).item_change_notification_sent_at.should_not be_nil
   end
 
-  it "rate-limits item change notifications per list for five minutes" do
+  it "only sends an item change notification when the previous action is more than ten minutes old" do
     sender = RecordingPushSender.new
     PushNotifications.sender = sender
     list = List.create(name: "Dinner", session_id: "owner-session")
@@ -72,7 +71,7 @@ describe PushNotifications do
 
     sender.payloads.size.should eq(1)
 
-    List.find(list.id).update(item_change_notification_sent_at: Time.utc - 6.minutes)
+    ListActionEvent.where(list_id: list.id).to_a.each { |event| event.update(created_at: Time.utc - 11.minutes) }
     ListActionEvent.record!("actor-session", "deactivated", item)
 
     sender.payloads.size.should eq(2)
