@@ -35,6 +35,14 @@ class ListItem < Orma::Record
   end
 
   delete_record_action :remove, {list.items_view, list.card_view} do
+    # Turbo's generated refresh method assumes templates belong to this model.
+    # Deleting an item refreshes its parent list's templates instead.
+    def refresh_model_templates!
+      parent = model.list
+      parent.refresh_items_view!
+      parent.refresh_card_view!
+    end
+
     before do |ctx, model|
       return true if ListItemPolicy.new(ctx).delete?(model)
 

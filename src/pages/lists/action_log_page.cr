@@ -84,7 +84,7 @@ module Lists
             "No actions yet."
           end
         else
-          list.action_log_view.renderer(ctx)
+          list.action_log_view(ctx)
         end
       end
     end

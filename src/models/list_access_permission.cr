@@ -71,6 +71,12 @@ class ListAccessPermission < Orma::Record
   end
 
   model_action :set_name, {set_name_form, list.members_view} do
+    # The parent list owns the members template, so refresh it explicitly.
+    def refresh_model_templates!
+      model.refresh_set_name_form!
+      model.list.refresh_members_view!
+    end
+
     before do
       unless model.session_id == ctx.session.id.to_s
         return 403
