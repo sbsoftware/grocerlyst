@@ -27,9 +27,7 @@ class ListPage < ApplicationPage
       headline: list.header_view(ctx),
       trailing_icons: [
         ItemHider,
-        ShareList.new(ctx: ctx, list: list),
-        ViewListActionLogButton.new(list),
-        ViewListMembersButton.new(list),
+        ListContextMenu.new(ctx: ctx, list: list),
       ],
       type: :small
     )

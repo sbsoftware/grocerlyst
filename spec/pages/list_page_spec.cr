@@ -36,7 +36,7 @@ describe ListPage do
     response_io.to_s.should contain(PushSubscriptionBannerController.dismiss_action("click").to_s)
     response_io.to_s.should contain("aria-label=\"Dismiss notification hint\"")
     response_io.to_s.should contain("close")
-    response_io.to_s.should_not contain("Menu")
+    response_io.to_s.should contain(%(aria-label="More options"))
     response_io.to_s.should contain("visibility")
     response_io.to_s.should contain("history")
     response_io.to_s.should contain(ListItemHiderController.switch_target.to_s)
@@ -56,6 +56,10 @@ describe ListPage do
 
     response_io.to_s.should contain("Benachrichtigungen erhalten, wenn sich deine Listen ändern.")
     response_io.to_s.should contain("Abonnieren")
+    response_io.to_s.should contain(%(aria-label="Weitere Optionen"))
+    response_io.to_s.should contain("Mitglieder")
+    response_io.to_s.should contain("Liste teilen")
+    response_io.to_s.should contain("Aktivitätsprotokoll")
   end
 
   it "renders the list name form directly below the top app bar before the subscription banner" do

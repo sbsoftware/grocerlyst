@@ -7,7 +7,7 @@ dependencies:
     version: "~> 0.8.0"
   crumble-material:
     github: sbsoftware/crumble-material
-    version: ">= 0.8.0"
+    version: ">= 0.8.1"
   crumble-crababel:
     github: sbsoftware/crumble-crababel
   crumble-web-push:

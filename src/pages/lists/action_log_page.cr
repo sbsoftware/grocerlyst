@@ -74,7 +74,7 @@ module Lists
     template do
       Crumble::Material::TopAppBar.new(
         leading_icon: BackLink.new(list),
-        headline: "Action log",
+        headline: "Activity Log",
         trailing_icons: [] of Nil,
         type: :center_aligned
       )
@@ -100,7 +100,7 @@ module Lists
     end
 
     def window_title : String?
-      "Action log"
+      "Activity Log"
     end
   end
 end
