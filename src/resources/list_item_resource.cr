@@ -1,4 +1,6 @@
 class ListItemResource < ApplicationResource
+  path_param id, /\d+/
+
   def update
     body = ctx.request.body
     unless body.nil?
@@ -15,6 +17,6 @@ class ListItemResource < ApplicationResource
   end
 
   def list_item
-    ListItem.find(id)
+    ListItem.find(id.to_i64)
   end
 end

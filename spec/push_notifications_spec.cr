@@ -20,7 +20,7 @@ describe PushNotifications do
     PushNotifications.sender = sender
     list = List.create(name: "Dinner", session_id: "owner-session")
     reloaded_list = List.where(id: list.id).first
-    ctx = Crumble::Server::TestRequestContext.new(method: "POST", resource: List::AcceptAccessAction.uri_path(reloaded_list.id.value), body: "access_token=#{reloaded_list.access_token.value}")
+    ctx = Crumble::Server::TestRequestContext.new(method: "POST", resource: List::AcceptAccessAction.uri_path(reloaded_list.id.value), headers: HTTP::Headers{"Content-Type" => "application/x-www-form-urlencoded"}, body: "access_token=#{reloaded_list.access_token.value}")
 
     ListAccessPermission.create(list_id: list.id, session_id: "owner-session", name: "Alice")
     ListAccessPermission.create(list_id: list.id, session_id: "unsubscribed-session", name: "Chris")

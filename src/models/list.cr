@@ -200,14 +200,14 @@ class List < Orma::Record
 
   model_template :members_view do
     list_access_permissions.each do |list_access_permission|
-      list_access_permission.members_row.renderer(ctx)
+      list_access_permission.members_row(ctx)
     end
   end
 
   model_template :action_log_view do
     div class: "list-action-events" do
       action_events.each do |event|
-        event.row_view.renderer(ctx)
+        event.row_view(ctx)
       end
     end
   end

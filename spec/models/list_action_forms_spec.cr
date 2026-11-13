@@ -28,7 +28,7 @@ describe List::AddItemAction do
   it "inserts items submitted from the top form at the top" do
     list = List.create(name: "Groceries", session_id: "session")
     ListItem.create(list_id: list.id.value, name: "Existing")
-    ctx = Crumble::Server::TestRequestContext.new(method: "POST", resource: List::AddItemAction.uri_path(list.id), body: URI::Params.encode({name: "Top", placement: "top"}))
+    ctx = Crumble::Server::TestRequestContext.new(method: "POST", resource: List::AddItemAction.uri_path(list.id), headers: HTTP::Headers{"Content-Type" => "application/x-www-form-urlencoded"}, body: URI::Params.encode({name: "Top", placement: "top"}))
 
     List::AddItemAction.handle(ctx)
 
@@ -39,7 +39,7 @@ describe List::AddItemAction do
     list = List.create(name: "Groceries", session_id: "session")
     ListItem.create(list_id: list.id.value, name: "First", sort_order: 1)
     ListItem.create(list_id: list.id.value, name: "Second", sort_order: 2)
-    ctx = Crumble::Server::TestRequestContext.new(method: "POST", resource: List::AddItemAction.uri_path(list.id), body: URI::Params.encode({name: "Bottom", placement: "bottom"}))
+    ctx = Crumble::Server::TestRequestContext.new(method: "POST", resource: List::AddItemAction.uri_path(list.id), headers: HTTP::Headers{"Content-Type" => "application/x-www-form-urlencoded"}, body: URI::Params.encode({name: "Bottom", placement: "bottom"}))
 
     List::AddItemAction.handle(ctx)
 
@@ -94,5 +94,26 @@ describe ListAccessPermission::SetNameAction::Form do
     form = ListAccessPermission::SetNameAction::Form.from_www_form(build_handler_context, ListAccessPermission.create(list_id: list.id, session_id: "session"), "name=Alex")
 
     form.valid?.should be_true
+  end
+end
+
+describe ListAccessPermission::SetNameAction do
+  before_each do
+    SpecSupport.reset_db!
+  end
+
+  it "updates the member name and refreshes the form and parent members view" do
+    list = List.create(name: "Groceries", session_id: "session")
+    response_io = IO::Memory.new
+    member = ListAccessPermission.create(list_id: list.id, session_id: "session")
+    ctx = Crumble::Server::TestRequestContext.new(response_io: response_io, method: "POST", resource: ListAccessPermission::SetNameAction.uri_path(member.id.value), headers: HTTP::Headers{"Content-Type" => "application/x-www-form-urlencoded"}, body: "name=Alex")
+    member.update(session_id: ctx.session.id.to_s)
+
+    ListAccessPermission::SetNameAction.handle(ctx).should be_true
+    ctx.response.flush
+
+    ListAccessPermission.find(member.id).name.not_nil!.value.should eq("Alex")
+    response_io.to_s.should contain(%(data-model-template-id="ListAccessPermission##{member.id.value}-set_name_form"))
+    response_io.to_s.should contain(%(data-model-template-id="List##{list.id.value}-members_view"))
   end
 end

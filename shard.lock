@@ -6,31 +6,35 @@ shards:
 
   crababel:
     git: https://github.com/sbsoftware/crababel.git
-    version: 0.1.0
+    version: 0.3.1
 
   crumble:
     git: https://github.com/sbsoftware/crumble.git
-    version: 0.31.3
+    version: 0.35.0
 
   crumble-crababel:
     git: https://github.com/sbsoftware/crumble-crababel.git
-    version: 0.1.1
+    version: 0.2.1
 
   crumble-jobs:
     git: https://github.com/sbsoftware/crumble-jobs.git
-    version: 0.2.1
+    version: 0.3.1
+
+  crumble-material:
+    git: https://github.com/sbsoftware/crumble-material.git
+    version: 0.8.1
 
   crumble-orma:
     git: https://github.com/sbsoftware/crumble-orma.git
-    version: 0.5.0
+    version: 0.6.0
 
   crumble-stimulus:
     git: https://github.com/sbsoftware/crumble-stimulus.git
-    version: 0.4.3
+    version: 0.5.0
 
   crumble-turbo:
     git: https://github.com/sbsoftware/crumble-turbo.git
-    version: 0.19.1
+    version: 0.22.1
 
   crumble-web-push:
     git: https://github.com/sbsoftware/crumble-web-push.git
@@ -42,7 +46,7 @@ shards:
 
   css:
     git: https://github.com/sbsoftware/css.cr.git
-    version: 0.4.0
+    version: 0.8.0
 
   csuuid:
     git: https://github.com/wyhaines/csuuid.cr.git
@@ -50,7 +54,7 @@ shards:
 
   db:
     git: https://github.com/crystal-lang/crystal-db.git
-    version: 0.14.0
+    version: 0.15.0
 
   debug:
     git: https://github.com/sija/debug.cr.git
@@ -58,7 +62,7 @@ shards:
 
   hot-crumble:
     git: https://github.com/sbsoftware/hot-crumble.git
-    version: 0.3.0
+    version: 0.8.0
 
   http_accept:
     git: https://github.com/becauseofprog/http_accept.git
@@ -66,7 +70,7 @@ shards:
 
   js:
     git: https://github.com/sbsoftware/js.cr.git
-    version: 1.8.1
+    version: 1.8.2
 
   nbchannel:
     git: https://github.com/wyhaines/nbchannel.cr.git
@@ -82,7 +86,7 @@ shards:
 
   orma:
     git: https://github.com/sbsoftware/orma.git
-    version: 0.12.0
+    version: 0.14.2
 
   parse_date:
     git: https://github.com/wyhaines/parsedate.cr.git
@@ -102,7 +106,7 @@ shards:
 
   sqlite3:
     git: https://github.com/crystal-lang/crystal-sqlite3.git
-    version: 0.23.0
+    version: 0.24.0
 
   stimulus:
     git: https://github.com/sbsoftware/stimulus.cr.git

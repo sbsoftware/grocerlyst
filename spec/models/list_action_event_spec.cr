@@ -7,7 +7,7 @@ describe ListActionEvent do
 
   it "records an event when an item is added" do
     list = List.create(name: "Groceries", session_id: "owner-session")
-    ctx = Crumble::Server::TestRequestContext.new(method: "POST", resource: List::AddItemAction.uri_path(list.id.value), body: URI::Params.encode({name: "Milk"}))
+    ctx = Crumble::Server::TestRequestContext.new(method: "POST", resource: List::AddItemAction.uri_path(list.id.value), headers: HTTP::Headers{"Content-Type" => "application/x-www-form-urlencoded"}, body: URI::Params.encode({name: "Milk"}))
 
     List::AddItemAction.handle(ctx).should be_true
 
@@ -23,7 +23,7 @@ describe ListActionEvent do
   it "records an event when adding an inactive item activates it" do
     list = List.create(name: "Groceries", session_id: "owner-session")
     item = ListItem.create(list_id: list.id, name: "Milk", active: false)
-    ctx = Crumble::Server::TestRequestContext.new(method: "POST", resource: List::AddItemAction.uri_path(list.id.value), body: URI::Params.encode({name: "Milk"}))
+    ctx = Crumble::Server::TestRequestContext.new(method: "POST", resource: List::AddItemAction.uri_path(list.id.value), headers: HTTP::Headers{"Content-Type" => "application/x-www-form-urlencoded"}, body: URI::Params.encode({name: "Milk"}))
 
     List::AddItemAction.handle(ctx).should be_true
 
@@ -36,7 +36,7 @@ describe ListActionEvent do
   it "records an event when an item is deactivated" do
     list = List.create(name: "Groceries", session_id: "owner-session")
     item = ListItem.create(list_id: list.id, name: "Milk", active: true)
-    ctx = Crumble::Server::TestRequestContext.new(method: "POST", resource: ListItem::SwitchAction.uri_path(item.id.value), body: URI::Params.encode({active: "false"}))
+    ctx = Crumble::Server::TestRequestContext.new(method: "POST", resource: ListItem::SwitchAction.uri_path(item.id.value), headers: HTTP::Headers{"Content-Type" => "application/x-www-form-urlencoded"}, body: URI::Params.encode({active: "false"}))
 
     ListItem::SwitchAction.handle(ctx).should be_true
 
@@ -51,7 +51,7 @@ describe ListActionEvent do
   it "records an event when an item is activated" do
     list = List.create(name: "Groceries", session_id: "owner-session")
     item = ListItem.create(list_id: list.id, name: "Milk", active: false)
-    ctx = Crumble::Server::TestRequestContext.new(method: "POST", resource: ListItem::SwitchAction.uri_path(item.id.value), body: URI::Params.encode({active: "true"}))
+    ctx = Crumble::Server::TestRequestContext.new(method: "POST", resource: ListItem::SwitchAction.uri_path(item.id.value), headers: HTTP::Headers{"Content-Type" => "application/x-www-form-urlencoded"}, body: URI::Params.encode({active: "true"}))
 
     ListItem::SwitchAction.handle(ctx).should be_true
 

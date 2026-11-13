@@ -24,12 +24,10 @@ class ListPage < ApplicationPage
   def top_app_bar
     Crumble::Material::TopAppBar.new(
       leading_icon: BackLink,
-      headline: list.header_view.renderer(ctx),
+      headline: list.header_view(ctx),
       trailing_icons: [
         ItemHider,
-        ShareList.new(ctx: ctx, list: list),
-        ViewListActionLogButton.new(list),
-        ViewListMembersButton.new(list),
+        ListContextMenu.new(ctx: ctx, list: list),
       ],
       type: :small
     )
@@ -39,10 +37,10 @@ class ListPage < ApplicationPage
     top_app_bar
     list.set_name_action_template(ctx)
     PushSubscriptionBanner.new(ctx: ctx).to_html unless PushNotifications.subscribed?(ctx.session.id.to_s)
-    list_access_permission.set_name_form.renderer(ctx) if list.list_access_permissions.count > 1
+    list_access_permission.set_name_form(ctx) if list.list_access_permissions.count > 1
     AddModeButton.new("top")
     AddItemForm.new(list, "top")
-    list.items_view.renderer(ctx)
+    list.items_view(ctx)
     AddItemForm.new(list, "bottom")
     AddModeButton.new("bottom")
   end

@@ -10,6 +10,14 @@ en:
     set_name_action:
       form:
         name: "Name"
+  list_context_menu:
+    label: "More options"
+  view_list_members_button:
+    label: "Members"
+  share_list:
+    label: "Share list"
+  view_list_action_log_button:
+    label: "Activity Log"
   push_subscription_banner:
     message: "Get notifications when your lists change."
     subscribe: "Subscribe"
@@ -26,6 +34,14 @@ de:
     set_name_action:
       form:
         name: "Name"
+  list_context_menu:
+    label: "Weitere Optionen"
+  view_list_members_button:
+    label: "Mitglieder"
+  share_list:
+    label: "Liste teilen"
+  view_list_action_log_button:
+    label: "Aktivitätsprotokoll"
   push_subscription_banner:
     message: "Benachrichtigungen erhalten, wenn sich deine Listen ändern."
     subscribe: "Abonnieren"
