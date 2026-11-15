@@ -66,11 +66,14 @@ describe ListActionEvent do
   it "records an event when an item is deleted" do
     list = List.create(name: "Groceries", session_id: "owner-session")
     item = ListItem.create(list_id: list.id, name: "Milk")
-    ctx = Crumble::Server::TestRequestContext.new(method: "POST", resource: ListItem::RemoveAction.uri_path(item.id.value))
+    response_io = IO::Memory.new
+    ctx = Crumble::Server::TestRequestContext.new(response_io: response_io, method: "POST", resource: ListItem::RemoveAction.uri_path(item.id.value))
     ListAccessPermission.create(list_id: list.id, session_id: ctx.session.id.to_s)
 
     ListItem::RemoveAction.handle(ctx).should be_true
 
+    ctx.response.flush
+    response_io.to_s.should contain("List##{list.id.value}-search_results_view")
     ListItem.where(id: item.id).first?.should be_nil
     event = ListActionEvent.where(list_id: list.id).first
     event.actor_session_id.value.should eq(ctx.session.id.to_s)

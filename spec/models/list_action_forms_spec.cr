@@ -25,6 +25,28 @@ describe List::AddItemAction do
     SpecSupport.reset_db!
   end
 
+  it "rejects blank submissions without changing the list" do
+    list = List.create(name: "Groceries", session_id: "session")
+    ctx = Crumble::Server::TestRequestContext.new(method: "POST", resource: List::AddItemAction.uri_path(list.id), headers: HTTP::Headers{"Content-Type" => "application/x-www-form-urlencoded"}, body: "name=")
+
+    List::AddItemAction.handle(ctx).should be_true
+
+    ctx.response.status_code.should eq(422)
+    list.list_items.count.should eq(0)
+  end
+
+  it "refreshes both the real list and the modal copies after adding" do
+    list = List.create(name: "Groceries", session_id: "session")
+    response_io = IO::Memory.new
+    ctx = Crumble::Server::TestRequestContext.new(response_io: response_io, method: "POST", resource: List::AddItemAction.uri_path(list.id), headers: HTTP::Headers{"Content-Type" => "application/x-www-form-urlencoded"}, body: "name=Milk")
+
+    List::AddItemAction.handle(ctx).should be_true
+    ctx.response.flush
+
+    response_io.to_s.should contain("List##{list.id.value}-items_view")
+    response_io.to_s.should contain("List##{list.id.value}-search_results_view")
+  end
+
   it "inserts items submitted from the top form at the top" do
     list = List.create(name: "Groceries", session_id: "session")
     ListItem.create(list_id: list.id.value, name: "Existing")

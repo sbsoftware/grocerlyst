@@ -15,24 +15,19 @@ class Stimulus::Controller
 end
 
 class AddModeButton
+  include Crumble::ContextView
+  include Crumble::Crababel
+
   getter placement : String
 
-  def initialize(@placement); end
+  def initialize(@ctx, @placement = "bottom"); end
 
   css_class Container
   css_class Button
 
-  class AddModeButtonController < Stimulus::Controller
-    outlets ListItemSearchController
-
-    action :enable do |event|
-      this.listItemSearchOutlet.enable_search_mode(event)
-    end
-  end
-
   ToHtml.instance_template do
-    div Container, ListItemSearchController.addButtonContainer_target, (Classes::AddItemDisplayHidden if placement == "top") do
-      button Button, AddModeButtonController, AddModeButtonController.param("placement", placement), AddModeButtonController.enable_action("click"), AddModeButtonController.list_item_search_controller_outlet(ListItemSearchController.selector.to_s), type: "button" do
+    div Container do
+      button Button, ListItemSearchController.open_action("click"), ListItemSearchController.param("placement", placement), type: "button", aria: {label: t.label, haspopup: "dialog"} do
         Crumble::Material::Icon.new("add_circle")
       end
     end

@@ -55,7 +55,7 @@ class List < Orma::Record
     ListActionEvent.where(list_id: id).order_by_created_at!(:desc)
   end
 
-  create_child_action :add_item, ListItem, list_id, {items_view, card_view} do
+  create_child_action :add_item, ListItem, list_id, {items_view, card_view, search_results_view} do
     form do
       field name : String, allow_blank: false
       field placement : String?, type: :hidden
@@ -63,15 +63,15 @@ class List < Orma::Record
 
     view do
       template do
-        form action: action.uri_path, method: "POST" do
-          input(ListItemSearchController.addInput_target, ListItemSearchController.filter_action("input"), ListItemSearchController.add_action("keydown.enter"), ListItemSearchController.disable_search_mode_action("keydown.esc"), name: "name", type: "text")
-          input(ListItemSearchController.addSubmit_target, name: "Add Child", type: "submit")
-        end
+        # The modal owns the single add form; action refreshes need no second form.
       end
     end
 
     controller do
-      return unless form.valid? && (name = form.name)
+      unless form.valid? && (name = form.name)
+        ctx.response.status_code = 422
+        return
+      end
 
       if existing_item = ListItem.where(list_id: model.id.value, name: name).first?
         new_active = !existing_item.active.value
@@ -85,7 +85,7 @@ class List < Orma::Record
     end
   end
 
-  reorder_children_action :reorder_list_items, list_items, default_view, items_view
+  reorder_children_action :reorder_list_items, list_items, default_view, {items_view, search_results_view}
 
   model_action :set_name, {header_view, card_view} do
     form do
@@ -192,9 +192,26 @@ class List < Orma::Record
     Lists::CardView.new(model)
   end
 
-  model_template :items_view do
-    ul Classes::ListItems, ListItemSearchController.itemList_target do
+  css_class ItemsViewWrapper
+
+  model_template :items_view, [ItemsViewWrapper] do
+    ul Classes::ListItems do
       reorder_list_items_action_template(ctx).to_html
+    end
+  end
+
+  style do
+    # Keep the bottom add button directly after the items, even on short lists.
+    rule ItemsViewWrapper && Crumble::Turbo::ModelTemplateRefreshController.model_template_target do
+      height :auto
+    end
+  end
+
+  model_template :search_results_view do
+    div ListItemSearchController.results_target do
+      list_items.each do |item|
+        item.default_view(ctx)
+      end
     end
   end
 

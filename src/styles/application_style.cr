@@ -21,42 +21,6 @@ class ApplicationStyle < CSS::Stylesheet
     end
   end
 
-  rule Classes::AddItemForm do
-    display :flex
-    justify_content :space_between
-    width 100.percent
-
-    rule "input[type=\"text\"]" do
-      border 0.px
-      border_style :solid
-      border_color :white
-      background_color :white
-      outline :none
-      font_family :inherit
-      font_size :inherit
-      padding 0
-      margin 0
-      flex_grow 1
-    end
-
-    rule "input[type=\"submit\"]" do
-      display :none
-    end
-
-    rule "form" do
-      display :flex
-      flex_grow 1
-    end
-
-    rule Crumble::Material::Icon::IconClass do
-      color :black
-    end
-  end
-
-  rule Classes::AddItemDisplayHidden do
-    display :none
-  end
-
   rule Classes::ListItems do
     list_style :none
     margin 0
@@ -73,23 +37,11 @@ class ApplicationStyle < CSS::Stylesheet
     color :silver
   end
 
-  rule Classes::ItemSearchable do
-    width 100.percent
-  end
-
-  rule Classes::ItemListSearchActive do
-    rule Classes::ItemSearchable do
-      display :none
-    end
-
-    rule Classes::ItemSearchMatch do
-      display :block
-    end
-  end
-
   rule Classes::HideCheckedItems do
-    rule ListItem.active(false) do
-      display :none
+    rule Classes::ListItems do
+      rule ListItem.active(false) do
+        display :none
+      end
     end
   end
 end

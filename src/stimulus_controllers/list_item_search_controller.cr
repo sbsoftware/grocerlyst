@@ -1,157 +1,93 @@
-require "./list_item_hider_controller"
-
 class ListItemSearchController < Stimulus::Controller
-  outlets ListItemHiderController
+  targets :dialog, :input, :form, :placement, :results, :result, :error
 
-  targets :addInput, :addSubmit, :addButtonContainer, :addDisplayContainer, :itemList
-
-  js_method :connect do
-    this.update_top_add_button._call
-    this.observe_item_list_changes._call
+  action :open do |event|
+    this.opener = event.currentTarget
+    this.placementTarget.value = event.params.placement
+    this.inputTarget.value = ""
+    this.errorTarget.hidden = true
+    this.filter._call
+    this.dialogTarget.showModal._call
+    this.inputTarget.focus._call
   end
 
-  js_method :disconnect do
-    if this.itemListObserver
-      this.itemListObserver.disconnect._call
+  action :close do
+    this.dialogTarget.close._call
+  end
+
+  action :closed do
+    if this.opener
+      this.opener.focus._call
     end
   end
 
-  js_method :itemListTargetConnected do
-    this.update_top_add_button._call
-    this.observe_item_list_changes._call
-  end
-
-  js_method :itemListTargetDisconnected do
-    if this.itemListObserver
-      this.itemListObserver.disconnect._call
-    end
-  end
-
-  js_method :observe_item_list_changes do
-    if this.itemListObserver
-      this.itemListObserver.disconnect._call
-    end
-    this.itemListObserver = MutationObserver.new(-> { this.update_top_add_button._call })
-    this.itemListObserver.observe(this.itemListTarget, {"childList" => true, "subtree" => true, "attributes" => true, "attributeFilter" => [ListItem.active(false).to_css_selector.attr_name.to_js_ref, "class"]})
-  end
-
-  js_method :visible_item_count do
-    count = this.itemListTarget.querySelectorAll(Classes::ItemSearchable.to_css_selector.to_s.to_js_ref).length
-    if document.body.classList.contains(Classes::HideCheckedItems.to_js_ref)
-      count = count - this.itemListTarget.querySelectorAll("#{Classes::ItemSearchable.to_css_selector} #{ListItem.active(false).to_css_selector}".to_js_ref).length
-    end
-    return count
-  end
-
-  js_method :add_forms_hidden do
-    hidden = true
-    this.addDisplayContainerTargets.forEach do |container|
-      unless container.classList.contains(Classes::AddItemDisplayHidden.to_js_ref)
-        hidden = false
+  action :backdrop do |event|
+    # Only dismiss clicks outside the dialog rectangle, not its padding.
+    return unless event.target == this.dialogTarget
+    rect = this.dialogTarget.getBoundingClientRect._call
+    # Separate conditions avoid the installed js.cr compound-expression bug.
+    if event.clientX >= rect.left
+      if event.clientX <= rect.right
+        if event.clientY >= rect.top
+          return if event.clientY <= rect.bottom
+        end
       end
     end
-    return hidden
+    this.close._call
   end
 
-  js_method :clear_search_matches do
-    Array.from(this.itemListTarget.querySelectorAll(Classes::ItemSearchable.to_css_selector.to_s.to_js_ref)).forEach do |item|
-      item.classList.remove(Classes::ItemSearchMatch.to_js_ref)
-    end
-  end
-
-  js_method :update_top_add_button do
-    topButtonContainer = this.addButtonContainerTargets[0]
-    unless this.add_forms_hidden._call
-      topButtonContainer.classList.add(Classes::AddItemDisplayHidden.to_js_ref)
-      return
-    end
-
-    if this.visible_item_count._call > 8
-      topButtonContainer.classList.remove(Classes::AddItemDisplayHidden.to_js_ref)
-    else
-      topButtonContainer.classList.add(Classes::AddItemDisplayHidden.to_js_ref)
-    end
-  end
-
-  js_method :scroll_add_form_into_view do |index|
-    container = this.addDisplayContainerTargets[index]
-    return nil unless container
-
-    rect = container.getBoundingClientRect._call
-    viewportHeight = window.innerHeight
-    viewportTopOffset = 0
-    if window.visualViewport
-      viewportHeight = window.visualViewport.height
-      viewportTopOffset = window.visualViewport.offsetTop || 0
-    end
-
-    # Keep the active add form near the bottom of the visual viewport so
-    # matching list items immediately above it remain visible on mobile.
-    targetTop = window.scrollY + rect.bottom - viewportHeight - viewportTopOffset + 16
-    targetTop = 0 if targetTop < 0
-    window.scrollTo({"top" => targetTop})
-  end
-
-  js_method :schedule_add_form_scroll do |index|
-    this.scroll_add_form_into_view._call(index)
-    window.setTimeout(-> { this.scroll_add_form_into_view._call(index) }, 150)
-    window.setTimeout(-> { this.scroll_add_form_into_view._call(index) }, 350)
-  end
-
-  action :enable_search_mode do |event|
-    index = 0
-    index = 1 if event.params.placement == "bottom"
-    this.addButtonContainerTargets.forEach do |container|
-      container.classList.add(Classes::AddItemDisplayHidden.to_js_ref)
-    end
-    this.addDisplayContainerTargets[index].classList.remove(Classes::AddItemDisplayHidden.to_js_ref)
-    this.listItemHiderOutlet.show_inactive._call
-    this.itemListTarget.classList.add(Classes::ItemListSearchActive.to_js_ref)
-    this.clear_search_matches._call
-    this.addInputTargets[index].value = ""
-    this.addInputTargets[index].focus._call
-    this.schedule_add_form_scroll._call(index)
-  end
-
-  action :disable_search_mode do
-    unless this.add_forms_hidden._call
-      this.addDisplayContainerTargets.forEach do |container|
-        container.classList.add(Classes::AddItemDisplayHidden.to_js_ref)
-      end
-      this.addButtonContainerTargets.forEach do |container|
-        container.classList.remove(Classes::AddItemDisplayHidden.to_js_ref)
-      end
-      this.update_top_add_button._call
-      this.itemListTarget.classList.remove(Classes::ItemListSearchActive.to_js_ref)
-      this.listItemHiderOutlet.hide_inactive._call
-    end
-  end
-
-  action :filter do |event|
-    search = event.currentTarget.value
-    that = this
-
-    this.itemListTarget.classList.add(Classes::ItemListSearchActive.to_js_ref)
-    this.clear_search_matches._call
-
-    unless search == ""
-      Array.from(this.itemListTarget.querySelectorAll(Classes::ItemSearchable.to_css_selector.to_s.to_js_ref)).forEach do |item|
-        name = item.querySelector(Classes::ItemName.to_css_selector.to_s.to_js_ref)
-        if name.textContent.trim._call.toLowerCase._call.includes(search.trim._call.toLowerCase._call)
-          item.classList.add(Classes::ItemSearchMatch.to_js_ref)
-        else
-          item.classList.remove(Classes::ItemSearchMatch.to_js_ref)
+  action :filter do
+    search = this.inputTarget.value.trim._call.toLowerCase._call
+    # Targets also occur in the real list. Only copies inside results are filtered.
+    this.resultsTarget.querySelectorAll("[data-list-item-search-target~='result']").forEach do |item|
+      name = item.querySelector(Classes::ItemName.to_css_selector.to_s.to_js_ref)
+      item.hidden = true
+      unless search == ""
+        if name
+          # Keep negation out of this call chain: js.cr 1.8.2 leaves it untranslated.
+          if name.textContent.trim._call.toLowerCase._call.includes(search)
+            item.hidden = false
+          end
         end
       end
     end
   end
 
-  action :add do |event|
-    index = 0
-    index = 1 if event.params.placement == "bottom"
-    if this.addInputTargets[index].value != ""
-      this.disable_search_mode._call
-      this.addSubmitTargets[index].click._call
+  js_method :resultsTargetConnected do
+    this.filter._call if this.hasInputTarget
+  end
+
+  js_method :resultTargetConnected do
+    return unless this.hasInputTarget
+    this.filter._call if this.hasResultsTarget
+  end
+
+  action :add do
+    this.formTarget.requestSubmit._call
+  end
+
+  action :validate do |event|
+    if this.inputTarget.value.trim._call == ""
+      event.preventDefault._call
+      this.inputTarget.focus._call
     end
+    this.errorTarget.hidden = true
+  end
+
+  action :submitted do |event|
+    # Delete and toggle use nested action forms; canceled confirmations never submit.
+    if event.detail.success
+      if event.target == this.formTarget
+        this.close._call
+      elsif event.target.action.endsWith("/switch")
+        this.close._call
+      end
+    else
+      this.errorTarget.hidden = false
+    end
+  end
+
+  action :before_cache do
+    this.dialogTarget.close._call
   end
 end

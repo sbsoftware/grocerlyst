@@ -11,7 +11,9 @@ class ListAccessPermission < Orma::Record
     List.where(id: list_id).first
   end
 
-  model_template :set_name_form do
+  css_class SetNameFormWrapper
+
+  model_template :set_name_form, [SetNameFormWrapper] do
     unless name
       div class: "set-name-intro-container" do
         span class: "set-name-intro-caption" do
@@ -19,6 +21,13 @@ class ListAccessPermission < Orma::Record
         end
         set_name_action_template(ctx).to_html
       end
+    end
+  end
+
+  style do
+    # This template becomes empty after naming; its wrapper must collapse too.
+    rule SetNameFormWrapper && Crumble::Turbo::ModelTemplateRefreshController.model_template_target do
+      height :auto
     end
   end
 
