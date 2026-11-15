@@ -28,7 +28,7 @@ describe Lists::ActionLogPage do
       ctx.response.flush
     end
 
-    response_body.should contain("Action log")
+    response_body.should contain("Activity Log")
     response_body.should contain("crumble--material--card--card")
     response_body.should contain("Alice")
     response_body.should contain("added")

@@ -1,5 +1,6 @@
 class ShareList
   include Crumble::ContextView
+  include Crumble::Crababel
 
   getter list : List
 
@@ -7,7 +8,10 @@ class ShareList
 
   ToHtml.instance_template do
     list.share_element.to_html do
-      Crumble::Material::Icon.new("share")
+      button ListContextMenu::Entry, type: "button", role: "menuitem" do
+        Crumble::Material::Icon.new("share")
+        span { t.label }
+      end
     end
   end
 end

@@ -330,7 +330,7 @@ class HomePage < ApplicationPage
           ul Lists do
             ctx.list_policy.accessible_lists.each do |list|
               li List do
-                list.card_view.renderer(ctx)
+                list.card_view(ctx)
               end
             end
             li NewListCard do

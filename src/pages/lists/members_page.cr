@@ -34,7 +34,7 @@ module Lists
         type: :center_aligned
       )
       div do
-        list.members_view.renderer(ctx)
+        list.members_view(ctx)
       end
     end
 
