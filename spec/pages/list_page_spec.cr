@@ -60,6 +60,8 @@ describe ListPage do
     response_io.to_s.should contain("Mitglieder")
     response_io.to_s.should contain("Liste teilen")
     response_io.to_s.should contain("Aktivitätsprotokoll")
+    response_io.to_s.should contain(%(aria-label="Artikel hinzufügen"))
+    response_io.to_s.should contain(%(aria-label="Schließen"))
   end
 
   it "renders the list name form directly below the top app bar before the subscription banner" do
@@ -102,47 +104,33 @@ describe ListPage do
     response_io.to_s.should_not contain("Get notifications when your lists change.")
   end
 
-  it "renders add item actions above and below the active list" do
+  it "renders one modal with copied items and add actions before the menu and below the list" do
     list = List.create(name: "Weekly Shopping", session_id: "owner-session")
-    9.times do |index|
-      ListItem.create(list_id: list.id.value, name: "Item #{index}", active: true)
-    end
+    ListItem.create(list_id: list.id.value, name: "Milk", active: true)
+    ListItem.create(list_id: list.id.value, name: "Bread", active: false)
     response_io = IO::Memory.new
     ctx = Crumble::Server::TestRequestContext.new(response_io: response_io, method: "GET", resource: ListPage.uri_path(list_id: list.id.value))
-
     ListAccessPermission.create(list_id: list.id, session_id: ctx.session.id.to_s)
 
     ListPage.handle(ctx).should be_true
     ctx.response.flush
 
     response = response_io.to_s
-    response.index(AddModeButton::Container.to_s).should_not be_nil
-    response.index(ListItemSearchController.addButtonContainer_target.to_s).should_not be_nil
-    response.index(AddModeButton::AddModeButtonController.enable_action("click").to_s).should_not be_nil
-    top_button_index = response.index(AddModeButton::AddModeButtonController.param("placement", "top").to_s).not_nil!
-    top_form_index = response.index(%(name="placement" type="hidden" value="top")).not_nil!
+    response.scan("<dialog ").size.should eq(1)
+    response.scan(%(action="#{List::AddItemAction.uri_path(list.id)}")).size.should eq(1)
+    response.scan(">Milk<").size.should eq(2)
+    response.scan(">Bread<").size.should eq(2)
+    top_action = response.index(ListItemSearchController.param("placement", "top").to_s).not_nil!
+    hider = response.index(ListItemHiderController.switch_target.to_s).not_nil!
+    menu = response.index(%(aria-label="More options")).not_nil!
     list_index = response.index(Classes::ListItems.to_s).not_nil!
-    bottom_form_index = response.index(%(name="placement" type="hidden" value="bottom")).not_nil!
-    bottom_button_index = response.index(AddModeButton::AddModeButtonController.param("placement", "bottom").to_s).not_nil!
-    top_button_index.should be < top_form_index
-    top_form_index.should be < list_index
-    list_index.should be < bottom_form_index
-    bottom_form_index.should be < bottom_button_index
-  end
-
-  it "renders the top add item button hidden so client-side visibility can account for inactive items" do
-    list = List.create(name: "Weekly Shopping", session_id: "owner-session")
-    response_io = IO::Memory.new
-    ctx = Crumble::Server::TestRequestContext.new(response_io: response_io, method: "GET", resource: ListPage.uri_path(list_id: list.id.value))
-
-    ListAccessPermission.create(list_id: list.id, session_id: ctx.session.id.to_s)
-
-    ListPage.handle(ctx).should be_true
-    ctx.response.flush
-
-    response = response_io.to_s
-    response.should contain(AddModeButton::AddModeButtonController.param("placement", "top").to_s)
-    response.should contain(AddModeButton::AddModeButtonController.param("placement", "bottom").to_s)
-    response.index(Classes::AddItemDisplayHidden.to_s).not_nil!.should be < response.index(AddModeButton::AddModeButtonController.param("placement", "top").to_s).not_nil!
+    bottom_action = response.index(ListItemSearchController.param("placement", "bottom").to_s).not_nil!
+    top_action.should be < hider
+    hider.should be < menu
+    list_index.should be < bottom_action
+    response.should contain(ListItemSearchController.filter_action("input").to_s)
+    response.should contain(%(aria-label="Add item"))
+    response.should contain(%(aria-label="Close"))
+    response.should contain(%(type="submit" hidden))
   end
 end

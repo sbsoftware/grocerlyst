@@ -34,13 +34,14 @@ class ListItem < Orma::Record
     end
   end
 
-  delete_record_action :remove, {list.items_view, list.card_view} do
+  delete_record_action :remove, {list.items_view, list.card_view, list.search_results_view} do
     # Turbo's generated refresh method assumes templates belong to this model.
     # Deleting an item refreshes its parent list's templates instead.
     def refresh_model_templates!
       parent = model.list
       parent.refresh_items_view!
       parent.refresh_card_view!
+      parent.refresh_search_results_view!
     end
 
     before do |ctx, model|
@@ -64,7 +65,7 @@ class ListItem < Orma::Record
   end
 
   model_template :default_view do
-    div Classes::ItemSearchable, ListItemSearchController.disable_search_mode_action("click") do
+    div ListItemSearchController.result_target do
       switch_action_template(ctx).to_html
     end
   end

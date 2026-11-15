@@ -26,6 +26,7 @@ class ListPage < ApplicationPage
       leading_icon: BackLink,
       headline: list.header_view(ctx),
       trailing_icons: [
+        AddItemModal::AppBarAction.new(ctx: ctx),
         ItemHider,
         ListContextMenu.new(ctx: ctx, list: list),
       ],
@@ -38,11 +39,9 @@ class ListPage < ApplicationPage
     list.set_name_action_template(ctx)
     PushSubscriptionBanner.new(ctx: ctx).to_html unless PushNotifications.subscribed?(ctx.session.id.to_s)
     list_access_permission.set_name_form(ctx) if list.list_access_permissions.count > 1
-    AddModeButton.new("top")
-    AddItemForm.new(list, "top")
     list.items_view(ctx)
-    AddItemForm.new(list, "bottom")
-    AddModeButton.new("bottom")
+    AddModeButton.new(ctx: ctx)
+    AddItemModal.new(ctx: ctx, list: list)
   end
 
   before do

@@ -1,4 +1,14 @@
 en:
+  add_mode_button:
+    label: "Add item"
+  add_item_modal:
+    title: "Add item"
+    name: "Name"
+    add: "Add item"
+    close: "Close"
+    error: "Could not update the list. Please try again."
+    app_bar_action:
+      label: "Add item"
   list:
     add_item_action:
       form:
@@ -23,6 +33,16 @@ en:
     subscribe: "Subscribe"
     dismiss: "Dismiss notification hint"
 de:
+  add_mode_button:
+    label: "Artikel hinzufügen"
+  add_item_modal:
+    title: "Artikel hinzufügen"
+    name: "Name"
+    add: "Artikel hinzufügen"
+    close: "Schließen"
+    error: "Die Liste konnte nicht aktualisiert werden. Bitte versuche es erneut."
+    app_bar_action:
+      label: "Artikel hinzufügen"
   list:
     add_item_action:
       form:

@@ -9,7 +9,7 @@ class ListContextMenu
   css_class Entry
 
   template do
-    Crumble::Material::ContextMenu.new(icon_name: "more_vert", label: t.label).to_html do
+    Crumble::Material::ContextMenu.new(icon_name: "more_horiz", label: t.label).to_html do
       ViewListMembersButton.new(ctx: ctx, list: list)
       ShareList.new(ctx: ctx, list: list)
       ViewListActionLogButton.new(ctx: ctx, list: list)
