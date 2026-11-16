@@ -38,7 +38,7 @@ shards:
 
   crumble-web-push:
     git: https://github.com/sbsoftware/crumble-web-push.git
-    version: 0.1.0
+    version: 0.2.0
 
   crygen:
     git: https://github.com/tamdaz/crygen.git

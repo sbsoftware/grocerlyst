@@ -12,6 +12,6 @@ dependencies:
     github: sbsoftware/crumble-crababel
   crumble-web-push:
     github: sbsoftware/crumble-web-push
-    version: "~> 0.1.0"
+    version: "~> 0.2.0"
   sqlite3:
     github: crystal-lang/crystal-sqlite3
